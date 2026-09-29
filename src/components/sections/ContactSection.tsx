@@ -60,7 +60,7 @@ export default function ContactSection() {
             <div>
               <h3 className="text-2xl sm:text-3xl font-serif text-amber-100 mb-4">Official Organizer Desk</h3>
               <p className="text-zinc-300 mb-8 text-sm sm:text-base leading-relaxed">
-                Have questions regarding passes, group bookings, sponsorship, or special arrangements? Reach out to the Mithila Cultural &amp; Events Foundation team.
+                Have questions regarding the 108 Girls Jhijhiya Performance, Dandiya passes, choreography guidance, or sponsorships? Reach out to the <strong className="text-amber-200">Evolution Dance and Karate Academy</strong> &amp; <strong className="text-amber-200">Brocollab.in</strong> team.
               </p>
               
               <div className="space-y-6">
@@ -69,8 +69,11 @@ export default function ContactSection() {
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="block text-xs uppercase tracking-wider text-zinc-400 font-mono">Call or Text</span>
-                    <a href={`tel:${contact.phone}`} className="text-lg font-semibold text-amber-50 hover:text-[#f5bd4e] transition-colors">{contact.phone}</a>
+                    <span className="block text-xs uppercase tracking-wider text-zinc-400 font-mono">Call or WhatsApp</span>
+                    <div className="flex flex-col gap-1">
+                      <a href={`tel:${contact.phone}`} className="text-base font-semibold text-amber-50 hover:text-[#f5bd4e] transition-colors">{contact.phone}</a>
+                      <a href={`tel:${contact.phoneSecondary}`} className="text-base font-semibold text-amber-50 hover:text-[#f5bd4e] transition-colors">{contact.phoneSecondary}</a>
+                    </div>
                   </div>
                 </div>
 
@@ -79,8 +82,11 @@ export default function ContactSection() {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="block text-xs uppercase tracking-wider text-zinc-400 font-mono">Official Email</span>
-                    <a href={`mailto:${contact.email}`} className="text-lg font-semibold text-amber-50 hover:text-[#f5bd4e] transition-colors">{contact.email}</a>
+                    <span className="block text-xs uppercase tracking-wider text-zinc-400 font-mono">Instagram Communities</span>
+                    <div className="flex flex-col gap-1">
+                      <a href={contact.instagramUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-[#f5bd4e] hover:underline">{contact.instagram}</a>
+                      <a href={contact.collabInstagramUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-[#f5bd4e] hover:underline">{contact.collabInstagram}</a>
+                    </div>
                   </div>
                 </div>
               </div>

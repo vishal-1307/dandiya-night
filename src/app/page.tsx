@@ -39,17 +39,17 @@ export default function Home() {
             Limited Capacity • {EVENT_CONFIG.capacity} Passes Only
           </span>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#FFF8F0] mt-2 mb-4 leading-tight">
-            Be Part of Madhubani&apos;s Biggest Festive Celebration
+            Be Part of Jhanjharpur&apos;s Historic Jhijhiya &amp; Dandiya Celebration
           </h2>
           <p className="text-rose-100/80 text-base md:text-lg max-w-2xl mx-auto mb-8">
-            Register individually, as a couple, or with your group. Instant digital QR pass issued with Pay-at-Gate / On-Site UPI convenience!
+            Register for the 108 Girls Jhijhiya folk performance (₹149) or reserve your Dandiya Night entry passes (₹249 Single / ₹399 Couple). Instant official Pass ID issued!
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/register"
               className="w-full sm:w-auto bg-[#d4a017] hover:bg-[#b8860b] text-[#3f0919] font-bold px-8 py-4 rounded-full text-lg shadow-[0_0_25px_rgba(212,160,23,0.4)] transition-all transform hover:scale-105"
             >
-              Book Entry Pass (₹199 onwards)
+              Book Passes &amp; Register (₹149 onwards)
             </Link>
             <Link
               href="/my-pass"

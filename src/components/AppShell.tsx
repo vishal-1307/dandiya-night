@@ -18,11 +18,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     <>
       <div className="grain" aria-hidden="true" />
       <div className="announcement">
-        <span className="spark">✦</span>{" "}
-        <span className="hidden sm:inline">Madhubani&apos;s most colourful night is calling</span>
-        <span className="sm:hidden font-semibold">Madhubani Dandiya Night</span>{" "}
+        <span className="spark">🌸</span>{" "}
+        <span className="hidden sm:inline">🌸 108 Girls Jhijhiya &amp; Dandiya Fest 2026 • Jhanjharpur, Madhubani</span>
+        <span className="sm:hidden font-semibold">108 Girls Jhijhiya &amp; Dandiya Fest</span>{" "}
         <Link href="/register">
-          Reserve your place <span>→</span>
+          Reserve Spot <span>→</span>
         </Link>
       </div>
       <Navbar />

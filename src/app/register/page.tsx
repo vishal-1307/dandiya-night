@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import RegistrationForm from '@/components/registration/RegistrationForm';
 import RegistrationSuccess from '@/components/registration/RegistrationSuccess';
+import { EVENT_CONFIG } from '@/lib/config';
 
 export default function RegisterPage() {
   const [successData, setSuccessData] = useState<{ id: string; name: string; type: string } | null>(null);
@@ -20,13 +21,13 @@ export default function RegisterPage() {
       <div className="max-w-4xl mx-auto relative z-10">
         <div className="text-center mb-10">
           <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono font-bold block mb-2">
-            ✦ Mithila Dandiya Utsav 2026 ✦
+            🌸 {EVENT_CONFIG.name} 🌸
           </span>
           <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#fcf4e5] mb-4">
-            Event Registration
+            Event Registration &amp; Digital Pass
           </h1>
           <p className="text-sm md:text-base text-zinc-300 max-w-xl mx-auto">
-            Secure your spot for Madhubani&apos;s most vibrant Dandiya &amp; Garba night. Reserve your digital pass with instant entry verification.
+            Register for the historic 108 Girls Jhijhiya folk performance (₹149) or reserve your Dandiya Night Single (₹249) &amp; Couple (₹399) passes in Jhanjharpur, Madhubani.
           </p>
         </div>
 

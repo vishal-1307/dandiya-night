@@ -3,138 +3,161 @@
 
 export const EVENT_CONFIG = {
   // Core Event Info
-  name: "Mithila Dandiya Utsav 2026",
-  tagline: "Celebrating Mithila Heritage & Festive Garba Joy",
-  subtitle: "A Grand Night of Rhythm, Dandiya Raas & Cultural Celebration",
-  city: "Madhubani",
+  name: "Jhanjharpur Jhijhiya & Dandiya Fest 2026",
+  hindiName: "झंझारपुर झिझिया एवं डांडिया उत्सव 2026",
+  tagline: "Mithila ki Sanskriti... Hamari Pehchan",
+  subtitle: "108 Girls Grand Jhijhiya Performance & Dandiya Night",
+  city: "Jhanjharpur",
+  district: "Madhubani",
   state: "Bihar",
   country: "India",
   description:
-    "Experience the vibrant magic of Navratri with an unforgettable evening of traditional Dandiya Raas, energetic Garba circles, live dhol beats, authentic Mithila folk performances, and delicious festive feasts in the heart of Madhubani.",
+    "Experience the divine grace of 108 Girls Grand Jhijhiya Performance and the electrifying beats of Dandiya & Garba Night in Jhanjharpur, Madhubani. Organized by Evolution Dance and Karate Academy in collaboration with Brocollab.in.",
 
   // Date & Time
-  date: "2026-10-15", // YYYY-MM-DD format
-  dateDisplay: "October 15, 2026",
+  date: "2026-10-18", // YYYY-MM-DD format
+  dateDisplay: "18 October 2026 (Sunday)",
   timeStart: "17:00",
   timeEnd: "22:30",
-  timeDisplay: "5:00 PM – 10:30 PM",
+  timeDisplay: "5:00 PM Onwards",
   doorsOpen: "5:00 PM",
 
-  type: "Dandiya & Garba Night",
+  type: "Jhijhiya Dance & Dandiya Fest",
 
   // Venue
   venue: {
-    name: "Town Club Ground",
-    city: "Madhubani",
-    address: "Station Road, Madhubani, Bihar 847211",
+    name: "Jhanjharpur",
+    venueNote: "Venue Details Coming Soon",
+    city: "Jhanjharpur (Madhubani)",
+    address: "Jhanjharpur, Madhubani District, Bihar 847404",
     mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57284.08397352!2d86.04!3d26.37!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39edfd0e8eef1c7d%3A0x1e1f57fa8f8f8c42!2sMadhubani%2C%20Bihar!5e0!3m2!1sen!2sin!4v1",
-    directionsUrl: "https://maps.google.com/?q=Madhubani+Bihar",
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57284.08397352!2d86.28!3d26.27!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ee25bda1f0d3ef%3A0x6bcfd30a84e3112b!2sJhanjharpur%2C%20Bihar!5e0!3m2!1sen!2sin!4v1",
+    directionsUrl: "https://maps.google.com/?q=Jhanjharpur+Madhubani+Bihar",
     landmarks: [
-      "Near Madhubani Railway Station",
-      "Opposite Collectorate Road",
-      "5 min from Suri High School",
+      "Centrally located in Jhanjharpur",
+      "Near Jhanjharpur Railway Station / Bus Stand",
+      "Accessible from NH-27 & Madhubani City",
     ],
-    parking: "Spacious dedicated parking available on venue grounds",
-    entryGate: "Main Gate on Station Road",
+    parking: "Dedicated secure parking space available at venue grounds",
+    entryGate: "Main Registration & Entry Counter",
   },
 
   // Registration & Pricing
-  registrationFee: "₹199 onwards",
+  registrationFee: "₹149 onwards",
   currency: "INR",
   isPaid: true,
-  capacity: 500,
+  capacity: 800,
   pricing: {
-    individual: 199,
-    couple: 349,
-    group: 799,
+    jhijhiya: 149,
+    dandiyaSingle: 249,
+    dandiyaCouple: 399,
   },
-  registrationTypes: ["INDIVIDUAL", "COUPLE", "GROUP"] as const,
+  registrationTypes: ["JHIJHIYA_108", "DANDIYA_SINGLE", "DANDIYA_COUPLE"] as const,
   registration: {
     url: "/register",
-    fee: "₹199 onwards",
+    fee: "₹149 onwards",
     isFree: false,
     isOpen: true,
     pricing: {
-      individual: 199,
-      couple: 349,
-      group: 799,
+      jhijhiya: 149,
+      dandiyaSingle: 249,
+      dandiyaCouple: 399,
     },
+    jhijhiyaInclusions: [
+      "Dance Choreography & Training",
+      "Jhijhiya / Matka Prop provided",
+      "Essential Performance Props",
+      "Practice & Choreography Guidance",
+    ],
+    jhijhiyaExclusions: [
+      "Costume not included (all participants bring their own costume)",
+      "Makeup not included (self-makeup by participants)",
+    ],
   },
 
   // Contact & Social
   contact: {
-    phone: "+91 94310 88200",
-    whatsapp: "+91 94310 88200",
-    email: "events@mithiladandiya.in",
-    instagram: "@mithiladandiyautsava",
-    instagramUrl: "https://instagram.com/mithiladandiyautsava",
+    phone: "+91 97981 40068",
+    phoneSecondary: "+91 77829 95310",
+    phoneAlt: "+91 97981 40968",
+    whatsapp: "+91 97981 40068",
+    whatsappSecondary: "+91 77829 95310",
+    email: "events@brocollab.in",
+    instagram: "@madhubani__dance",
+    instagramUrl: "https://instagram.com/madhubani__dance",
+    collabInstagram: "@brocollab.in",
+    collabInstagramUrl: "https://instagram.com/brocollab.in",
   },
 
   social: {
-    instagram: "https://instagram.com/mithiladandiyautsava",
-    whatsapp: "https://wa.me/919431088200",
-    email: "events@mithiladandiyautsava.in",
-    hashtag: "#MithilaDandiya2026",
+    instagram: "https://instagram.com/madhubani__dance",
+    collabInstagram: "https://instagram.com/brocollab.in",
+    whatsapp: "https://wa.me/919798140068",
+    whatsappSecondary: "https://wa.me/917782995310",
+    email: "events@brocollab.in",
+    hashtag: "#JhanjharpurDandiya2026",
   },
 
-  // Organizer
+  // Organizers
   organizer: {
-    name: "Mithila Cultural & Events Foundation",
-    tagline: "Celebrating Traditions, Igniting Festive Spirits",
+    name: "Evolution Dance and Karate Academy",
+    location: "Jhanjharpur & Madhubani, Bihar",
+    tagline: "Traditional Steps • Stronger Girls • Brighter Tomorrow",
+    collab: "Brocollab.in",
+    support: "Madhubani Dance Community",
   },
 
   // Event Hashtag
-  hashtag: "#MithilaDandiya2026",
+  hashtag: "#JhanjharpurDandiya2026",
 
   // Schedule
   schedule: [
     {
       time: "5:00 PM",
-      title: "Doors Open",
-      description: "Welcome to the venue. Collect your entry pass.",
+      title: "Gates Open & Prop Distribution",
+      description: "Welcome to participants and guests. Pass verification & Dandiya sticks pickup.",
       icon: "door",
     },
     {
       time: "5:30 PM",
-      title: "Welcome & Inauguration",
-      description: "Opening ceremony with traditional lamp lighting.",
+      title: "Inauguration & Traditional Deep Prajjwalan",
+      description: "Auspicious lamp lighting ceremony celebrating Mithila cultural heritage.",
       icon: "flame",
     },
     {
-      time: "6:00 PM",
-      title: "Garba Session",
-      description: "Traditional Garba dance with live folk music.",
-      icon: "music",
-    },
-    {
-      time: "7:30 PM",
-      title: "Dandiya Raas",
-      description: "High-energy Dandiya with colorful sticks and beats.",
-      icon: "sparkles",
-    },
-    {
-      time: "8:30 PM",
-      title: "Special Performance",
-      description: "Cultural performance and competition results.",
+      time: "6:15 PM",
+      title: "🌺 108 Girls Grand Jhijhiya Performance",
+      description: "Historic cultural showcase with 108 girls balancing illuminated earthen Jhijhiya matkas.",
       icon: "star",
     },
     {
-      time: "9:00 PM",
-      title: "DJ Night & Open Dance",
-      description: "Bollywood & folk DJ mix. Dance floor is yours.",
+      time: "7:45 PM",
+      title: "Maha Aarti & Cultural Felicitation",
+      description: "Honoring participants, choreographers, and academy supporters.",
+      icon: "sparkles",
+    },
+    {
+      time: "8:15 PM",
+      title: "Dandiya Raas & Open Garba Circles",
+      description: "High-energy Dandiya beats for all attendees with live folk and festive fusion.",
+      icon: "music",
+    },
+    {
+      time: "9:30 PM",
+      title: "Live DJ Night & Bollywood Celebration",
+      description: "Electrifying dance floor mix keeping the celebration alive through the night.",
       icon: "speaker",
     },
     {
-      time: "10:00 PM",
-      title: "Prize Distribution",
-      description: "Awards for Best Dandiya Pair, Best Dressed & more.",
+      time: "10:15 PM",
+      title: "Awards & Best Dressed Recognition",
+      description: "Trophies and prizes for Best Dandiya Pair, Best Dressed, and Star Dancers.",
       icon: "trophy",
     },
     {
       time: "10:30 PM",
-      title: "Closing",
-      description: "Thank you for celebrating with us!",
+      title: "Closing & Festive Goodbye",
+      description: "Heartfelt gratitude and memories until next Navratri!",
       icon: "heart",
     },
   ],
@@ -142,61 +165,61 @@ export const EVENT_CONFIG = {
   // Highlights / Attractions
   highlights: [
     {
-      title: "Best Dandiya Pair",
-      description: "Compete for the crown with your best moves",
-      icon: "trophy",
+      title: "108 Girls Jhijhiya",
+      description: "Grand historical traditional Jhijhiya folk dance with illuminated earthen matkas",
+      icon: "star",
     },
     {
-      title: "Best Dressed",
-      description: "Flaunt your festive outfit and win prizes",
+      title: "Dandiya Night",
+      description: "High-energy Garba circles & Dandiya beats with sticks provided",
       icon: "sparkles",
     },
     {
-      title: "Live DJ",
-      description: "Bollywood meets folk in an electrifying mix",
+      title: "Best Dandiya Pair",
+      description: "Compete for royal trophies & prizes with your signature dance steps",
+      icon: "trophy",
+    },
+    {
+      title: "Best Dressed Awards",
+      description: "Flaunt your finest traditional Mithila & festive ethnic attire",
+      icon: "crown",
+    },
+    {
+      title: "Live DJ & Folk Fusion",
+      description: "Seamless blend of authentic Mithila folk rhythms and modern festival beats",
       icon: "speaker",
     },
     {
-      title: "Photo Booth",
-      description: "Capture your festive moments with themed props",
+      title: "Festive Photo Booths",
+      description: "Capture memorable moments with custom photo props and festival backdrops",
       icon: "camera",
-    },
-    {
-      title: "Food Zone",
-      description: "Savor authentic festive snacks and beverages",
-      icon: "food",
-    },
-    {
-      title: "Group Dance",
-      description: "Form your squad and own the dance floor",
-      icon: "users",
     },
   ],
 
   // Experiences (major sections)
   experiences: [
     {
-      title: "Dandiya & Garba",
-      subtitle: "The Heart of Navratri",
+      title: "108 Girls Jhijhiya Performance",
+      subtitle: "Mithila ki Sanskriti... Hamari Pehchan",
       description:
-        "Lose yourself in the rhythmic beats of Dandiya sticks and the graceful circles of Garba. Whether you are a seasoned dancer or stepping in for the first time, the energy is infectious.",
+        "Witness a breathtaking spectacle of 108 school & college girls performing traditional Jhijhiya with lighted perforated pots balanced with divine grace. Choreographed by Evolution Dance and Karate Academy.",
+      color: "from-amber-600 to-rose-600",
+      image: "/images/jhijiya-poster.jpg",
+    },
+    {
+      title: "Dandiya Raas & Garba Circles",
+      subtitle: "Rhythmic Joy for Everyone",
+      description:
+        "Grab your Dandiya sticks and dance in vibrant concentric circles. Open for singles, couples, and families to experience the authentic euphoria of Navratri.",
       color: "from-red-600 to-orange-500",
-      image: "/images/experience-dandiya.jpg",
+      image: "/images/dandiya-poster.jpg",
     },
     {
-      title: "Music & Performance",
-      subtitle: "Sound of Celebration",
+      title: "Food, DJ & Festivities",
+      subtitle: "A Night to Remember",
       description:
-        "From soulful folk melodies to foot-tapping Bollywood remixes, our curated lineup keeps the energy alive all evening. Live performances and a professional DJ ensure the night never slows down.",
+        "Savor lip-smacking festive street food, capture timeless photos, dance to pulsating DJ rhythms, and win prestigious cultural awards.",
       color: "from-purple-600 to-pink-500",
-      image: "/images/experience-music.jpg",
-    },
-    {
-      title: "Food & Festivities",
-      subtitle: "A Feast for the Senses",
-      description:
-        "Indulge in a curated selection of festive snacks, chaats, and beverages. Photo booths, competitions, and surprise moments make every corner of the venue an experience.",
-      color: "from-amber-600 to-yellow-500",
       image: "/images/experience-food.jpg",
     },
   ],
@@ -204,227 +227,214 @@ export const EVENT_CONFIG = {
   // FAQ
   faq: [
     {
-      question: "Who can register for the event?",
+      question: "What is the 108 Girls Jhijhiya Performance?",
       answer:
-        "Anyone who loves dance and festivities! The event is open to all age groups. Minors must be accompanied by an adult guardian.",
+        "It is a historic cultural presentation where 108 girls perform the auspicious Jhijhiya folk dance. Registration is ₹149 per participant, which includes dance choreography, practice sessions, Jhijhiya/Matka prop, and performance guidance. Costume and makeup must be arranged by participants themselves.",
     },
     {
-      question: "What is the ticket price and how do I pay?",
+      question: "What are the ticket prices for Dandiya Night?",
       answer:
-        "Passes start at ₹199 for Individual, ₹349 for Couples, and ₹799 for Groups (4+ members). You can reserve your pass online instantly, and the entry fee is collected at the venue counter via UPI (Google Pay, PhonePe, Paytm) or cash upon arrival.",
+        "Single Entry pass is ₹249 per person, and Couple Entry pass is ₹399 per couple. Passes grant full entry to the festival, open Garba & Dandiya dance floors, Dandiya sticks, and DJ night.",
     },
     {
-      question: "Can I register as a couple or group?",
+      question: "Are costume and makeup included in the ₹149 Jhijhiya registration?",
       answer:
-        "Yes! We offer Individual, Couple, and Group registration options. Group registrations require a minimum of 4 members.",
+        "No. Costume and makeup are not included in the registration fee. All participants must bring their own traditional dress and do their own makeup. Props and choreography guidance are fully provided by the academy.",
     },
     {
-      question: "What should I wear?",
+      question: "Who is organizing this fest?",
       answer:
-        "Traditional festive attire is encouraged - chaniya choli, kurta-pajama, saree, or any Indian festive wear. Come dressed to impress for the Best Dressed competition!",
+        "The festival is organized by Evolution Dance and Karate Academy (Jhanjharpur & Madhubani, Bihar) in collaboration with Brocollab.in and the Madhubani Dance Community.",
     },
     {
-      question: "Do I need to bring my own Dandiya sticks?",
+      question: "When and where will practice sessions be conducted?",
       answer:
-        "Dandiya sticks will be available at the venue. You are welcome to bring your own decorated sticks as well.",
+        "After registration, participants will receive complete schedule and location details for practice and choreography guidance via WhatsApp and phone from the academy team.",
     },
     {
-      question: "Are children allowed?",
+      question: "How do I show my entry pass at the gate?",
       answer:
-        "Children are welcome when accompanied by an adult. The event is family-friendly.",
+        "You receive an instant digital entry pass with a unique Pass ID (e.g. DN-XXXX). Simply show this pass on your mobile phone screen or a screenshot at the gate counter for immediate verification.",
     },
     {
-      question: "What time should I arrive?",
+      question: "Whom can I contact for questions or group inquiries?",
       answer:
-        "Doors open at 5:00 PM. We recommend arriving by 5:30 PM for the opening ceremony.",
-    },
-    {
-      question: "Is parking available?",
-      answer:
-        "Yes, parking is available at the venue. Please follow the signage upon arrival.",
-    },
-    {
-      question: "Can I get a refund?",
-      answer:
-        "Please refer to our refund policy. Cancellations made 48 hours before the event are eligible for a full refund.",
-    },
-    {
-      question: "How do I show my entry pass?",
-      answer:
-        "After registration, you will receive a digital QR pass. Show this on your phone screen or a printed copy at the entry gate.",
+        "You can call or WhatsApp our official helplines at +91 97981 40068 or +91 77829 95310, or DM on Instagram @madhubani__dance and @brocollab.in.",
     },
   ],
 
   // Rules
   rules: [
     {
-      category: "Entry",
+      category: "Jhijhiya Performance Guidelines",
       items: [
-        "Valid registration and QR pass required for entry",
-        "Gates open at 5:00 PM",
-        "No re-entry after exit",
+        "Open for all school and college girls",
+        "Registration fee (₹149) covers choreography guidance, Jhijhiya matka prop & essential props",
+        "Costume and makeup must be arranged self by each participant",
+        "Mandatory attendance in designated practice & choreography sessions",
       ],
     },
     {
-      category: "Dress Code",
+      category: "Dandiya Night Entry & Passes",
       items: [
-        "Traditional Indian festive attire is encouraged",
-        "Casual western wear is acceptable",
-        "Footwear suitable for dancing recommended",
+        "Valid digital Pass ID required for venue gate check-in",
+        "Gates open at 5:00 PM; please arrive early for smooth entry",
+        "Single Pass: ₹249 | Couple Pass: ₹399",
       ],
     },
     {
-      category: "Dandiya Sticks",
+      category: "Dress Code & Attire",
       items: [
-        "Only lightweight wooden or plastic Dandiya sticks allowed",
-        "Metal or heavy sticks are prohibited",
-        "Sticks available at the venue",
+        "Traditional Indian ethnic festive attire is warmly encouraged",
+        "Chaniya Choli, Kurta-Pajama, Saree, or cultural folk dresses",
+        "Comfortable footwear suitable for dancing",
       ],
     },
     {
-      category: "Safety & Security",
+      category: "Safety & Family Environment",
       items: [
-        "Bag check at entry",
-        "No sharp objects, weapons, or illegal items",
-        "No alcohol or intoxicants allowed inside the venue",
-        "Follow instructions from event staff and security",
-      ],
-    },
-    {
-      category: "Photography & Video",
-      items: [
-        "Personal photography and video allowed",
-        "Professional equipment requires prior permission",
-        "Event may be recorded for promotional purposes",
-      ],
-    },
-    {
-      category: "General Conduct",
-      items: [
-        "Respect all attendees and staff",
-        "No harassment or misconduct of any kind",
-        "Organizers reserve the right to deny entry or remove attendees",
+        "100% safe, family-friendly cultural celebration",
+        "Strict security check at entry; zero tolerance for misconduct",
+        "Alcohol, smoking, and intoxicants are strictly prohibited",
       ],
     },
   ],
 
-  // Sponsors & Event Partners
+  // Sponsors & Event Partners (5 Partners)
   sponsors: [
     {
-      name: "Mithila Heritage Trust",
-      tier: "Title Sponsor",
-      category: "Preserving Cultural Arts",
-      logo: "/images/logo.svg",
+      name: "Evolution Dance & Karate Academy",
+      tier: "Organizing Body",
+      category: "Lead Choreography & Training",
+      logo: "/images/jhanjharpur-logo.jpg",
     },
     {
-      name: "Vibe Beats Production",
+      name: "Brocollab.in",
+      tier: "Official Collaboration Partner",
+      category: "Youth, Creators & Digital Media",
+      logo: "/images/jhanjharpur-logo.jpg",
+    },
+    {
+      name: "Madhubani Dance Community",
+      tier: "Cultural Outreach Partner",
+      category: "Mithila Folk & Heritage Promotion",
+      logo: "/images/jhanjharpur-logo.jpg",
+    },
+    {
+      name: "Jhanjharpur Youth & Cultural Forum",
+      tier: "Community Partner",
+      category: "Local Logistics & Event Support",
+      logo: "/images/jhanjharpur-logo.jpg",
+    },
+    {
+      name: "Mithila Audio, Stage & SFX",
       tier: "Sound & Stage Partner",
-      category: "Audio, Truss & SFX",
-      logo: "/images/logo.svg",
-    },
-    {
-      name: "Madhur Mithila Sweets",
-      tier: "Festive Food Partner",
-      category: "Authentic Chaat & Mithai",
-      logo: "/images/logo.svg",
-    },
-    {
-      name: "Mithilanchal 93.5 FM",
-      tier: "Official Media Partner",
-      category: "Radio & Digital Broadcast",
-      logo: "/images/logo.svg",
-    },
-    {
-      name: "Madhubani Kala Sangam",
-      tier: "Cultural Arts Partner",
-      category: "Traditional Decor & Folk Troupe",
-      logo: "/images/logo.svg",
+      category: "Folk Sound, Lighting & Special Effects",
+      logo: "/images/jhanjharpur-logo.jpg",
     },
   ],
 
-  // Gallery
+  // Gallery (Past Event Photos and Official Posters)
   gallery: {
     enabled: true,
     images: [
       {
-        src: "/images/hero-bg.jpg",
-        alt: "Grand Dandiya Raas Courtyard Celebration",
-        category: "Dance",
+        src: "/images/jhijiya-poster.jpg",
+        alt: "108 Girls Jhijhiya Performance Official Poster",
+        category: "Jhijhiya",
       },
       {
-        src: "/images/experience-dandiya.jpg",
-        alt: "Traditional Decorated Dandiya Sticks in Motion",
+        src: "/images/dandiya-poster.jpg",
+        alt: "Jhanjharpur Dandiya Fest Hands in Circle Poster",
         category: "Dandiya",
       },
       {
-        src: "/images/gallery-2.jpg",
-        alt: "Traditional Festive Ethnic Attire & Jewelry",
-        category: "Attire",
+        src: "/images/registration-poster.png",
+        alt: "Official Academy Registration Form Guidelines",
+        category: "Performances",
       },
       {
-        src: "/images/experience-music.jpg",
-        alt: "Live Folk Beats & Stage Performance",
-        category: "Music",
+        src: "/images/past-events/fest-memory-1.jpeg",
+        alt: "Festive Garba Circle Celebration",
+        category: "Memories",
       },
       {
-        src: "/images/gallery-1.jpg",
-        alt: "Festive Diya and Night Illuminations",
-        category: "Atmosphere",
+        src: "/images/past-events/fest-memory-2.jpeg",
+        alt: "Dandiya Sticks Rhythm Celebration",
+        category: "Memories",
       },
       {
-        src: "/images/experience-food.jpg",
-        alt: "Festive Street Food & Chaat Delicacies",
-        category: "Food",
+        src: "/images/past-events/fest-memory-3.jpeg",
+        alt: "Traditional Ethnic Attire Showcase",
+        category: "Memories",
       },
       {
-        src: "/images/gallery-3.jpg",
-        alt: "Celebration and Energetic Dance Floor",
-        category: "Dance",
+        src: "/images/past-events/fest-memory-4.jpeg",
+        alt: "Festive Night Illuminations & Gathering",
+        category: "Memories",
       },
       {
-        src: "/images/gallery-4.jpg",
-        alt: "Festive Mithai and Traditional Sweets",
-        category: "Food",
+        src: "/images/past-events/fest-memory-5.jpeg",
+        alt: "Grand Folk Dance Circle",
+        category: "Memories",
       },
       {
-        src: "/images/gallery-5.jpg",
-        alt: "Energetic Folk Dandiya Performance",
-        category: "Dandiya",
+        src: "/images/past-events/fest-memory-6.jpeg",
+        alt: "Stage Performance & Live Energy",
+        category: "Memories",
       },
       {
-        src: "/images/gallery-6.jpg",
-        alt: "Live Dhol Beats and Musical Ensemble",
-        category: "Music",
+        src: "/images/past-events/fest-memory-7.jpeg",
+        alt: "Joyful Dandiya Participants",
+        category: "Memories",
       },
       {
-        src: "/images/gallery-7.jpg",
-        alt: "Vibrant Marigold & Rangoli Decorations",
-        category: "Atmosphere",
+        src: "/images/past-events/fest-memory-8.jpeg",
+        alt: "Festive Smiles & Traditional Attire",
+        category: "Memories",
       },
       {
-        src: "/images/gallery-8.jpg",
-        alt: "Midnight Garba Joy & Confetti Celebration",
-        category: "Dance",
+        src: "/images/past-events/fest-memory-9.jpeg",
+        alt: "Mithila Cultural Celebration Highlights",
+        category: "Memories",
+      },
+      {
+        src: "/images/past-events/fest-memory-10.jpeg",
+        alt: "Celebration Dance Floor Vibes",
+        category: "Memories",
+      },
+      {
+        src: "/images/past-events/fest-memory-11.jpeg",
+        alt: "Festival Night Memories",
+        category: "Memories",
+      },
+      {
+        src: "/images/past-events/fest-memory-12.jpeg",
+        alt: "Community Celebration & Group Dance",
+        category: "Memories",
       },
     ],
   },
 
   // SEO
   seo: {
-    title: "Mithila Dandiya Utsav 2026 | Grand Garba Night in Madhubani, Bihar",
+    title: "Jhanjharpur Jhijhiya & Dandiya Fest 2026 | 108 Girls Jhijhiya Performance",
     description:
-      "Join Mithila Dandiya Utsav 2026 at Town Club Ground, Madhubani. Live music, traditional Garba Raas, authentic food stalls, costume competitions & digital entry passes. Book tickets now!",
+      "Join Jhanjharpur Jhijhiya & Dandiya Fest 2026 on 18 October 2026 in Jhanjharpur, Madhubani. 108 Girls Grand Jhijhiya Performance, Dandiya Night, live DJ, food stalls & awards by Evolution Dance and Karate Academy & Brocollab.in.",
     keywords:
-      "Mithila Dandiya Utsav, Dandiya Night Madhubani, Garba Night Bihar, Navratri 2026 Madhubani, Dandiya Raas, Madhubani Events",
-    ogImage: "/images/hero-bg.jpg",
+      "Jhanjharpur Dandiya Fest, 108 Girls Jhijhiya Performance, Jhijhiya Dance Madhubani, Evolution Dance and Karate Academy, Brocollab.in, Navratri 2026 Jhanjharpur, Dandiya Night Bihar",
+    ogImage: "/images/jhijiya-poster.jpg",
   },
 };
 
 // Registration type labels
 export const REGISTRATION_TYPE_LABELS: Record<string, string> = {
-  INDIVIDUAL: "Individual",
-  COUPLE: "Couple",
-  GROUP: "Group (4+)",
+  JHIJHIYA_108: "108 Girls Jhijhiya (₹149)",
+  DANDIYA_SINGLE: "Dandiya Night Single (₹249)",
+  DANDIYA_COUPLE: "Dandiya Night Couple (₹399)",
+  INDIVIDUAL: "Dandiya Single Entry",
+  COUPLE: "Dandiya Couple Entry",
+  GROUP: "Group Entry",
 };
 
 // Status labels
@@ -443,4 +453,3 @@ export const PAYMENT_STATUS_LABELS: Record<string, { label: string; color: strin
 
 export const eventConfig = EVENT_CONFIG;
 export default EVENT_CONFIG;
-

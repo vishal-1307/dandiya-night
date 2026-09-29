@@ -40,8 +40,8 @@ export default function MyPassPage() {
         // Fallback demo pass
         setPassData({
           registrationId: searchQuery.trim().toUpperCase(),
-          name: 'Aarav Sharma',
-          type: 'Individual',
+          name: 'Pooja Kumari',
+          type: '108 Girls Jhijhiya',
           date: EVENT_CONFIG.dateDisplay || EVENT_CONFIG.date,
           venue: `${EVENT_CONFIG.venue.name}, ${EVENT_CONFIG.venue.city}`,
         });

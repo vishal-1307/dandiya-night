@@ -56,11 +56,11 @@ export default function Hero() {
         <h1 className="reveal">
           Move to<br />
           <em>the rhythm</em><br />
-          of raas.
+          of Jhijhiya &amp; Raas.
         </h1>
 
         <p className="hero-summary reveal">
-          An electric evening of Garba circles, Dandiya beats and all the colour you can carry in the cultural heart of Mithila.
+          108 Girls Grand Jhijhiya Performance &amp; electrifying Dandiya Night in Jhanjharpur. Presented by Evolution Dance and Karate Academy with Brocollab.in.
         </p>
 
         <div className="hero-actions reveal">
@@ -83,13 +83,13 @@ export default function Hero() {
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3 h-3 text-[#f5bd4e]" /> WHEN
             </span>
-            <strong>15 Oct &apos;26 · 5 PM</strong>
+            <strong>18 Oct &apos;26 · 5 PM</strong>
           </div>
           <div>
             <span className="flex items-center gap-1.5">
               <MapPin className="w-3 h-3 text-[#f5bd4e]" /> WHERE
             </span>
-            <strong>{EVENT_CONFIG.venue.name}, {EVENT_CONFIG.venue.city}</strong>
+            <strong>{EVENT_CONFIG.venue.name}, {EVENT_CONFIG.district}</strong>
           </div>
         </div>
       </div>

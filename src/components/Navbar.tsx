@@ -75,9 +75,9 @@ export default function Navbar() {
             {/* Logo / Event Branding */}
             <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
               <img 
-                src="/images/logo.svg" 
-                alt="Mithila Dandiya Logo" 
-                className="w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow-[0_0_8px_rgba(245,189,78,0.5)] group-hover:rotate-12 transition-transform duration-300" 
+                src="/images/jhanjharpur-logo.jpg" 
+                alt="Jhanjharpur Dandiya Fest Logo" 
+                className="w-10 h-10 rounded-full object-cover border border-[#f5bd4e]/40 drop-shadow-[0_0_8px_rgba(245,189,78,0.5)] group-hover:rotate-12 transition-transform duration-300" 
               />
               <div className="flex flex-col">
                 <span className="font-serif text-base sm:text-lg md:text-xl font-bold text-[#fcf4e5] tracking-wide leading-tight group-hover:text-[#f5bd4e] transition-colors">
@@ -155,9 +155,9 @@ export default function Navbar() {
               className="flex items-center gap-2.5"
             >
               <img 
-                src="/images/logo.svg" 
+                src="/images/jhanjharpur-logo.jpg" 
                 alt="Logo" 
-                className="w-9 h-9 object-contain drop-shadow-[0_0_8px_rgba(245,189,78,0.5)]" 
+                className="w-9 h-9 rounded-full object-cover border border-[#f5bd4e]/40 drop-shadow-[0_0_8px_rgba(245,189,78,0.5)]" 
               />
               <div className="flex flex-col">
                 <span className="font-serif text-base font-bold text-[#fcf4e5] leading-tight">

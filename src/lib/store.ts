@@ -210,11 +210,20 @@ export const eventStore = {
       const registrationId = generateRegistrationId();
       const qrCode = `DNQR-${uuidv4()}`;
 
+      const tUpper = String(data.type || '').toUpperCase();
+      let calculatedPayment = 249;
+      if (tUpper.includes('JHIJHIYA') || tUpper.includes('108')) calculatedPayment = 149;
+      else if (tUpper.includes('COUPLE')) calculatedPayment = 399;
+      else if (tUpper.includes('GROUP')) calculatedPayment = 799;
+      else if (tUpper.includes('SINGLE') || tUpper.includes('INDIVIDUAL')) calculatedPayment = 249;
+
       const registration = await prisma.registration.create({
         data: {
           registrationId,
           type: data.type,
           status,
+          paymentStatus: "PENDING",
+          paymentAmount: calculatedPayment,
           qrCode,
           fullName: data.fullName,
           email: data.email,
@@ -282,8 +291,13 @@ export const eventStore = {
         type: data.type,
         status,
         paymentStatus: "PENDING",
-        paymentAmount: data.type === "GROUP" ? 799 : data.type === "COUPLE" ? 349 : 199,
-        paymentRef: null,
+        paymentAmount: (() => {
+          const t = String(data.type || '').toUpperCase();
+          if (t.includes('JHIJHIYA') || t.includes('149')) return 149;
+          if (t.includes('COUPLE')) return 399;
+          if (t.includes('GROUP')) return 799;
+          return 249;
+        })(),
         checkedIn: false,
         checkedInAt: null,
         checkedInBy: null,

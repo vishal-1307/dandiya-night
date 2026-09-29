@@ -32,7 +32,7 @@ export default function RegistrationSuccess({ registrationId, name, type }: Regi
         Pass Reserved Successfully!
       </h2>
       <p className="text-zinc-300 mb-6 text-center max-w-md text-sm sm:text-base leading-relaxed">
-        Your entry spot for {EVENT_CONFIG.name} is confirmed. Please screenshot or save your digital pass below.
+        Your spot for {EVENT_CONFIG.name} is confirmed. Please screenshot or save your digital pass below.
       </p>
 
       <div className="w-full mb-8">
@@ -41,7 +41,7 @@ export default function RegistrationSuccess({ registrationId, name, type }: Regi
 
       <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
         <button 
-          type="button"
+          type="button" 
           onClick={() => window.print()}
           className="px-6 py-3.5 bg-gradient-to-r from-[#f5bd4e] to-[#d4a017] text-[#38112f] rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg hover:brightness-110 active:scale-95"
         >
@@ -49,7 +49,7 @@ export default function RegistrationSuccess({ registrationId, name, type }: Regi
           <span>Print / Save Pass</span>
         </button>
         <a 
-          href={`https://wa.me/?text=${encodeURIComponent(`I just registered for ${EVENT_CONFIG.name}! My pass ID is ${registrationId}. See you on 15 Oct at ${EVENT_CONFIG.venue.name}, Madhubani!`)}`}
+          href={`https://wa.me/?text=${encodeURIComponent(`I just registered for ${EVENT_CONFIG.name}! My entry pass ID is ${registrationId}. See you on ${EVENT_CONFIG.dateDisplay} at ${EVENT_CONFIG.venue.name}, ${EVENT_CONFIG.venue.city}!`)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="px-6 py-3.5 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95"

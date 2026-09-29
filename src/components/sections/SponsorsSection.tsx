@@ -68,7 +68,7 @@ export default function SponsorsSection() {
               Become an Event Sponsor
             </h4>
             <p className="text-xs sm:text-sm text-zinc-300 max-w-lg">
-              Showcase your brand to 500+ attendees and thousands on social media during Madhubani&apos;s biggest festive night.
+              Showcase your brand to 500+ attendees and thousands on social media during Jhanjharpur&apos;s biggest cultural celebration.
             </p>
           </div>
           <div className="flex gap-4">
