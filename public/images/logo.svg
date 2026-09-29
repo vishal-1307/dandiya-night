@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Radial and Linear Gradients -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4a044e" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#2a052e" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#140217" stop-opacity="1"/>
+    </radialGradient>
+    
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="35%" stop-color="#F59E0B" />
+      <stop offset="70%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+
+    <linearGradient id="saffronGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDBA74" />
+      <stop offset="50%" stop-color="#F97316" />
+      <stop offset="100%" stop-color="#C2410C" />
+    </linearGradient>
+
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Medallion -->
+  <circle cx="200" cy="200" r="190" fill="url(#bgGlow)" stroke="url(#goldGrad)" stroke-width="4" />
+  <circle cx="200" cy="200" r="176" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" stroke-dasharray="4,4" />
+  <circle cx="200" cy="200" r="168" fill="none" stroke="#F59E0B" stroke-width="1" opacity="0.6" />
+
+  <!-- Mithila Lotus Petals Outer Ring -->
+  <g transform="translate(200, 200)" stroke="url(#goldGrad)" fill="none" stroke-width="1.5" opacity="0.75">
+    <!-- 12 Petals around the circle -->
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(30)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(60)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(90)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(120)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(150)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(180)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(210)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(240)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(270)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(300)" fill="#F59E0B" fill-opacity="0.15" />
+    <path d="M 0 -168 C 15 -150 15 -135 0 -120 C -15 -135 -15 -150 0 -168 Z" transform="rotate(330)" fill="#F59E0B" fill-opacity="0.15" />
+  </g>
+
+  <!-- Crown Peacock / Royal Kalash Motif -->
+  <g transform="translate(200, 75)" filter="url(#goldGlow)">
+    <circle cx="0" cy="0" r="6" fill="url(#saffronGrad)" />
+    <path d="M -18 10 C -12 2, 12 2, 18 10 C 10 18, -10 18, -18 10 Z" fill="url(#goldGrad)" />
+    <circle cx="-14" cy="5" r="2.5" fill="#FFF" />
+    <circle cx="0" cy="-3" r="3" fill="#FDE68A" />
+    <circle cx="14" cy="5" r="2.5" fill="#FFF" />
+  </g>
+
+  <!-- Crossed Dandiya Sticks -->
+  <g transform="translate(200, 200)">
+    <!-- Glow behind sticks -->
+    <circle cx="0" cy="0" r="50" fill="#F59E0B" opacity="0.18" filter="url(#goldGlow)" />
+
+    <!-- Stick 1 (Diagonal Left to Right) -->
+    <g transform="rotate(45)">
+      <!-- Main Stick -->
+      <rect x="-9" y="-105" width="18" height="210" rx="9" fill="url(#goldGrad)" stroke="#78350F" stroke-width="1.5" />
+      <!-- Decorative Bands -->
+      <rect x="-9" y="-80" width="18" height="10" fill="#DC2626" />
+      <rect x="-9" y="-60" width="18" height="6" fill="#F97316" />
+      <rect x="-9" y="-40" width="18" height="12" fill="#7C3AED" />
+      <rect x="-9" y="40" width="18" height="12" fill="#7C3AED" />
+      <rect x="-9" y="60" width="18" height="6" fill="#F97316" />
+      <rect x="-9" y="80" width="18" height="10" fill="#DC2626" />
+      <!-- Grip / Handle Ribbons -->
+      <line x1="-9" y1="-15" x2="9" y2="-5" stroke="#FFFFFF" stroke-width="2" />
+      <line x1="-9" y1="-5" x2="9" y2="5" stroke="#FFFFFF" stroke-width="2" />
+      <line x1="-9" y1="5" x2="9" y2="15" stroke="#FFFFFF" stroke-width="2" />
+      <!-- Ghunghroo / Bell Bells on end -->
+      <circle cx="0" cy="-110" r="6" fill="url(#saffronGrad)" stroke="#B45309" stroke-width="1" />
+      <circle cx="0" cy="110" r="6" fill="url(#saffronGrad)" stroke="#B45309" stroke-width="1" />
+    </g>
+
+    <!-- Stick 2 (Diagonal Right to Left) -->
+    <g transform="rotate(-45)">
+      <!-- Main Stick -->
+      <rect x="-9" y="-105" width="18" height="210" rx="9" fill="url(#goldGrad)" stroke="#78350F" stroke-width="1.5" />
+      <!-- Decorative Bands -->
+      <rect x="-9" y="-80" width="18" height="10" fill="#DC2626" />
+      <rect x="-9" y="-60" width="18" height="6" fill="#F97316" />
+      <rect x="-9" y="-40" width="18" height="12" fill="#7C3AED" />
+      <rect x="-9" y="40" width="18" height="12" fill="#7C3AED" />
+      <rect x="-9" y="60" width="18" height="6" fill="#F97316" />
+      <rect x="-9" y="80" width="18" height="10" fill="#DC2626" />
+      <!-- Grip / Handle Ribbons -->
+      <line x1="-9" y1="-15" x2="9" y2="-5" stroke="#FFFFFF" stroke-width="2" />
+      <line x1="-9" y1="-5" x2="9" y2="5" stroke="#FFFFFF" stroke-width="2" />
+      <line x1="-9" y1="5" x2="9" y2="15" stroke="#FFFFFF" stroke-width="2" />
+      <!-- Ghunghroo / Bell Bells on end -->
+      <circle cx="0" cy="-110" r="6" fill="url(#saffronGrad)" stroke="#B45309" stroke-width="1" />
+      <circle cx="0" cy="110" r="6" fill="url(#saffronGrad)" stroke="#B45309" stroke-width="1" />
+    </g>
+
+    <!-- Center Festive Shimmer Medallion -->
+    <circle cx="0" cy="0" r="24" fill="#831843" stroke="url(#goldGrad)" stroke-width="3" />
+    <circle cx="0" cy="0" r="14" fill="url(#saffronGrad)" />
+    <!-- 8 rays -->
+    <g stroke="url(#goldGrad)" stroke-width="2">
+      <line x1="0" y1="-30" x2="0" y2="-22" />
+      <line x1="0" y1="22" x2="0" y2="30" />
+      <line x1="-30" y1="0" x2="-22" y2="0" />
+      <line x1="22" y1="0" x2="30" y2="0" />
+      <line x1="-21" y1="-21" x2="-15" y2="-15" />
+      <line x1="15" y1="15" x2="21" y2="21" />
+      <line x1="21" y1="-21" x2="15" y2="-15" />
+      <line x1="-15" y1="15" x2="-21" y2="21" />
+    </g>
+  </g>
+
+  <!-- Circular Ribbons / Curved Text Guides or Bottom Banner -->
+  <g transform="translate(200, 325)">
+    <rect x="-140" y="-18" width="280" height="36" rx="18" fill="#581c87" stroke="url(#goldGrad)" stroke-width="2" />
+    <text x="0" y="6" text-anchor="middle" fill="#FDE68A" font-family="'Cinzel', 'Playfair Display', serif, Georgia" font-size="14" font-weight="bold" letter-spacing="3">
+      MADHUBANI • 2026
+    </text>
+  </g>
+
+  <!-- Upper Banner Text -->
+  <text x="200" y="55" text-anchor="middle" fill="url(#goldGrad)" font-family="'Cinzel', 'Playfair Display', serif, Georgia" font-size="16" font-weight="900" letter-spacing="4" filter="url(#goldGlow)">
+    MITHILA DANDIYA
+  </text>
+</svg>

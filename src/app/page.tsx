@@ -1,101 +1,86 @@
-import Image from "next/image";
+import Hero from "@/components/Hero";
+import AboutSection from "@/components/sections/AboutSection";
+import ExperiencesSection from "@/components/sections/ExperiencesSection";
+import ScheduleSection from "@/components/sections/ScheduleSection";
+import HighlightsSection from "@/components/sections/HighlightsSection";
+import VenueSection from "@/components/sections/VenueSection";
+import RulesSection from "@/components/sections/RulesSection";
+import GallerySection from "@/components/sections/GallerySection";
+import SocialSection from "@/components/sections/SocialSection";
+import SponsorsSection from "@/components/sections/SponsorsSection";
+import FAQSection from "@/components/sections/FAQSection";
+import ContactSection from "@/components/sections/ContactSection";
+import Link from "next/link";
+import { EVENT_CONFIG } from "@/lib/config";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      {/* 1. Cinematic Hero with Countdown */}
+      <Hero />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* 2. Event Introduction */}
+      <AboutSection />
+
+      {/* 3. Key Event Experiences (Dandiya Raas, Music, Food & Festivities) */}
+      <ExperiencesSection />
+
+      {/* 4. Interactive Event Schedule */}
+      <ScheduleSection />
+
+      {/* 5. Event Highlights & Attractions */}
+      <HighlightsSection />
+
+      {/* Mid-page Registration Callout Banner */}
+      <section className="py-16 bg-gradient-to-r from-[#8b1a3f] via-[#6d1a36] to-[#1A0E2E] border-y border-[#d4a017]/30 text-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#d4a017_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+        <div className="container mx-auto px-4 relative z-10 max-w-4xl">
+          <span className="text-xs uppercase tracking-[0.25em] text-[#d4a017] font-semibold">
+            Limited Capacity • {EVENT_CONFIG.capacity} Passes Only
+          </span>
+          <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#FFF8F0] mt-2 mb-4 leading-tight">
+            Be Part of Madhubani&apos;s Biggest Festive Celebration
+          </h2>
+          <p className="text-rose-100/80 text-base md:text-lg max-w-2xl mx-auto mb-8">
+            Register individually, as a couple, or with your group. Instant digital QR pass issued with Pay-at-Gate / On-Site UPI convenience!
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/register"
+              className="w-full sm:w-auto bg-[#d4a017] hover:bg-[#b8860b] text-[#3f0919] font-bold px-8 py-4 rounded-full text-lg shadow-[0_0_25px_rgba(212,160,23,0.4)] transition-all transform hover:scale-105"
+            >
+              Book Entry Pass (₹199 onwards)
+            </Link>
+            <Link
+              href="/my-pass"
+              className="w-full sm:w-auto border border-[#d4a017]/50 hover:bg-[#d4a017]/10 text-[#FFF8F0] font-semibold px-8 py-4 rounded-full text-base transition-colors"
+            >
+              Already Registered? Find Pass
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      {/* 6. Venue & Directions */}
+      <VenueSection />
+
+      {/* 7. Event Rules & Guidelines */}
+      <RulesSection />
+
+      {/* 8. Event Gallery / Teaser */}
+      <GallerySection />
+
+      {/* 9. Sponsors & Partners (disappears automatically if empty) */}
+      <SponsorsSection />
+
+      {/* 10. Frequently Asked Questions */}
+      <FAQSection />
+
+      {/* 11. Social & Instagram Community */}
+      <SocialSection />
+
+      {/* 12. Contact Organizers */}
+      <ContactSection />
+    </>
   );
 }

@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Registration {
+  id              String   @id @default(uuid())
+  registrationId  String   @unique // Human-readable: DN-XXXX
+  type            String   // INDIVIDUAL, COUPLE, GROUP, FAMILY
+  status          String   @default("CONFIRMED") // CONFIRMED, CANCELLED, WAITLISTED
+  paymentStatus   String   @default("FREE") // FREE, PENDING, PAID, REFUNDED
+  paymentAmount   Float    @default(0)
+  paymentRef      String?
+  checkedIn       Boolean  @default(false)
+  checkedInAt     DateTime?
+  checkedInBy     String?
+  qrCode          String   @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Primary registrant
+  fullName        String
+  email           String
+  phone           String
+  city            String
+  gender          String?
+  age             Int?
+  instagramHandle String?
+
+  // Group/Couple info
+  groupName       String?
+  totalMembers    Int      @default(1)
+
+  // Participation
+  dandiyaParticipation  Boolean @default(true)
+  competitionInterest   Boolean @default(false)
+  costumeTheme          String?
+  foodPreference        String?
+
+  // Emergency
+  emergencyName   String?
+  emergencyPhone  String?
+  emergencyRelation String?
+
+  // Consent
+  rulesAgreed           Boolean @default(false)
+  communicationConsent  Boolean @default(false)
+  photoVideoConsent     Boolean @default(false)
+
+  members         Member[]
+  @@index([email])
+  @@index([phone])
+  @@index([status])
+  @@index([type])
+}
+
+model Member {
+  id             String       @id @default(uuid())
+  registrationId String
+  registration   Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  fullName       String
+  age            Int?
+  gender         String?
+  phone          String?
+  createdAt      DateTime     @default(now())
+
+  @@index([registrationId])
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  role         String   @default("ADMIN") // ADMIN, STAFF
+  createdAt    DateTime @default(now())
+}
+
+model EventSettings {
+  id          String @id @default("main")
+  data        String // JSON blob for flexible settings
+  updatedAt   DateTime @updatedAt
+}
+
+model ContactSubmission {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  status    String   @default("NEW") // NEW, READ, REPLIED
+  createdAt DateTime @default(now())
+}
