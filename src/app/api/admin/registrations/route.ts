@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { eventStore } from "@/lib/store";
 import { verifyAdmin } from "@/lib/auth";
 
 export async function GET(request: Request) {
@@ -14,52 +14,19 @@ export async function GET(request: Request) {
   const status = searchParams.get("status");
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || "50");
-  const skip = (page - 1) * limit;
 
   try {
-    const whereClause: any = {};
-
-    if (search) {
-      whereClause.OR = [
-        { fullName: { contains: search } },
-        { email: { contains: search } },
-        { phone: { contains: search } },
-        { registrationId: { contains: search } },
-      ];
-    }
-
-    if (type) {
-      whereClause.type = type;
-    }
-
-    if (status) {
-      whereClause.status = status;
-    }
-
-    const [registrations, total] = await Promise.all([
-      prisma.registration.findMany({
-        where: whereClause,
-        include: {
-          members: true,
-        },
-        orderBy: { createdAt: "desc" },
-        skip,
-        take: limit,
-      }),
-      prisma.registration.count({ where: whereClause }),
-    ]);
-
-    return NextResponse.json({
-      registrations,
-      pagination: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
+    const result = await eventStore.listRegistrations({
+      search,
+      type,
+      status,
+      page,
+      limit,
     });
+
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("Admin registrations API error:", error);
+    console.error("Admin registrations error:", error);
     return NextResponse.json({ error: "Failed to fetch registrations" }, { status: 500 });
   }
 }

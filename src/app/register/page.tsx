@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from 'react';
 import RegistrationForm from '@/components/registration/RegistrationForm';
 import RegistrationSuccess from '@/components/registration/RegistrationSuccess';
@@ -11,7 +12,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0F0A1A] text-amber-50 pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <main className="min-h-screen bg-[#0F0A1A] text-amber-50 pt-36 sm:pt-44 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background ambient glow */}
       <div className="absolute top-1/4 -left-40 w-96 h-96 bg-[#8b1a3f]/25 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 -right-40 w-96 h-96 bg-[#d4a017]/20 rounded-full blur-3xl pointer-events-none" />
@@ -21,7 +22,7 @@ export default function RegisterPage() {
           <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono font-bold block mb-2">
             ✦ Mithila Dandiya Utsav 2026 ✦
           </span>
-          <h1 className="text-3xl md:text-5xl font-playfair font-bold text-[#fcf4e5] mb-4">
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#fcf4e5] mb-4">
             Event Registration
           </h1>
           <p className="text-sm md:text-base text-zinc-300 max-w-xl mx-auto">

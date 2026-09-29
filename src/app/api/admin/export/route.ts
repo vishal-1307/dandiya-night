@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { eventStore } from "@/lib/store";
 import { verifyAdmin } from "@/lib/auth";
 
 export async function GET(request: Request) {
@@ -9,10 +9,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const registrations = await prisma.registration.findMany({
-      include: { members: true },
-      orderBy: { createdAt: 'desc' }
-    });
+    const registrations = await eventStore.getAllForExport();
 
     // Create CSV content
     const headers = [
@@ -20,7 +17,8 @@ export async function GET(request: Request) {
       "Full Name", "Email", "Phone", "City", "Total Members", "Created At"
     ].join(",");
 
-    const rows = registrations.map(reg => {
+    const rows = registrations.map((reg: any) => {
+      const createdDate = reg.createdAt instanceof Date ? reg.createdAt.toISOString() : new Date(reg.createdAt).toISOString();
       return [
         reg.id,
         reg.registrationId,
@@ -28,12 +26,12 @@ export async function GET(request: Request) {
         reg.status,
         reg.paymentStatus,
         reg.checkedIn ? "Yes" : "No",
-        `"${reg.fullName.replace(/"/g, '""')}"`,
-        `"${reg.email}"`,
-        `"${reg.phone}"`,
-        `"${reg.city.replace(/"/g, '""')}"`,
-        reg.totalMembers,
-        reg.createdAt.toISOString()
+        `"${(reg.fullName || "").replace(/"/g, '""')}"`,
+        `"${reg.email || ""}"`,
+        `"${reg.phone || ""}"`,
+        `"${(reg.city || "").replace(/"/g, '""')}"`,
+        reg.totalMembers || 1,
+        createdDate
       ].join(",");
     });
 

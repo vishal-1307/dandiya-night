@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { eventStore } from "@/lib/store";
 
 export async function POST(request: Request) {
   try {
@@ -7,21 +7,19 @@ export async function POST(request: Request) {
 
     if (!data.name || !data.email || !data.message) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Missing required fields (Name, Email, Message)" },
         { status: 400 }
       );
     }
 
-    await prisma.contactSubmission.create({
-      data: {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        message: data.message,
-      },
+    await eventStore.addContactSubmission({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      message: data.message,
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, message: "Thank you! Your message has been received." });
   } catch (error) {
     console.error("Contact form error:", error);
     return NextResponse.json(

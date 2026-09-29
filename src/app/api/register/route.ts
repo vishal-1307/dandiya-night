@@ -1,16 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
-import { EVENT_CONFIG } from "@/lib/config";
-import { v4 as uuidv4 } from "uuid";
-
-function generateRegistrationId() {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let result = "";
-  for (let i = 0; i < 4; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return `DN-${result}`;
-}
+import { eventStore } from "@/lib/store";
 
 export async function POST(request: Request) {
   try {
@@ -19,77 +8,31 @@ export async function POST(request: Request) {
     // Basic validation
     if (!data.fullName || !data.email || !data.phone || !data.type) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Missing required fields (Full Name, Email, Phone, and Registration Type)" },
         { status: 400 }
       );
     }
 
-    // Check capacity
-    const totalConfirmed = await prisma.registration.count({
-      where: { status: "CONFIRMED" },
-    });
-
-    let status = "CONFIRMED";
-    if (totalConfirmed >= EVENT_CONFIG.capacity) {
-      status = "WAITLISTED";
+    try {
+      const result = await eventStore.createRegistration(data);
+      return NextResponse.json({
+        success: true,
+        registration: result.registration,
+        isWaitlisted: result.isWaitlisted,
+      });
+    } catch (storeError: any) {
+      if (storeError.message === "ALREADY_EXISTS") {
+        return NextResponse.json(
+          { error: "A registration with this email and phone already exists. Use 'Find My Pass' to retrieve your pass." },
+          { status: 409 }
+        );
+      }
+      throw storeError;
     }
-
-    // Check for duplicate
-    const existingRegistration = await prisma.registration.findFirst({
-      where: {
-        email: data.email,
-        phone: data.phone,
-      },
-    });
-
-    if (existingRegistration) {
-      return NextResponse.json(
-        { error: "Registration with this email and phone already exists." },
-        { status: 409 }
-      );
-    }
-
-    const registrationId = generateRegistrationId();
-    const qrCode = `DNQR-${uuidv4()}`;
-
-    const registration = await prisma.registration.create({
-      data: {
-        registrationId,
-        type: data.type,
-        status,
-        qrCode,
-        fullName: data.fullName,
-        email: data.email,
-        phone: data.phone,
-        city: data.city || "",
-        gender: data.gender,
-        age: data.age ? parseInt(data.age) : null,
-        instagramHandle: data.instagramHandle,
-        groupName: data.groupName,
-        totalMembers: data.totalMembers || 1,
-        members: {
-          create: data.members?.map((m: any) => ({
-            fullName: m.fullName,
-            age: m.age ? parseInt(m.age) : null,
-            gender: m.gender,
-            phone: m.phone,
-          })) || [],
-        },
-      },
-      include: {
-        members: true,
-      },
-    });
-
-    return NextResponse.json({
-      success: true,
-      registration,
-      isWaitlisted: status === "WAITLISTED",
-    });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { error: "Failed to process registration" },
+      { error: error?.message || "Failed to process registration. Please check your details and try again." },
       { status: 500 }
     );
   }

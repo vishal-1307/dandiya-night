@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { eventStore } from "@/lib/store";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,36 +10,10 @@ export async function GET(request: Request) {
   }
 
   try {
-    const registration = await prisma.registration.findFirst({
-      where: {
-        OR: [
-          { registrationId: q },
-          { email: q },
-          { phone: q }
-        ]
-      },
-      select: {
-        registrationId: true,
-        type: true,
-        status: true,
-        paymentStatus: true,
-        checkedIn: true,
-        fullName: true,
-        email: true,
-        phone: true,
-        totalMembers: true,
-        groupName: true,
-        qrCode: true,
-        members: {
-          select: {
-            fullName: true
-          }
-        }
-      }
-    });
+    const registration = await eventStore.lookupRegistration(q);
 
     if (!registration) {
-      return NextResponse.json({ error: "Registration not found" }, { status: 404 });
+      return NextResponse.json({ error: "Registration not found with these details." }, { status: 404 });
     }
 
     return NextResponse.json({ registration });

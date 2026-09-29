@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { eventStore } from "@/lib/store";
 import { verifyAdmin } from "@/lib/auth";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
@@ -7,11 +7,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   if (!isAdmin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const registration = await prisma.registration.findUnique({
-      where: { id: params.id },
-      include: { members: true },
-    });
-
+    const registration = await eventStore.lookupRegistration(params.id);
     if (!registration) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     return NextResponse.json({ registration });
@@ -26,8 +22,6 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
   try {
     const body = await request.json();
-    
-    // Only allow updating certain fields
     const { status, paymentStatus, checkedIn } = body;
     const dataToUpdate: any = {};
     if (status !== undefined) dataToUpdate.status = status;
@@ -38,10 +32,8 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       else dataToUpdate.checkedInAt = null;
     }
 
-    const updated = await prisma.registration.update({
-      where: { id: params.id },
-      data: dataToUpdate,
-    });
+    const updated = await eventStore.updateRegistration(params.id, dataToUpdate);
+    if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     return NextResponse.json({ success: true, registration: updated });
   } catch (error) {
@@ -54,12 +46,10 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   if (!isAdmin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const updated = await prisma.registration.update({
-      where: { id: params.id },
-      data: { status: "CANCELLED" },
-    });
+    const updated = await eventStore.cancelRegistration(params.id);
+    if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-    return NextResponse.json({ success: true, registration: updated });
+    return NextResponse.json({ success: true, message: "Registration cancelled" });
   } catch (error) {
     return NextResponse.json({ error: "Failed to cancel" }, { status: 500 });
   }

@@ -45,6 +45,33 @@ body {
   overflow-x: hidden;
 }
 
+/* High-Contrast Input Styling across all browsers & mobile devices */
+input, select, textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-family: inherit;
+  font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+}
+
+input::placeholder, textarea::placeholder {
+  color: #a894a0 !important;
+  -webkit-text-fill-color: #a894a0 !important;
+  opacity: 1;
+}
+
+/* Chrome / Safari / Edge autofill fix - prevents background wash & text disappearing */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0px 1000px #220a1f inset !important;
+  caret-color: #f5bd4e !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
@@ -152,21 +179,11 @@ body {
   align-items: center;
   padding: 140px 8vw 130px;
 }
-.hero-editorial:after {
-  content: "";
-  position: absolute;
-  width: 900px;
-  height: 900px;
-  border: 1px solid rgba(249,204,109,.15);
-  border-radius: 50%;
-  right: -230px;
-  top: -135px;
-  pointer-events: none;
-}
 .hero-copy {
   position: relative;
   z-index: 2;
-  width: 52%;
+  width: 100%;
+  max-width: 680px;
 }
 .eyebrow {
   font-size: 11px;
@@ -279,112 +296,63 @@ body {
   color: var(--cream);
   font-weight: 700;
 }
-.hero-art {
-  width: 54%;
-  height: 100%;
-  position: absolute;
-  right: 0;
-  top: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-.sun-disc {
-  width: min(39vw, 540px);
-  height: min(39vw, 540px);
-  background: radial-gradient(circle, #f5bd4e 0%, rgba(245, 189, 78, 0.45) 55%, transparent 75%);
-  border-radius: 50%;
-  position: absolute;
-  top: 140px;
-  right: 10%;
-  box-shadow: 0 0 100px rgba(248,192,70,.3);
-}
-.dancers {
-  position: absolute;
-  width: min(48vw, 680px);
-  right: -1%;
-  top: 60px;
-  filter: drop-shadow(8px 15px 0 rgba(42,5,33,.3));
-}
-.orbit {
-  border: 1px solid rgba(252,244,229,.22);
-  border-radius: 50%;
-  position: absolute;
-}
-.orbit-one {
-  width: 760px;
-  height: 760px;
-  right: -250px;
-  top: 5px;
-}
-.orbit-two {
-  width: 560px;
-  height: 560px;
-  right: -115px;
-  top: 105px;
-  border-style: dashed;
-}
-.lamp {
-  position: absolute;
-  color: var(--sun);
-  font-size: 26px;
-  z-index: 1;
-  animation: twinkle 2s infinite alternate;
-}
-.lamp-a { right: 19%; top: 115px; }
-.lamp-b { right: 73%; top: 270px; animation-delay: 1s; }
-.art-tag {
-  position: absolute;
-  z-index: 1;
-  font: 10px var(--mono);
-  border: 1px solid rgba(82,16,55,.4);
-  padding: 7px 11px;
-  color: var(--plum);
-  background: rgba(252,244,229,.88);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  font-weight: 700;
-  backdrop-filter: blur(4px);
-}
-.tag-one { top: 165px; right: 2%; transform: rotate(7deg); }
-.tag-two { bottom: 140px; right: 11%; transform: rotate(-6deg); }
+
 
 .countdown {
   position: absolute;
   z-index: 2;
   left: 8vw;
-  bottom: 28px;
+  bottom: 34px;
 }
 .countdown p {
   font: 10px var(--mono);
-  letter-spacing: .13em;
-  margin: 0 0 8px;
-  color: #e2b9ae;
+  letter-spacing: .15em;
+  margin: 0 0 10px;
+  color: var(--sun);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .countdown div {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 8px;
 }
-.countdown span {
-  display: flex;
-  flex-direction: column;
+.countdown-box {
+  background: rgba(42, 11, 31, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 189, 78, 0.3);
+  padding: 8px 12px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 52px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, border-color 0.2s;
+}
+.countdown-box:hover {
+  border-color: var(--sun);
+  transform: translateY(-2px);
 }
 .countdown b {
-  font: 500 24px var(--mono);
+  font: 600 22px var(--mono);
   color: var(--sun);
-  letter-spacing: -.05em;
+  letter-spacing: -.02em;
   line-height: 1;
+  display: block;
 }
 .countdown small {
   font-size: 8px;
   text-transform: uppercase;
-  color: #d7b1ad;
+  letter-spacing: .08em;
+  color: #efd8c5;
   margin-top: 4px;
+  display: block;
 }
 .countdown i {
   font-style: normal;
-  color: #d7b1ad;
-  margin-top: 2px;
+  color: var(--sun);
+  opacity: 0.6;
+  font-weight: bold;
 }
 .hero-side-note {
   position: absolute;
@@ -420,7 +388,7 @@ body {
 .hero-editorial .reveal:nth-child(4) { animation-delay: .23s; }
 .hero-editorial .reveal:nth-child(5) { animation-delay: .3s; }
 
-@media (max-width: 800px) {
+@media (max-width: 860px) {
   .announcement {
     height: 38px;
     padding: 0 12px;
@@ -432,55 +400,47 @@ body {
   }
   .hero-editorial {
     height: auto !important;
-    min-height: 760px;
-    padding: 125px 22px 120px;
-    background-position: 65% center;
+    min-height: auto;
+    padding: 120px 20px 60px;
+    background-position: 70% center;
     align-items: flex-start;
   }
   .hero-copy {
     width: 100%;
   }
   .hero-editorial h1 {
-    font-size: clamp(44px, 12vw, 56px);
-    line-height: .95;
+    font-size: clamp(40px, 11vw, 56px);
+    line-height: .98;
     max-width: 320px;
   }
   .hero-summary {
-    width: min(100%, 300px);
+    width: 100%;
+    max-width: 340px;
     font-size: 14px;
     line-height: 1.55;
     margin: 18px 0 22px;
   }
   .hero-actions {
     gap: 12px;
+    flex-wrap: wrap;
   }
   .hero-meta {
     margin-top: 24px;
     margin-bottom: 24px;
     gap: 20px;
   }
-  .hero-art {
-    width: 100%;
-    height: 400px;
-    top: auto;
-    bottom: 0;
-    right: -25px;
-    opacity: .6;
-  }
-  .sun-disc {
-    width: 280px;
-    height: 280px;
-    top: 45px;
-    right: 5%;
-  }
-  .dancers {
-    width: 400px;
-    right: -40px;
-    top: 10px;
-  }
   .countdown {
-    left: 22px;
-    bottom: 22px;
+    position: static;
+    margin-top: 28px;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+  }
+  .countdown div {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px;
   }
   .hero-side-note {
     display: none;

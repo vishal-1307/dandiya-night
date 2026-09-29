@@ -1,109 +1,155 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import QRCode from 'qrcode';
+
+import React, { useState } from 'react';
 import { DigitalPassData } from '@/lib/types';
-import { eventConfig } from '@/lib/config';
+import { EVENT_CONFIG } from '@/lib/config';
+import { Sparkles, Calendar, MapPin, Copy, Check, ShieldCheck, Ticket } from 'lucide-react';
 
 interface DigitalPassProps {
   data: DigitalPassData;
 }
 
 export default function DigitalPass({ data }: DigitalPassProps) {
-  const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
+  const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
+  const copyPassId = () => {
     if (data.registrationId) {
-      QRCode.toDataURL(data.registrationId, {
-        width: 160,
-        margin: 1,
-        color: {
-          dark: '#3f0919',
-          light: '#ffffff',
-        },
-      })
-        .then((url: string) => setQrCodeUrl(url))
-        .catch((err: unknown) => console.error('QR code generation failed:', err));
+      navigator.clipboard.writeText(data.registrationId);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
     }
-  }, [data.registrationId]);
+  };
 
   return (
-    <div id="digital-event-pass" className="max-w-sm mx-auto bg-gradient-to-br from-[#8b1a3f] via-[#6d1a36] to-[#1A0E2E] rounded-2xl overflow-hidden shadow-2xl border-2 border-[#d4a017]/40 text-[#FFF8F0] relative flex flex-col transition-all hover:shadow-[0_0_30px_rgba(212,160,23,0.3)]">
-      {/* Decorative Traditional Motif Top Banner */}
-      <div className="absolute top-0 right-0 p-4 opacity-15 pointer-events-none">
-        <svg width="120" height="120" viewBox="0 0 100 100" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="#d4a017" strokeWidth="2" fill="none" strokeDasharray="4 2" />
-          <path d="M50 10 L50 90 M10 50 L90 50 M22 22 L78 78 M22 78 L78 22" stroke="#d4a017" strokeWidth="1" />
-          <circle cx="50" cy="50" r="15" fill="#d4a017" />
-        </svg>
-      </div>
-      
-      {/* Header */}
-      <div className="p-6 text-center border-b border-[#d4a017]/25 relative z-10 bg-black/25">
-        <img 
-          src="/images/logo.svg" 
-          alt="Mithila Dandiya Emblem" 
-          className="w-12 h-12 mx-auto mb-2 object-contain drop-shadow-[0_0_10px_rgba(212,160,23,0.5)]" 
-        />
-        <p className="text-[10px] uppercase tracking-[0.25em] text-[#d4a017] font-semibold mb-1">
-          {eventConfig.subtitle || "Dandiya & Garba Night"}
+    <div 
+      id="digital-event-pass" 
+      className="max-w-md mx-auto w-full bg-gradient-to-b from-[#250920] via-[#350d2e] to-[#180415] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.85)] border-2 border-[#f5bd4e]/60 text-[#FFF8F0] relative flex flex-col transition-all"
+    >
+      {/* Golden Corner Accents */}
+      <div className="absolute top-2 left-2 text-[#f5bd4e]/40 text-xs font-mono select-none">✦</div>
+      <div className="absolute top-2 right-2 text-[#f5bd4e]/40 text-xs font-mono select-none">✦</div>
+      <div className="absolute bottom-2 left-2 text-[#f5bd4e]/40 text-xs font-mono select-none">✦</div>
+      <div className="absolute bottom-2 right-2 text-[#f5bd4e]/40 text-xs font-mono select-none">✦</div>
+
+      {/* Decorative Traditional Motif Top Glow */}
+      <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#f5bd4e]/20 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Header with Royal Emblem */}
+      <div className="pt-8 pb-5 px-6 text-center border-b border-[#f5bd4e]/25 relative z-10 bg-black/30">
+        <div className="relative inline-block mb-3">
+          <img 
+            src="/images/logo.svg" 
+            alt="Mithila Dandiya Emblem" 
+            className="w-14 h-14 mx-auto object-contain drop-shadow-[0_0_15px_rgba(245,189,78,0.6)]" 
+          />
+          <span className="absolute -bottom-1 -right-1 text-xs">✨</span>
+        </div>
+
+        <p className="text-[11px] uppercase tracking-[0.25em] text-[#f5bd4e] font-mono font-semibold mb-1">
+          ✦ NAVRATRI 2026 ✦
         </p>
-        <h2 className="text-2xl font-serif font-bold text-gradient-gold tracking-wider uppercase">
-          {eventConfig.name}
+
+        <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5] tracking-wide uppercase">
+          {EVENT_CONFIG.name}
         </h2>
-        <div className="mt-2 text-xs tracking-widest text-[#d4a017] font-semibold bg-[#d4a017]/15 inline-block px-3 py-1 rounded-full border border-[#d4a017]/30">
-          OFFICIAL ENTRY PASS
+
+        <div className="mt-2.5 inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-[#f5bd4e]/15 border border-[#f5bd4e]/40 text-[#f5bd4e] text-xs font-mono font-bold tracking-widest uppercase">
+          <ShieldCheck className="w-3.5 h-3.5" />
+          <span>Official Entry Pass</span>
         </div>
       </div>
 
       {/* Main Body */}
-      <div className="p-6 flex-grow flex flex-col items-center justify-center space-y-5 relative z-10">
-        <div className="text-center">
-          <p className="text-xs uppercase tracking-wider text-rose-200/80 mb-1">Attendee Name</p>
-          <h3 className="text-2xl font-serif font-bold text-[#FFF8F0] tracking-wide">{data.name}</h3>
+      <div className="p-6 sm:p-8 flex-grow flex flex-col items-center justify-center space-y-6 relative z-10">
+        {/* Attendee Name */}
+        <div className="text-center w-full">
+          <span className="text-xs uppercase tracking-widest text-[#f5bd4e]/80 font-mono block mb-1">
+            Attendee Name
+          </span>
+          <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-wide">
+            {data.name}
+          </h3>
         </div>
 
-        {/* Pass ID and Category Grid */}
-        <div className="w-full bg-black/30 rounded-xl p-3.5 border border-[#d4a017]/20 flex justify-between items-center backdrop-blur-sm">
-          <div>
-            <p className="text-[11px] uppercase tracking-wider text-rose-200/70">Registration ID</p>
-            <p className="font-mono font-bold text-lg text-[#d4a017] tracking-wider">{data.registrationId}</p>
+        {/* Category Circular Seal */}
+        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#f5bd4e]/20 border-2 border-[#f5bd4e]/60 text-[#f5bd4e] shadow-lg">
+          <Ticket className="w-4 h-4" />
+          <span className="font-serif font-bold text-sm tracking-wider uppercase">
+            {data.type} Pass
+          </span>
+        </div>
+
+        {/* Royal Gold Pass ID Master Plaque (Replacing QR Code) */}
+        <div className="w-full relative group">
+          <div className="w-full bg-gradient-to-b from-[#fae29c] via-[#f5bd4e] to-[#c78b14] rounded-2xl p-5 sm:p-6 text-center shadow-[0_6px_30px_rgba(245,189,78,0.35)] border-2 border-[#fff2b8] transform transition-transform group-hover:scale-[1.01]">
+            <p className="text-[11px] uppercase tracking-[0.2em] font-mono font-extrabold text-[#3b0b2b] mb-1">
+              Official Entry Pass ID
+            </p>
+            <div className="text-3xl sm:text-4xl font-mono font-black text-[#26061c] tracking-widest my-1 drop-shadow-sm select-all">
+              {data.registrationId}
+            </div>
+            <p className="text-[11px] font-sans font-semibold text-[#4e133a]">
+              Present this code at Entry Gate Counter
+            </p>
+
+            {/* Quick Tap to Copy Button */}
+            <button
+              type="button"
+              onClick={copyPassId}
+              className="mt-3.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#27081e] text-[#f5bd4e] text-xs font-mono font-bold hover:bg-[#3d0e30] transition-colors shadow-sm"
+              title="Copy Pass ID"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="text-emerald-300">Copied to Clipboard!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Tap to Copy Pass ID</span>
+                </>
+              )}
+            </button>
           </div>
-          <div className="text-right">
-            <p className="text-[11px] uppercase tracking-wider text-rose-200/70">Category</p>
-            <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-900/60 text-amber-200 border border-amber-400/20">
-              {data.type}
+        </div>
+
+        {/* Event Schedule & Venue Information */}
+        <div className="w-full bg-black/40 rounded-2xl p-4 border border-[#f5bd4e]/20 space-y-2.5 backdrop-blur-sm text-xs font-mono">
+          <div className="flex items-center justify-between text-zinc-300">
+            <span className="flex items-center gap-1.5 text-[#f5bd4e]">
+              <Calendar className="w-3.5 h-3.5" /> Date &amp; Time
+            </span>
+            <span className="font-bold text-white">
+              {data.date || "15 Oct 2026"} • 5:00 PM
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between text-zinc-300 pt-2 border-t border-zinc-800">
+            <span className="flex items-center gap-1.5 text-[#f5bd4e]">
+              <MapPin className="w-3.5 h-3.5" /> Venue
+            </span>
+            <span className="font-bold text-white text-right truncate max-w-[200px]">
+              {data.venue || `${EVENT_CONFIG.venue.name}, Madhubani`}
             </span>
           </div>
         </div>
 
-        {/* QR Code Container */}
-        <div className="w-36 h-36 bg-white rounded-xl flex items-center justify-center p-2 shadow-lg border-2 border-[#d4a017]/40 relative">
-          {qrCodeUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={qrCodeUrl} alt={`QR Code for ${data.registrationId}`} className="w-full h-full object-contain" />
-          ) : (
-            <div className="w-full h-full border border-dashed border-gray-300 flex items-center justify-center text-gray-800 font-mono text-xs">
-              Generating QR...
-            </div>
-          )}
+        {/* Verification Instruction Note */}
+        <div className="flex items-center gap-2 text-center text-xs text-amber-200/80">
+          <Sparkles className="w-3.5 h-3.5 text-[#f5bd4e] flex-shrink-0" />
+          <span>Keep this pass ready on phone screen or screenshot for fast entry</span>
         </div>
-        <p className="text-[11px] text-amber-200/70 font-mono">Scan at venue check-in gate</p>
       </div>
 
       {/* Footer Info */}
-      <div className="bg-black/40 p-4 text-xs text-center border-t border-[#d4a017]/20 relative z-10 space-y-1.5">
-        <div className="flex justify-between items-center text-rose-100/90 font-medium">
-          <span className="flex items-center gap-1">
-            <span>📅</span> {data.date}
-          </span>
-          <span className="truncate ml-2 text-right text-amber-200">
-            📍 {data.venue}
-          </span>
-        </div>
-        <div className="pt-1 border-t border-white/5 flex items-center justify-between text-[10px] text-zinc-400">
-          <span>Non-transferable</span>
-          <span className="text-[#d4a017]">Madhubani, Bihar</span>
-        </div>
+      <div className="bg-black/50 py-3.5 px-6 text-center border-t border-[#f5bd4e]/25 relative z-10 flex items-center justify-between text-[11px] font-mono text-zinc-400">
+        <span className="text-emerald-400 font-bold flex items-center gap-1">
+          <ShieldCheck className="w-3.5 h-3.5" /> Verified Pass
+        </span>
+        <span className="text-[#f5bd4e] font-semibold">
+          Town Club Ground • Madhubani
+        </span>
       </div>
     </div>
   );

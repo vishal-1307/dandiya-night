@@ -1,7 +1,9 @@
 'use client';
+
 import React, { useState } from 'react';
 import { RegistrationFormData } from '@/lib/types';
 import { validateEmail, validatePhone, formatPhone } from '@/lib/registration';
+import { User, Users, HeartHandshake, CheckCircle2, AlertCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 
 export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string, name: string, type: string) => void }) {
   const [step, setStep] = useState(1);
@@ -10,11 +12,11 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [formData, setFormData] = useState<RegistrationFormData>({
-    type: '',
+    type: 'Individual',
     fullName: '',
     email: '',
     phone: '',
-    city: '',
+    city: 'Madhubani',
     age: '',
     gender: '',
     instagram: '',
@@ -26,14 +28,14 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
     dandiyaParticipation: true,
     competitionInterest: false,
     costumeTheme: '',
-    foodPreference: '',
+    foodPreference: 'Veg',
     emergencyName: '',
     emergencyPhone: '',
     emergencyRelation: '',
     consentAccurate: false,
     consentRules: false,
-    consentCommunication: false,
-    consentPhotography: false,
+    consentCommunication: true,
+    consentPhotography: true,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -170,27 +172,35 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div className="max-w-3xl mx-auto bg-[#180816]/95 border border-[#d4a017]/35 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.85)] text-amber-50 backdrop-blur-xl overflow-hidden">
       {/* Progress Indicator */}
-      <div className="bg-gray-50 p-4 sm:p-6 border-b border-gray-200">
-        <div className="relative flex items-center justify-between">
-          {[1, 2, 3, 4, 5].map((num) => (
-            <div key={num} className="flex flex-col items-center relative z-10">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${
-                step > num ? 'bg-green-500 text-white' : 
-                step === num ? 'bg-yellow-500 text-white ring-4 ring-yellow-100' : 
-                'bg-gray-200 text-gray-500'
-              }`}>
-                {step > num ? '✓' : num}
+      <div className="bg-black/35 p-4 sm:p-6 border-b border-[#d4a017]/20">
+        <div className="relative flex items-center justify-between max-w-xl mx-auto">
+          {[1, 2, 3, 4, 5].map((num) => {
+            const isCompleted = step > num;
+            const isCurrent = step === num;
+            return (
+              <div key={num} className="flex flex-col items-center relative z-10">
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
+                  isCompleted 
+                    ? 'bg-emerald-500 text-white shadow-[0_0_12px_rgba(16,185,129,0.5)]' 
+                    : isCurrent 
+                    ? 'bg-[#f5bd4e] text-[#38112f] ring-4 ring-[#f5bd4e]/25 shadow-[0_0_15px_rgba(245,189,78,0.5)]' 
+                    : 'bg-[#280d23] text-zinc-400 border border-zinc-700'
+                }`}>
+                  {isCompleted ? <CheckCircle2 className="w-5 h-5 text-white" /> : num}
+                </div>
+                <span className={`hidden sm:block text-[11px] mt-2 font-mono uppercase tracking-wider ${
+                  isCurrent ? 'text-[#f5bd4e] font-bold' : isCompleted ? 'text-emerald-400' : 'text-zinc-500'
+                }`}>
+                  {num === 1 ? 'Type' : num === 2 ? 'Details' : num === 3 ? 'Prefs' : num === 4 ? 'Contact' : 'Confirm'}
+                </span>
               </div>
-              <span className="hidden sm:block text-xs mt-2 font-medium text-gray-500">
-                {num === 1 ? 'Type' : num === 2 ? 'Details' : num === 3 ? 'Prefs' : num === 4 ? 'Contact' : 'Confirm'}
-              </span>
-            </div>
-          ))}
-          <div className="absolute top-8 sm:top-10 left-8 right-8 h-0.5 bg-gray-200 -z-0 hidden sm:block">
+            );
+          })}
+          <div className="absolute top-4 sm:top-4 left-6 right-6 h-0.5 bg-zinc-800 -z-0 hidden sm:block">
             <div 
-              className="h-full bg-yellow-500 transition-all duration-300" 
+              className="h-full bg-gradient-to-r from-emerald-400 via-[#f5bd4e] to-[#d4a017] transition-all duration-300 shadow-[0_0_8px_rgba(245,189,78,0.5)]" 
               style={{ width: `${((step - 1) / (totalSteps - 1)) * 100}%` }}
             />
           </div>
@@ -199,130 +209,291 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
 
       <div className="p-6 sm:p-10">
         {step === 1 && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold text-gray-900 text-center">Select Registration Type</h2>
-            {errors.type && <p className="text-red-500 text-center">{errors.type}</p>}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 1 of 5</span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">Select Registration Type</h2>
+              <p className="text-zinc-400 text-sm mt-1">Choose the pass option that matches your attendance.</p>
+            </div>
+
+            {errors.type && (
+              <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-sm flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                <span>{errors.type}</span>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
-                { id: 'Individual', title: 'Individual', sub: 'Single entry pass', price: '₹199', icon: '👤' },
-                { id: 'Couple', title: 'Couple', sub: 'Entry pass for two', price: '₹349', icon: '👥' },
-                { id: 'Group', title: 'Group', sub: '4 or more members', price: '₹799', icon: '👨‍👩‍👧‍👦' },
-              ].map((type) => (
-                <div 
-                  key={type.id}
-                  onClick={() => setFormData(prev => ({ ...prev, type: type.id as any }))}
-                  className={`cursor-pointer rounded-xl p-6 text-center transition-all border-2 relative ${
-                    formData.type === type.id 
-                      ? 'border-[#d4a017] bg-amber-50/70 shadow-lg transform scale-105' 
-                      : 'border-gray-200 hover:border-[#d4a017]/40 hover:bg-gray-50'
-                  }`}
-                >
-                  <div className="text-4xl mb-3">{type.icon}</div>
-                  <h3 className="font-bold text-lg text-gray-900">{type.title}</h3>
-                  <p className="text-sm text-gray-500 mb-3">{type.sub}</p>
-                  <span className="inline-block px-3 py-1 bg-[#8b1a3f]/10 text-[#8b1a3f] font-bold text-sm rounded-full border border-[#8b1a3f]/20">
-                    {type.price}
-                  </span>
-                </div>
-              ))}
+                { 
+                  id: 'Individual', 
+                  title: 'Individual', 
+                  sub: 'Single entry pass with lightweight Dandiya sticks', 
+                  price: '₹199', 
+                  badge: 'Standard',
+                  icon: <User className="w-8 h-8 text-[#f5bd4e]" /> 
+                },
+                { 
+                  id: 'Couple', 
+                  title: 'Couple', 
+                  sub: 'Entry pass for two + Contest entry eligibility', 
+                  price: '₹349', 
+                  badge: 'Popular',
+                  icon: <HeartHandshake className="w-8 h-8 text-rose-400" /> 
+                },
+                { 
+                  id: 'Group', 
+                  title: 'Group', 
+                  sub: '4 or more members with reserved group dance access', 
+                  price: '₹799', 
+                  badge: 'Best Value',
+                  icon: <Users className="w-8 h-8 text-amber-300" /> 
+                },
+              ].map((type) => {
+                const isSelected = formData.type === type.id;
+                return (
+                  <div 
+                    key={type.id}
+                    onClick={() => setFormData(prev => ({ ...prev, type: type.id as any }))}
+                    className={`cursor-pointer rounded-2xl p-6 text-center transition-all border-2 relative flex flex-col justify-between ${
+                      isSelected 
+                        ? 'border-[#f5bd4e] bg-gradient-to-b from-[#2e1029] to-[#200a1c] shadow-[0_0_25px_rgba(245,189,78,0.25)] ring-2 ring-[#f5bd4e]/40 transform -translate-y-1' 
+                        : 'border-zinc-800 bg-[#1e0a1b]/60 hover:border-zinc-700 hover:bg-[#1e0a1b]'
+                    }`}
+                  >
+                    <div className="absolute top-3 right-3">
+                      <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded-full ${
+                        isSelected ? 'bg-[#f5bd4e] text-[#38112f] font-bold' : 'bg-zinc-800 text-zinc-400'
+                      }`}>
+                        {type.badge}
+                      </span>
+                    </div>
+
+                    <div>
+                      <div className="w-14 h-14 rounded-2xl bg-black/30 border border-zinc-800 flex items-center justify-center mx-auto mb-4">
+                        {type.icon}
+                      </div>
+                      <h3 className="font-serif font-bold text-xl text-[#fcf4e5] mb-1">{type.title}</h3>
+                      <p className="text-xs text-zinc-400 mb-4 leading-relaxed">{type.sub}</p>
+                    </div>
+
+                    <div>
+                      <span className="inline-block px-4 py-1.5 bg-[#f5bd4e]/15 text-[#f5bd4e] font-mono font-bold text-base rounded-full border border-[#f5bd4e]/30">
+                        {type.price}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
 
         {step === 2 && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 2 of 5</span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">Personal Information</h2>
+              <p className="text-zinc-400 text-sm mt-1">Lead registrant details for digital pass generation.</p>
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
-                {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
+                <label htmlFor="reg_fullName" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Full Name *</label>
+                <input 
+                  type="text" 
+                  id="reg_fullName"
+                  name="fullName" 
+                  autoComplete="name"
+                  value={formData.fullName} 
+                  onChange={handleChange} 
+                  placeholder="e.g. Pooja Mishra"
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                />
+                {errors.fullName && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.fullName}</p>}
               </div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
-                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                <label htmlFor="reg_email" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Email Address *</label>
+                <input 
+                  type="email" 
+                  id="reg_email"
+                  name="email" 
+                  autoComplete="email"
+                  value={formData.email} 
+                  onChange={handleChange} 
+                  placeholder="e.g. pooja@example.com"
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                />
+                {errors.email && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.email}</p>}
               </div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="10 digits" maxLength={10} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
-                {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                <label htmlFor="reg_phone" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Phone Number *</label>
+                <input 
+                  type="tel" 
+                  id="reg_phone"
+                  name="phone" 
+                  autoComplete="tel"
+                  value={formData.phone} 
+                  onChange={handleChange} 
+                  placeholder="10-digit mobile number" 
+                  maxLength={10} 
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                />
+                {errors.phone && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.phone}</p>}
               </div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">City *</label>
-                <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
-                {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
+                <label htmlFor="reg_city" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">City *</label>
+                <input 
+                  type="text" 
+                  id="reg_city"
+                  name="city" 
+                  autoComplete="address-level2"
+                  value={formData.city} 
+                  onChange={handleChange} 
+                  placeholder="Madhubani, Darbhanga, Patna..."
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                />
+                {errors.city && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.city}</p>}
               </div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Age</label>
-                <input type="number" name="age" value={formData.age} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                <label htmlFor="reg_age" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Age</label>
+                <input 
+                  type="number" 
+                  id="reg_age"
+                  name="age" 
+                  value={formData.age} 
+                  onChange={handleChange} 
+                  placeholder="e.g. 24"
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                />
               </div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
-                <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent bg-white">
-                  <option value="">Select...</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                  <option value="Prefer not to say">Prefer not to say</option>
+                <label htmlFor="reg_gender" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Gender</label>
+                <select 
+                  id="reg_gender"
+                  name="gender" 
+                  value={formData.gender} 
+                  onChange={handleChange} 
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] transition-all"
+                >
+                  <option value="" className="bg-[#180816]">Select Gender...</option>
+                  <option value="Male" className="bg-[#180816]">Male</option>
+                  <option value="Female" className="bg-[#180816]">Female</option>
+                  <option value="Other" className="bg-[#180816]">Other</option>
+                  <option value="Prefer not to say" className="bg-[#180816]">Prefer not to say</option>
                 </select>
               </div>
+
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Instagram Handle</label>
-                <input type="text" name="instagram" value={formData.instagram} onChange={handleChange} placeholder="@username" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                <label htmlFor="reg_instagram" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Instagram Handle (Optional)</label>
+                <input 
+                  type="text" 
+                  id="reg_instagram"
+                  name="instagram" 
+                  value={formData.instagram} 
+                  onChange={handleChange} 
+                  placeholder="@your_handle (for photo tag & contest notice)" 
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                />
               </div>
             </div>
 
             {formData.type === 'Couple' && (
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Partner Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="mt-8 pt-8 border-t border-zinc-800">
+                <h3 className="text-xl font-serif font-bold text-[#f5bd4e] mb-4 flex items-center gap-2">
+                  <HeartHandshake className="w-5 h-5 text-rose-400" /> Partner Information
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Partner Name *</label>
-                    <input type="text" name="partnerName" value={formData.partnerName} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
-                    {errors.partnerName && <p className="text-red-500 text-xs mt-1">{errors.partnerName}</p>}
+                    <label htmlFor="reg_partnerName" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Partner Full Name *</label>
+                    <input 
+                      type="text" 
+                      id="reg_partnerName"
+                      name="partnerName" 
+                      value={formData.partnerName} 
+                      onChange={handleChange} 
+                      placeholder="e.g. Rohan Verma"
+                      className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                    />
+                    {errors.partnerName && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.partnerName}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Partner Phone *</label>
-                    <input type="tel" name="partnerPhone" value={formData.partnerPhone} onChange={handleChange} maxLength={10} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
-                    {errors.partnerPhone && <p className="text-red-500 text-xs mt-1">{errors.partnerPhone}</p>}
+                    <label htmlFor="reg_partnerPhone" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Partner Phone Number *</label>
+                    <input 
+                      type="tel" 
+                      id="reg_partnerPhone"
+                      name="partnerPhone" 
+                      value={formData.partnerPhone} 
+                      onChange={handleChange} 
+                      placeholder="10-digit mobile number" 
+                      maxLength={10} 
+                      className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                    />
+                    {errors.partnerPhone && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.partnerPhone}</p>}
                   </div>
                 </div>
               </div>
             )}
 
             {formData.type === 'Group' && (
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Group Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="mt-8 pt-8 border-t border-zinc-800">
+                <h3 className="text-xl font-serif font-bold text-[#f5bd4e] mb-4 flex items-center gap-2">
+                  <Users className="w-5 h-5 text-amber-300" /> Group Information
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Group Name *</label>
-                    <input type="text" name="groupName" value={formData.groupName} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
-                    {errors.groupName && <p className="text-red-500 text-xs mt-1">{errors.groupName}</p>}
+                    <label htmlFor="reg_groupName" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Group / Squad Name *</label>
+                    <input 
+                      type="text" 
+                      id="reg_groupName"
+                      name="groupName" 
+                      value={formData.groupName} 
+                      onChange={handleChange} 
+                      placeholder="e.g. Mithila Dancers Squad"
+                      className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                    />
+                    {errors.groupName && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.groupName}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Total Members (Min 4) *</label>
-                    <input type="number" name="groupSize" value={formData.groupSize} onChange={handleGroupSizeChange} min={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
-                    {errors.groupSize && <p className="text-red-500 text-xs mt-1">{errors.groupSize}</p>}
+                    <label htmlFor="reg_groupSize" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Total Squad Members (Min 4) *</label>
+                    <input 
+                      type="number" 
+                      id="reg_groupSize"
+                      name="groupSize" 
+                      value={formData.groupSize} 
+                      onChange={handleGroupSizeChange} 
+                      min={4} 
+                      placeholder="Minimum 4"
+                      className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                    />
+                    {errors.groupSize && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.groupSize}</p>}
                   </div>
                 </div>
                 
                 {formData.members && formData.members.length > 0 && (
                   <div className="space-y-4">
-                    <p className="font-medium text-gray-700">Member Names</p>
-                    {formData.members.map((member, index) => (
-                      <div key={index}>
-                        <input 
-                          type="text" 
-                          value={member.name} 
-                          onChange={(e) => handleMemberChange(index, e.target.value)} 
-                          placeholder={`Member ${index + 1} Name`}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                        />
-                        {errors[`member_${index}`] && <p className="text-red-500 text-xs mt-1">{errors[`member_${index}`]}</p>}
-                      </div>
-                    ))}
+                    <p className="text-xs font-mono uppercase tracking-wider text-zinc-300">Member Names</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {formData.members.map((member, index) => (
+                        <div key={index}>
+                          <input 
+                            type="text" 
+                            id={`reg_member_${index}`}
+                            name={`member_${index}`}
+                            value={member.name} 
+                            onChange={(e) => handleMemberChange(index, e.target.value)} 
+                            placeholder={`Member #${index + 2} Full Name`}
+                            className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                          />
+                          {errors[`member_${index}`] && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors[`member_${index}`]}</p>}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -331,32 +502,61 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
         )}
 
         {step === 3 && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Participation Preferences</h2>
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 3 of 5</span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">Participation Preferences</h2>
+              <p className="text-zinc-400 text-sm mt-1">Help us tailor your celebration experience.</p>
+            </div>
             
             <div className="space-y-4">
-              <label className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
-                <input type="checkbox" name="dandiyaParticipation" checked={formData.dandiyaParticipation} onChange={handleChange} className="w-5 h-5 text-yellow-600 rounded border-gray-300 focus:ring-yellow-500" />
-                <span className="ml-3 font-medium text-gray-900">I will participate in Dandiya</span>
+              <label className="flex items-center p-4 border border-zinc-800 rounded-2xl cursor-pointer bg-[#200c1e]/60 hover:bg-[#200c1e] hover:border-[#f5bd4e]/40 transition-colors">
+                <input 
+                  type="checkbox" 
+                  name="dandiyaParticipation" 
+                  checked={formData.dandiyaParticipation} 
+                  onChange={handleChange} 
+                  className="w-5 h-5 accent-[#f5bd4e] rounded" 
+                />
+                <span className="ml-3.5 font-medium text-amber-100">I will participate on the main Dandiya &amp; Garba dance floor</span>
               </label>
 
-              <label className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
-                <input type="checkbox" name="competitionInterest" checked={formData.competitionInterest} onChange={handleChange} className="w-5 h-5 text-yellow-600 rounded border-gray-300 focus:ring-yellow-500" />
-                <span className="ml-3 font-medium text-gray-900">I am interested in participating in the competition</span>
+              <label className="flex items-center p-4 border border-zinc-800 rounded-2xl cursor-pointer bg-[#200c1e]/60 hover:bg-[#200c1e] hover:border-[#f5bd4e]/40 transition-colors">
+                <input 
+                  type="checkbox" 
+                  name="competitionInterest" 
+                  checked={formData.competitionInterest} 
+                  onChange={handleChange} 
+                  className="w-5 h-5 accent-[#f5bd4e] rounded" 
+                />
+                <span className="ml-3.5 font-medium text-amber-100">I am interested in competing for the Best Dandiya / Best Dressed prizes</span>
               </label>
 
               <div className="pt-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Costume Theme (Optional)</label>
-                <input type="text" name="costumeTheme" value={formData.costumeTheme} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                <label htmlFor="reg_costumeTheme" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Costume Theme / Planned Attire (Optional)</label>
+                <input 
+                  type="text" 
+                  id="reg_costumeTheme"
+                  name="costumeTheme" 
+                  value={formData.costumeTheme} 
+                  onChange={handleChange} 
+                  placeholder="e.g. Traditional Chaniya Choli, Royal Mithila Kurta"
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                />
               </div>
 
               <div className="pt-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Food Preference</label>
-                <select name="foodPreference" value={formData.foodPreference} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent bg-white">
-                  <option value="">Select...</option>
-                  <option value="Veg">Vegetarian</option>
-                  <option value="Non-Veg">Non-Vegetarian</option>
-                  <option value="No Preference">No Preference</option>
+                <label htmlFor="reg_foodPreference" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Food Stall Preference</label>
+                <select 
+                  id="reg_foodPreference"
+                  name="foodPreference" 
+                  value={formData.foodPreference} 
+                  onChange={handleChange} 
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] transition-all"
+                >
+                  <option value="Veg" className="bg-[#180816]">Vegetarian Festival Chaats &amp; Delicacies</option>
+                  <option value="Non-Veg" className="bg-[#180816]">Non-Vegetarian</option>
+                  <option value="No Preference" className="bg-[#180816]">No Specific Preference</option>
                 </select>
               </div>
             </div>
@@ -364,28 +564,56 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
         )}
 
         {step === 4 && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Emergency Contact (Optional)</h2>
-            <p className="text-gray-500 mb-6">We recommend providing an emergency contact in case of any unforeseen situations during the event.</p>
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 4 of 5</span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">Emergency Contact (Optional)</h2>
+              <p className="text-zinc-400 text-sm mt-1">Recommended for rapid assistance if needed during the event.</p>
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Contact Name</label>
-                <input type="text" name="emergencyName" value={formData.emergencyName} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                <label htmlFor="reg_emergencyName" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Contact Name</label>
+                <input 
+                  type="text" 
+                  id="reg_emergencyName"
+                  name="emergencyName" 
+                  autoComplete="name"
+                  value={formData.emergencyName} 
+                  onChange={handleChange} 
+                  placeholder="e.g. Ramesh Mishra"
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                <input type="tel" name="emergencyPhone" value={formData.emergencyPhone} onChange={handleChange} maxLength={10} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                <label htmlFor="reg_emergencyPhone" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Contact Mobile Number</label>
+                <input 
+                  type="tel" 
+                  id="reg_emergencyPhone"
+                  name="emergencyPhone" 
+                  autoComplete="tel"
+                  value={formData.emergencyPhone} 
+                  onChange={handleChange} 
+                  maxLength={10} 
+                  placeholder="10-digit mobile number"
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Relationship</label>
-                <select name="emergencyRelation" value={formData.emergencyRelation} onChange={handleChange} className="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent bg-white">
-                  <option value="">Select...</option>
-                  <option value="Parent">Parent</option>
-                  <option value="Spouse">Spouse</option>
-                  <option value="Sibling">Sibling</option>
-                  <option value="Friend">Friend</option>
-                  <option value="Other">Other</option>
+                <label htmlFor="reg_emergencyRelation" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Relationship</label>
+                <select 
+                  id="reg_emergencyRelation"
+                  name="emergencyRelation" 
+                  value={formData.emergencyRelation} 
+                  onChange={handleChange} 
+                  className="w-full md:w-1/2 px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] transition-all"
+                >
+                  <option value="" className="bg-[#180816]">Select Relationship...</option>
+                  <option value="Parent" className="bg-[#180816]">Parent</option>
+                  <option value="Spouse" className="bg-[#180816]">Spouse</option>
+                  <option value="Sibling" className="bg-[#180816]">Sibling</option>
+                  <option value="Friend" className="bg-[#180816]">Friend</option>
+                  <option value="Other" className="bg-[#180816]">Other</option>
                 </select>
               </div>
             </div>
@@ -393,101 +621,141 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
         )}
 
         {step === 5 && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Consent & Confirmation</h2>
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 5 of 5</span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">Consent &amp; Confirmation</h2>
+              <p className="text-zinc-400 text-sm mt-1">Review your summary and confirm your digital pass reservation.</p>
+            </div>
             
-            <div className="bg-amber-50/50 p-6 rounded-xl mb-6 border border-[#d4a017]/30 text-sm">
-              <h3 className="font-bold text-gray-900 mb-4 text-base flex items-center justify-between">
-                <span>Registration Summary</span>
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#8b1a3f]/10 text-[#8b1a3f] font-semibold">
+            {/* Registration Summary Card */}
+            <div className="bg-gradient-to-br from-[#2a0e23] via-[#1c0717] to-[#120410] p-6 rounded-2xl mb-6 border border-[#f5bd4e]/40 shadow-xl">
+              <div className="flex items-center justify-between pb-4 mb-4 border-b border-zinc-800">
+                <span className="font-serif font-bold text-lg text-amber-100">Booking Summary</span>
+                <span className="text-xs px-3 py-1 rounded-full bg-[#f5bd4e]/20 text-[#f5bd4e] font-mono font-bold border border-[#f5bd4e]/30">
                   Mithila Dandiya Utsav 2026
                 </span>
-              </h3>
-              <div className="grid grid-cols-2 gap-y-2.5">
-                <div className="text-gray-500">Category:</div>
-                <div className="font-medium text-gray-900">{formData.type} Pass</div>
-                <div className="text-gray-500">Lead Attendee:</div>
-                <div className="font-medium text-gray-900">{formData.fullName}</div>
-                <div className="text-gray-500">Email:</div>
-                <div className="font-medium text-gray-900">{formData.email}</div>
-                <div className="text-gray-500">Phone:</div>
-                <div className="font-medium text-gray-900">{formData.phone}</div>
-                <div className="text-gray-500">Total Entry Fee:</div>
-                <div className="font-bold text-lg text-[#8b1a3f]">
+              </div>
+              <div className="grid grid-cols-2 gap-y-3 text-sm">
+                <div className="text-zinc-400">Pass Category:</div>
+                <div className="font-semibold text-amber-200">{formData.type} Pass</div>
+                <div className="text-zinc-400">Lead Attendee:</div>
+                <div className="font-semibold text-zinc-100">{formData.fullName}</div>
+                <div className="text-zinc-400">Contact:</div>
+                <div className="font-mono text-zinc-200">{formData.phone} • {formData.email}</div>
+                <div className="text-zinc-400">City:</div>
+                <div className="text-zinc-200">{formData.city}</div>
+                <div className="text-zinc-400">Entry Fee:</div>
+                <div className="font-bold font-mono text-xl text-[#f5bd4e]">
                   {formData.type === 'Individual' ? '₹199' : formData.type === 'Couple' ? '₹349' : '₹799'}
                 </div>
-                <div className="text-gray-500">Payment Collection:</div>
-                <div className="text-xs text-emerald-800 font-medium bg-emerald-50 p-1.5 rounded border border-emerald-200">
+                <div className="text-zinc-400">Payment Collection:</div>
+                <div className="text-xs text-emerald-300 font-semibold bg-emerald-950/60 p-2 rounded-lg border border-emerald-500/30">
                   Pay at Entry Gate Counter via UPI or Cash
                 </div>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <label className="flex items-start">
-                <input type="checkbox" name="consentAccurate" checked={formData.consentAccurate} onChange={handleChange} className="mt-1 w-5 h-5 text-yellow-600 rounded border-gray-300 focus:ring-yellow-500" />
-                <span className="ml-3 text-sm text-gray-700">I confirm that all the information provided above is accurate and complete. *</span>
+            <div className="space-y-3.5">
+              <label className="flex items-start cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  name="consentAccurate" 
+                  checked={formData.consentAccurate} 
+                  onChange={handleChange} 
+                  className="mt-1 w-5 h-5 accent-[#f5bd4e] rounded" 
+                />
+                <span className="ml-3 text-sm text-zinc-300">I confirm that all the personal and contact information provided above is accurate. *</span>
               </label>
-              {errors.consentAccurate && <p className="text-red-500 text-xs ml-8">{errors.consentAccurate}</p>}
+              {errors.consentAccurate && <p className="text-rose-400 text-xs ml-8 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.consentAccurate}</p>}
 
-              <label className="flex items-start">
-                <input type="checkbox" name="consentRules" checked={formData.consentRules} onChange={handleChange} className="mt-1 w-5 h-5 text-yellow-600 rounded border-gray-300 focus:ring-yellow-500" />
-                <span className="ml-3 text-sm text-gray-700">I agree to abide by the event rules, guidelines, and terms of service. *</span>
+              <label className="flex items-start cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  name="consentRules" 
+                  checked={formData.consentRules} 
+                  onChange={handleChange} 
+                  className="mt-1 w-5 h-5 accent-[#f5bd4e] rounded" 
+                />
+                <span className="ml-3 text-sm text-zinc-300">I agree to abide by the event rules, cultural guidelines, and safety terms. *</span>
               </label>
-              {errors.consentRules && <p className="text-red-500 text-xs ml-8">{errors.consentRules}</p>}
+              {errors.consentRules && <p className="text-rose-400 text-xs ml-8 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.consentRules}</p>}
 
-              <label className="flex items-start">
-                <input type="checkbox" name="consentCommunication" checked={formData.consentCommunication} onChange={handleChange} className="mt-1 w-5 h-5 text-yellow-600 rounded border-gray-300 focus:ring-yellow-500" />
-                <span className="ml-3 text-sm text-gray-700">I consent to receive event-related communications via email and SMS.</span>
+              <label className="flex items-start cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  name="consentCommunication" 
+                  checked={formData.consentCommunication} 
+                  onChange={handleChange} 
+                  className="mt-1 w-5 h-5 accent-[#f5bd4e] rounded" 
+                />
+                <span className="ml-3 text-sm text-zinc-400">I consent to receive pass updates and schedule alerts via WhatsApp &amp; SMS.</span>
               </label>
 
-              <label className="flex items-start">
-                <input type="checkbox" name="consentPhotography" checked={formData.consentPhotography} onChange={handleChange} className="mt-1 w-5 h-5 text-yellow-600 rounded border-gray-300 focus:ring-yellow-500" />
-                <span className="ml-3 text-sm text-gray-700">I acknowledge that photography and videography will occur at the event and consent to my image being used for promotional purposes.</span>
+              <label className="flex items-start cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  name="consentPhotography" 
+                  checked={formData.consentPhotography} 
+                  onChange={handleChange} 
+                  className="mt-1 w-5 h-5 accent-[#f5bd4e] rounded" 
+                />
+                <span className="ml-3 text-sm text-zinc-400">I acknowledge that photography/videography will take place at the venue.</span>
               </label>
             </div>
 
             {errors.submit && (
-              <div className="p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
-                {errors.submit}
+              <div className="p-4 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-sm flex items-center gap-2.5">
+                <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-400" />
+                <span>{errors.submit}</span>
               </div>
             )}
           </div>
         )}
 
         {/* Navigation Buttons */}
-        <div className="mt-10 pt-6 border-t border-gray-200 flex justify-between">
+        <div className="mt-10 pt-6 border-t border-zinc-800 flex justify-between items-center">
           <button 
             type="button" 
             onClick={prevStep}
             disabled={step === 1 || isLoading}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-              step === 1 ? 'opacity-0 cursor-default' : 'text-gray-600 bg-gray-100 hover:bg-gray-200'
+            className={`px-6 py-3 rounded-xl font-medium transition-colors flex items-center gap-2 ${
+              step === 1 ? 'opacity-0 pointer-events-none' : 'text-zinc-300 border border-zinc-700 hover:border-zinc-500 hover:text-white bg-[#220c20]'
             }`}
           >
-            Back
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back</span>
           </button>
           
           {step < totalSteps ? (
             <button 
               type="button" 
               onClick={nextStep}
-              className="px-8 py-2 bg-red-900 hover:bg-red-800 text-white rounded-lg font-semibold transition-colors"
+              className="px-8 py-3.5 bg-gradient-to-r from-[#f5bd4e] to-[#d4a017] hover:brightness-110 text-[#38112f] font-bold rounded-xl shadow-[0_4px_20px_rgba(245,189,78,0.3)] transition-all flex items-center gap-2 transform hover:scale-[1.02]"
             >
-              Next
+              <span>Continue</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
             <button 
               onClick={handleSubmit}
               disabled={isLoading}
-              className="px-8 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold transition-colors flex items-center"
+              className="px-9 py-3.5 bg-gradient-to-r from-[#f5bd4e] to-[#d4a017] hover:brightness-110 text-[#38112f] font-bold rounded-xl shadow-[0_4px_25px_rgba(245,189,78,0.4)] transition-all flex items-center gap-2.5 transform hover:scale-[1.02] disabled:opacity-50"
             >
               {isLoading ? (
                 <span className="flex items-center gap-2">
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                  Processing...
+                  <svg className="animate-spin h-5 w-5 text-[#38112f]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing Pass...
                 </span>
-              ) : 'Submit Registration'}
+              ) : (
+                <>
+                  <span>Confirm &amp; Get Digital Pass</span>
+                  <CheckCircle2 className="w-5 h-5" />
+                </>
+              )}
             </button>
           )}
         </div>

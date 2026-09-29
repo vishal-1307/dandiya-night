@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
-import { EVENT_CONFIG } from "@/lib/config";
+import { eventStore } from "@/lib/store";
 import { verifyAdmin } from "@/lib/auth";
 
 export async function GET(request: Request) {
@@ -10,64 +9,10 @@ export async function GET(request: Request) {
   }
 
   try {
-    const totalRegistrations = await prisma.registration.count();
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    const todaysRegistrations = await prisma.registration.count({
-      where: {
-        createdAt: {
-          gte: today,
-        },
-      },
-    });
-
-    const byTypeRaw = await prisma.registration.groupBy({
-      by: ["type"],
-      _count: {
-        id: true,
-      },
-    });
-
-    const byStatusRaw = await prisma.registration.groupBy({
-      by: ["status"],
-      _count: {
-        id: true,
-      },
-    });
-
-    const totalCheckedIn = await prisma.registration.count({
-      where: { checkedIn: true },
-    });
-
-    const byType = byTypeRaw.reduce((acc, curr) => {
-      acc[curr.type] = curr._count.id;
-      return acc;
-    }, {} as Record<string, number>);
-
-    const byStatus = byStatusRaw.reduce((acc, curr) => {
-      acc[curr.status] = curr._count.id;
-      return acc;
-    }, {} as Record<string, number>);
-
-    const totalConfirmed = byStatus["CONFIRMED"] || 0;
-
-    return NextResponse.json({
-      stats: {
-        totalRegistrations,
-        todaysRegistrations,
-        byType,
-        byStatus,
-        totalCheckedIn,
-        capacity: {
-          total: EVENT_CONFIG.capacity,
-          filled: totalConfirmed,
-          remaining: Math.max(0, EVENT_CONFIG.capacity - totalConfirmed),
-        },
-      },
-    });
+    const stats = await eventStore.getStats();
+    return NextResponse.json({ stats });
   } catch (error) {
-    console.error("Stats API error:", error);
+    console.error("Stats error:", error);
     return NextResponse.json({ error: "Failed to fetch stats" }, { status: 500 });
   }
 }

@@ -1,6 +1,5 @@
 import { EVENT_CONFIG } from '@/lib/config';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Music, Sparkles, Trophy, MapPin, Sparkle } from 'lucide-react';
 
 export default function AboutSection() {
   return (
@@ -13,7 +12,7 @@ export default function AboutSection() {
         {/* Section Heading */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#d4a017]/10 border border-[#d4a017]/30 text-[#d4a017] text-xs font-semibold uppercase tracking-widest mb-4">
-            <span>✨</span> Bihar&apos;s Premier Cultural Celebration
+            <Sparkle className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '8s' }} /> Bihar&apos;s Premier Cultural Celebration
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-[#d4a017] to-amber-300 mb-6 tracking-wide">
             Where Heritage Meets Celebration
@@ -60,7 +59,7 @@ export default function AboutSection() {
               <img 
                 src="/images/logo.svg" 
                 alt="Mithila Dandiya Emblem" 
-                className="w-14 h-14 object-contain drop-shadow-[0_0_10px_rgba(212,160,23,0.4)]"
+                className="w-14 h-14 object-contain drop-shadow-[0_0_10px_rgba(212,160,23,0.4)]" 
               />
               <div>
                 <p className="text-xs uppercase tracking-widest text-amber-400/80 font-semibold">Organized By</p>
@@ -87,8 +86,8 @@ export default function AboutSection() {
 
                 {/* Overlaid Info Badge */}
                 <div className="absolute bottom-6 left-6 right-6">
-                  <span className="inline-block px-3 py-1 rounded-full bg-rose-900/80 border border-rose-400/30 text-rose-200 text-xs font-semibold mb-2 backdrop-blur-sm">
-                    📍 Town Club Ground, Station Road
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-900/80 border border-rose-400/30 text-rose-200 text-xs font-semibold mb-2 backdrop-blur-sm">
+                    <MapPin className="w-3 h-3 text-rose-300" /> Town Club Ground, Station Road
                   </span>
                   <h4 className="text-xl font-serif font-bold text-white mb-1">
                     Madhubani&apos;s Grandest Stage
@@ -105,38 +104,32 @@ export default function AboutSection() {
         {/* 3 Pillar Feature Highlights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex flex-col items-center text-center p-8 border border-zinc-800/80 rounded-2xl bg-gradient-to-b from-zinc-900/60 to-zinc-950/80 hover:border-[#d4a017]/50 hover:shadow-[0_0_25px_rgba(212,160,23,0.15)] transition-all group">
-            <div className="w-16 h-16 rounded-2xl bg-[#d4a017]/10 flex items-center justify-center mb-6 text-[#d4a017] group-hover:scale-110 group-hover:bg-[#d4a017]/20 transition-all border border-[#d4a017]/30">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-              </svg>
+            <div className="w-16 h-16 rounded-2xl bg-[#d4a017]/10 flex items-center justify-center mb-6 text-[#d4a017] group-hover:scale-110 group-hover:bg-[#d4a017]/20 transition-all border border-[#d4a017]/30 shadow-[0_0_15px_rgba(212,160,23,0.2)]">
+              <Music className="w-8 h-8" />
             </div>
             <h3 className="text-2xl font-serif text-amber-100 mb-3 group-hover:text-[#d4a017] transition-colors">Live Music & Dhol</h3>
             <p className="text-zinc-400 text-sm leading-relaxed">
-              Soulful folk melodies, electrifying Gujarati & Bollywood fusion, and thunderous dhol rhythms that resonate through the night.
+              Soulful folk melodies, electrifying Gujarati &amp; Bollywood fusion, and thunderous dhol rhythms that resonate through the night.
             </p>
           </div>
 
           <div className="flex flex-col items-center text-center p-8 border border-zinc-800/80 rounded-2xl bg-gradient-to-b from-zinc-900/60 to-zinc-950/80 hover:border-[#d4a017]/50 hover:shadow-[0_0_25px_rgba(212,160,23,0.15)] transition-all group">
-            <div className="w-16 h-16 rounded-2xl bg-[#d4a017]/10 flex items-center justify-center mb-6 text-[#d4a017] group-hover:scale-110 group-hover:bg-[#d4a017]/20 transition-all border border-[#d4a017]/30">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+            <div className="w-16 h-16 rounded-2xl bg-[#d4a017]/10 flex items-center justify-center mb-6 text-[#d4a017] group-hover:scale-110 group-hover:bg-[#d4a017]/20 transition-all border border-[#d4a017]/30 shadow-[0_0_15px_rgba(212,160,23,0.2)]">
+              <Sparkles className="w-8 h-8" />
             </div>
             <h3 className="text-2xl font-serif text-amber-100 mb-3 group-hover:text-[#d4a017] transition-colors">Garba Circles & Raas</h3>
             <p className="text-zinc-400 text-sm leading-relaxed">
-              Synchronized 2-step & 3-step Garba circles, free lightweight Dandiya sticks provided at venue, and open dance floor for all.
+              Synchronized 2-step &amp; 3-step Garba circles, free lightweight Dandiya sticks provided at venue, and open dance floor for all.
             </p>
           </div>
 
           <div className="flex flex-col items-center text-center p-8 border border-zinc-800/80 rounded-2xl bg-gradient-to-b from-zinc-900/60 to-zinc-950/80 hover:border-[#d4a017]/50 hover:shadow-[0_0_25px_rgba(212,160,23,0.15)] transition-all group">
-            <div className="w-16 h-16 rounded-2xl bg-[#d4a017]/10 flex items-center justify-center mb-6 text-[#d4a017] group-hover:scale-110 group-hover:bg-[#d4a017]/20 transition-all border border-[#d4a017]/30">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-              </svg>
+            <div className="w-16 h-16 rounded-2xl bg-[#d4a017]/10 flex items-center justify-center mb-6 text-[#d4a017] group-hover:scale-110 group-hover:bg-[#d4a017]/20 transition-all border border-[#d4a017]/30 shadow-[0_0_15px_rgba(212,160,23,0.2)]">
+              <Trophy className="w-8 h-8" />
             </div>
             <h3 className="text-2xl font-serif text-amber-100 mb-3 group-hover:text-[#d4a017] transition-colors">Contests & Delicacies</h3>
             <p className="text-zinc-400 text-sm leading-relaxed">
-              Exciting prizes for Best Dressed & Best Dandiya Pair, photo booths with instant print props, and delicious festive chaat stalls.
+              Exciting prizes for Best Dressed &amp; Best Dandiya Pair, photo booths with instant print props, and delicious festive chaat stalls.
             </p>
           </div>
         </div>
@@ -144,4 +137,3 @@ export default function AboutSection() {
     </section>
   );
 }
-
