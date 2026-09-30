@@ -66,20 +66,20 @@ export default function Navbar() {
         className={`fixed w-full z-[100] transition-all duration-300 ${
           isScrolled 
             ? 'top-0 bg-[#20071c]/95 backdrop-blur-md shadow-2xl py-2.5 border-b border-[#f5bd4e]/20' 
-            : 'top-[36px] bg-transparent py-3 sm:py-4'
+            : 'top-[38px] bg-transparent py-2.5 sm:py-4'
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center gap-2">
             {/* Logo / Event Branding */}
-            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3 group min-w-0 pr-1">
               <img 
                 src="/images/jhanjharpur-logo.jpg" 
                 alt="Jhanjharpur Dandiya Fest Logo" 
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border border-[#f5bd4e]/40 drop-shadow-[0_0_8px_rgba(245,189,78,0.5)] group-hover:rotate-12 transition-transform duration-300" 
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border border-[#f5bd4e]/40 drop-shadow-[0_0_8px_rgba(245,189,78,0.5)] group-hover:rotate-12 transition-transform duration-300 flex-shrink-0" 
               />
-              <div className="flex flex-col">
-                <span className="font-serif text-sm sm:text-base md:text-lg font-bold text-[#fcf4e5] tracking-wide leading-tight group-hover:text-[#f5bd4e] transition-colors">
+              <div className="flex flex-col min-w-0">
+                <span className="font-serif text-xs xs:text-sm sm:text-base md:text-lg font-bold text-[#fcf4e5] tracking-wide leading-tight group-hover:text-[#f5bd4e] transition-colors truncate sm:whitespace-normal">
                   {EVENT_CONFIG.name}
                 </span>
                 <span className="text-[10px] text-[#f5bd4e] uppercase tracking-widest font-mono hidden xs:block">
@@ -113,10 +113,10 @@ export default function Navbar() {
             </nav>
 
             {/* Mobile Actions: Find Pass + 3-Line Menu Button */}
-            <div className="flex md:hidden items-center gap-2">
+            <div className="flex md:hidden items-center gap-2 flex-shrink-0">
               <Link 
                 href="/my-pass" 
-                className="text-xs font-mono text-[#f5bd4e] flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f5bd4e]/15 border border-[#f5bd4e]/30 font-semibold"
+                className="text-xs font-mono text-[#f5bd4e] flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#f5bd4e]/15 border border-[#f5bd4e]/30 font-semibold"
                 aria-label="Find Pass"
               >
                 <Ticket className="w-3.5 h-3.5" />
@@ -125,9 +125,9 @@ export default function Navbar() {
 
               {/* Three-Line Menu Toggle Button */}
               <button 
-                type="button"
+                type="button" 
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#f5bd4e]/20 border border-[#f5bd4e]/40 text-[#f5bd4e] hover:bg-[#f5bd4e]/30 active:scale-90 transition-all focus:outline-none focus:ring-2 focus:ring-[#f5bd4e]"
+                className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#f5bd4e]/20 border border-[#f5bd4e]/40 text-[#f5bd4e] hover:bg-[#f5bd4e]/30 active:scale-90 transition-all focus:outline-none focus:ring-2 focus:ring-[#f5bd4e]"
                 aria-label="Open Navigation Menu"
               >
                 <Menu className="w-5 h-5 stroke-[2.5]" />

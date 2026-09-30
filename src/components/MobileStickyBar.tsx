@@ -29,7 +29,7 @@ export default function MobileStickyBar() {
   }
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-[90] p-3 bg-gradient-to-r from-[#2a0b23]/95 via-[#380e2f]/95 to-[#2a0b23]/95 backdrop-blur-lg border-t border-[#f5bd4e]/30 shadow-[0_-8px_25px_rgba(0,0,0,0.6)]">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-[90] p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] bg-gradient-to-r from-[#2a0b23]/95 via-[#380e2f]/95 to-[#2a0b23]/95 backdrop-blur-lg border-t border-[#f5bd4e]/30 shadow-[0_-8px_25px_rgba(0,0,0,0.6)]">
       <div className="flex items-center gap-2 max-w-md mx-auto">
         <Link 
           href="/my-pass"

@@ -92,42 +92,40 @@ export default function Hero() {
             <strong>{EVENT_CONFIG.venue.name}, {EVENT_CONFIG.district}</strong>
           </div>
         </div>
+
+        {/* Live Countdown: Positioned cleanly below event details */}
+        <aside className="countdown reveal" aria-label="Countdown to event">
+          <p className="countdown-header">
+            <Clock className="w-3.5 h-3.5 animate-pulse text-[#f5bd4e]" />
+            <span>THE COUNTDOWN IS ON</span>
+          </p>
+          <div id="countdown" className="countdown-grid">
+            <div className="countdown-box">
+              <b>{timeLeft.days}</b>
+              <small>Days</small>
+            </div>
+            <span className="countdown-separator">:</span>
+            <div className="countdown-box">
+              <b>{timeLeft.hours}</b>
+              <small>Hrs</small>
+            </div>
+            <span className="countdown-separator">:</span>
+            <div className="countdown-box">
+              <b>{timeLeft.minutes}</b>
+              <small>Min</small>
+            </div>
+            <span className="countdown-separator">:</span>
+            <div className="countdown-box">
+              <b>{timeLeft.seconds}</b>
+              <small>Sec</small>
+            </div>
+          </div>
+        </aside>
       </div>
 
-
-
-      {/* Pinned Bottom-Left: Live Countdown */}
-      <aside className="countdown" aria-label="Countdown to event">
-        <p>
-          <Clock className="w-3.5 h-3.5 animate-pulse text-[#f5bd4e]" />
-          <span>THE COUNTDOWN IS ON</span>
-        </p>
-        <div id="countdown">
-          <div className="countdown-box">
-            <b>{timeLeft.days}</b>
-            <small>Days</small>
-          </div>
-          <i>:</i>
-          <div className="countdown-box">
-            <b>{timeLeft.hours}</b>
-            <small>Hrs</small>
-          </div>
-          <i>:</i>
-          <div className="countdown-box">
-            <b>{timeLeft.minutes}</b>
-            <small>Min</small>
-          </div>
-          <i>:</i>
-          <div className="countdown-box">
-            <b>{timeLeft.seconds}</b>
-            <small>Sec</small>
-          </div>
-        </div>
-      </aside>
-
-      {/* Pinned Bottom-Right: Side Scroll Indicator */}
+      {/* Pinned Bottom-Right: Side Scroll Indicator (Desktop Only) */}
       <div 
-        className="hero-side-note cursor-pointer hover:opacity-80 transition-opacity" 
+        className="hero-side-note cursor-pointer hover:opacity-80 transition-opacity hidden md:flex" 
         onClick={scrollToExperience}
         role="button"
         tabIndex={0}
