@@ -72,17 +72,17 @@ export default function Navbar() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center gap-2">
             {/* Logo / Event Branding */}
-            <Link href="/" className="flex items-center gap-2 sm:gap-3 group min-w-0 pr-1">
+            <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0 pr-1">
               <img 
                 src="/images/jhanjharpur-logo.jpg" 
                 alt="Jhanjharpur Dandiya Fest Logo" 
                 className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border border-[#f5bd4e]/40 drop-shadow-[0_0_8px_rgba(245,189,78,0.5)] group-hover:rotate-12 transition-transform duration-300 flex-shrink-0" 
               />
-              <div className="flex flex-col min-w-0">
-                <span className="font-serif text-xs xs:text-sm sm:text-base md:text-lg font-bold text-[#fcf4e5] tracking-wide leading-tight group-hover:text-[#f5bd4e] transition-colors truncate sm:whitespace-normal">
-                  {EVENT_CONFIG.name}
+              <div className="flex flex-col">
+                <span className="font-serif text-[12px] xs:text-[13px] sm:text-base md:text-lg font-bold text-[#fcf4e5] tracking-tight leading-[1.15] group-hover:text-[#f5bd4e] transition-colors">
+                  Jhanjharpur Jhijhiya &amp;<br className="sm:hidden" /> Dandiya Fest 2026
                 </span>
-                <span className="text-[10px] text-[#f5bd4e] uppercase tracking-widest font-mono hidden xs:block">
+                <span className="text-[10px] text-[#f5bd4e] uppercase tracking-widest font-mono hidden md:block">
                   {EVENT_CONFIG.city}, {EVENT_CONFIG.state}
                 </span>
               </div>
