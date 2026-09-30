@@ -136,7 +136,7 @@ select:-webkit-autofill {
 }
 
 .announcement {
-  height: 38px;
+  height: 32px;
   background: var(--sun);
   color: var(--plum);
   display: flex;

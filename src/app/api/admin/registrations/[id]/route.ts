@@ -46,11 +46,9 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   if (!isAdmin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const updated = await eventStore.cancelRegistration(params.id);
-    if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
-
-    return NextResponse.json({ success: true, message: "Registration cancelled" });
+    await eventStore.deleteRegistration(params.id);
+    return NextResponse.json({ success: true, message: "Registration deleted successfully" });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to cancel" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to delete registration" }, { status: 500 });
   }
 }

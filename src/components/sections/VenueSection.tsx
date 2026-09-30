@@ -1,64 +1,70 @@
 import { EVENT_CONFIG } from '@/lib/config';
 import { Clock, Car, MapPin, Compass, ArrowUpRight } from 'lucide-react';
+import Button from '@/components/ui/Button';
 
 export default function VenueSection() {
   const { venue } = EVENT_CONFIG;
 
   return (
-    <section id="venue" className="py-20 md:py-24 bg-[#0A0512] text-amber-50 relative overflow-hidden">
-      <div className="container mx-auto px-4 max-w-6xl relative z-10">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#f5bd4e]/10 border border-[#f5bd4e]/30 text-[#f5bd4e] text-xs font-mono uppercase tracking-widest mb-3">
-            <Compass className="w-3.5 h-3.5" /> Venue &amp; Directions
-          </div>
-          <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-[#f5bd4e] to-amber-300 mb-6 tracking-wide">
-            Location &amp; Access
+    <section id="venue" className="py-14 sm:py-20 bg-[#0c030d] text-[#FFF8F0] border-b border-zinc-800/80">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#f5bd4e] font-bold block mb-2">
+            ✦ Location &amp; Access ✦
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-serif font-bold text-[#fcf4e5] mb-3">
+            Venue &amp; Directions
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto"></div>
+          <p className="text-zinc-300 text-xs sm:text-sm">
+            Conveniently situated in Jhanjharpur with verified entry gates and secure vehicle parking.
+          </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 bg-[#180816]/90 rounded-3xl overflow-hidden border border-[#d4a017]/30 shadow-2xl backdrop-blur-sm">
-          <div className="lg:w-1/2 p-8 md:p-12 flex flex-col justify-between">
+        <div className="grid grid-cols-1 lg:grid-cols-2 rounded-lg overflow-hidden border border-zinc-800 bg-[#160517]">
+          {/* Left Venue Details */}
+          <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
             <div>
-              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono font-bold block mb-1">
-                Official Venue
-              </span>
-              <h3 className="text-3xl sm:text-4xl font-serif text-[#fcf4e5] mb-2">{venue.name}</h3>
-              <p className="text-zinc-300 text-base mb-8 flex items-start gap-2">
-                <MapPin className="w-5 h-5 text-[#f5bd4e] flex-shrink-0 mt-0.5" />
+              <div className="inline-block text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded bg-white/[0.06] text-[#f5bd4e] font-bold border border-[#f5bd4e]/20 mb-3">
+                Official Location
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5] mb-2">
+                {venue.name}
+              </h3>
+              <p className="text-zinc-300 text-xs sm:text-sm mb-6 flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-[#f5bd4e] flex-shrink-0 mt-0.5" />
                 <span>{venue.address}</span>
               </p>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#f5bd4e]/10 border border-[#f5bd4e]/25 flex items-center justify-center text-[#f5bd4e] flex-shrink-0">
-                    <Clock className="w-5 h-5" />
+              <div className="space-y-4 border-t border-zinc-800/80 pt-5">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#f5bd4e] flex-shrink-0">
+                    <Clock className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-amber-100 font-semibold">Event Timings</h4>
-                    <p className="text-zinc-300 text-sm">{EVENT_CONFIG.doorsOpen} - Gates Open &amp; Dandiya Distribution</p>
-                    <p className="text-zinc-400 text-sm">{EVENT_CONFIG.timeDisplay} - Non-Stop Dandiya &amp; Garba</p>
+                    <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400">Timings</h4>
+                    <p className="text-xs sm:text-sm text-zinc-200 mt-0.5">{EVENT_CONFIG.doorsOpen} - Gates Open &amp; Sticks Pickup</p>
+                    <p className="text-xs text-zinc-400">{EVENT_CONFIG.timeDisplay} - Jhijhiya Folk Showcase &amp; Open Dandiya</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#f5bd4e]/10 border border-[#f5bd4e]/25 flex items-center justify-center text-[#f5bd4e] flex-shrink-0">
-                    <Car className="w-5 h-5" />
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#f5bd4e] flex-shrink-0">
+                    <Car className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-amber-100 font-semibold">Entry &amp; Parking</h4>
-                    <p className="text-zinc-300 text-sm">{venue.entryGate}</p>
-                    <p className="text-zinc-400 text-sm">{venue.parking}</p>
+                    <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400">Entry &amp; Parking</h4>
+                    <p className="text-xs sm:text-sm text-zinc-200 mt-0.5">{venue.entryGate}</p>
+                    <p className="text-xs text-zinc-400">{venue.parking}</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#f5bd4e]/10 border border-[#f5bd4e]/25 flex items-center justify-center text-[#f5bd4e] flex-shrink-0">
-                    <MapPin className="w-5 h-5" />
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#f5bd4e] flex-shrink-0">
+                    <Compass className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-amber-100 font-semibold">Key Landmarks</h4>
-                    <ul className="text-zinc-400 text-sm list-disc list-inside mt-1 space-y-0.5">
+                    <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400">Nearby Landmarks</h4>
+                    <ul className="text-xs text-zinc-300 list-disc list-inside mt-1 space-y-0.5">
                       {venue.landmarks.map((landmark, idx) => (
                         <li key={idx}>{landmark}</li>
                       ))}
@@ -68,30 +74,33 @@ export default function VenueSection() {
               </div>
             </div>
 
-            <div className="mt-10 pt-6 border-t border-zinc-800">
-              <a 
+            <div className="mt-8 pt-5 border-t border-zinc-800/80">
+              <Button
                 href={venue.directionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#f5bd4e] text-[#38112f] font-bold hover:brightness-110 shadow-[0_4px_15px_rgba(245,189,78,0.3)] transition-all transform hover:scale-[1.02]"
+                variant="primary"
+                size="md"
+                className="w-full sm:w-auto"
               >
-                <span>Open in Google Maps</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </a>
+                <span>Get Directions in Google Maps</span>
+                <ArrowUpRight className="w-4 h-4 ml-1.5" />
+              </Button>
             </div>
           </div>
 
-          <div className="lg:w-1/2 min-h-[420px] relative">
-            <iframe 
-              src={venue.mapUrl} 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0, minHeight: '420px' }} 
-              allowFullScreen={false} 
-              loading="lazy" 
+          {/* Right Map */}
+          <div className="min-h-[320px] sm:min-h-[380px] lg:min-h-[440px] border-t lg:border-t-0 lg:border-l border-zinc-800 bg-[#0f0310]">
+            <iframe
+              src={venue.mapUrl}
+              width="100%"
+              height="100%"
+              style={{ border: 0, minHeight: '320px' }}
+              allowFullScreen={false}
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title="Event Venue Location Map"
-              className="w-full h-full grayscale-[25%] contrast-110"
+              className="w-full h-full grayscale-[30%] contrast-105"
             />
           </div>
         </div>
@@ -99,3 +108,4 @@ export default function VenueSection() {
     </section>
   );
 }
+

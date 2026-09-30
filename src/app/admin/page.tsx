@@ -39,10 +39,6 @@ export default function AdminLogin() {
     }
   };
 
-  const autofillDemo = () => {
-    setUsername("admin");
-    setPassword("admin123");
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0F0A1A] px-4 relative overflow-hidden">
@@ -85,7 +81,7 @@ export default function AdminLogin() {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="admin"
+                placeholder="manish"
                 className="w-full pl-4 pr-10 py-3.5 bg-[#1d071b] border-2 border-[#f5bd4e]/40 rounded-xl text-white font-semibold placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all"
               />
               <User className="w-4 h-4 text-zinc-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -131,16 +127,7 @@ export default function AdminLogin() {
           </button>
         </form>
 
-        <div className="mt-6 pt-5 border-t border-zinc-800 text-center">
-          <button
-            type="button"
-            onClick={autofillDemo}
-            className="text-xs text-[#f5bd4e] hover:underline flex items-center justify-center gap-1.5 mx-auto font-mono"
-          >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Autofill Organizer Credentials (admin / admin123)</span>
-          </button>
-        </div>
+
       </div>
     </div>
   );

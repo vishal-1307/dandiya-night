@@ -80,7 +80,7 @@ export default function CheckInPage() {
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder="e.g. DN-DEMO or DN-8842"
+                placeholder="e.g. DN-8492"
                 className="w-full text-center font-mono text-2xl uppercase tracking-wider bg-[#1d071b] border-2 border-[#f5bd4e]/50 text-[#f5bd4e] font-bold rounded-2xl px-6 py-4 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 transition-colors placeholder:text-zinc-500 placeholder:text-base placeholder:tracking-normal"
               />
               <Ticket className="w-6 h-6 text-zinc-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -95,18 +95,6 @@ export default function CheckInPage() {
             {status === "loading" ? "Verifying Pass..." : "Verify & Check In Attendee"}
           </button>
         </form>
-
-        <div className="mt-4 pt-4 border-t border-zinc-800 text-xs text-zinc-400 text-center flex items-center justify-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-[#f5bd4e]" />
-          <span>Quick test:</span>
-          <button 
-            type="button"
-            onClick={() => handleCheckIn(undefined, 'DN-DEMO')}
-            className="text-[#f5bd4e] underline hover:text-amber-200 font-mono"
-          >
-            Check-in &apos;DN-DEMO&apos;
-          </button>
-        </div>
 
         {/* Verification Result Feedback */}
         {status === "success" && (

@@ -46,115 +46,8 @@ export interface StoredRegistration {
   members: StoredMember[];
 }
 
-// Initial demo seeds in case DB is uninitialized or in-memory fallback is active
-const INITIAL_DEMO_RECORDS: StoredRegistration[] = [
-  {
-    id: "demo-reg-1",
-    registrationId: "DN-DEMO",
-    type: "INDIVIDUAL",
-    status: "CONFIRMED",
-    paymentStatus: "PAID",
-    paymentAmount: 199,
-    checkedIn: false,
-    checkedInAt: null,
-    checkedInBy: null,
-    qrCode: "DNQR-DEMO-AARAV-001",
-    createdAt: new Date("2026-09-28T10:00:00Z"),
-    updatedAt: new Date("2026-09-28T10:00:00Z"),
-    fullName: "Aarav Sharma",
-    email: "aarav.sharma@example.com",
-    phone: "9876543210",
-    city: "Madhubani",
-    gender: "Male",
-    age: 26,
-    instagramHandle: "@aarav_mithila",
-    totalMembers: 1,
-    dandiyaParticipation: true,
-    competitionInterest: true,
-    costumeTheme: "Royal Traditional Kurta",
-    foodPreference: "Veg",
-    emergencyName: "Sanjay Sharma",
-    emergencyPhone: "9876500000",
-    emergencyRelation: "Parent",
-    rulesAgreed: true,
-    communicationConsent: true,
-    photoVideoConsent: true,
-    members: []
-  },
-  {
-    id: "demo-reg-2",
-    registrationId: "DN-7A8B",
-    type: "COUPLE",
-    status: "CONFIRMED",
-    paymentStatus: "PAID",
-    paymentAmount: 349,
-    checkedIn: true,
-    checkedInAt: new Date("2026-09-28T17:30:00Z"),
-    checkedInBy: "Admin",
-    qrCode: "DNQR-DEMO-POOJA-002",
-    createdAt: new Date("2026-09-28T12:00:00Z"),
-    updatedAt: new Date("2026-09-28T17:30:00Z"),
-    fullName: "Pooja Verma",
-    email: "pooja.verma@example.com",
-    phone: "9812345678",
-    city: "Darbhanga",
-    gender: "Female",
-    age: 24,
-    instagramHandle: "@pooja_v",
-    totalMembers: 2,
-    dandiyaParticipation: true,
-    competitionInterest: true,
-    costumeTheme: "Chaniya Choli",
-    foodPreference: "Veg",
-    emergencyName: "Rohan Verma",
-    emergencyPhone: "9812345679",
-    emergencyRelation: "Spouse",
-    rulesAgreed: true,
-    communicationConsent: true,
-    photoVideoConsent: true,
-    members: [
-      { id: "mem-1", fullName: "Rohan Verma", phone: "9812345679", gender: "Male", age: 26 }
-    ]
-  },
-  {
-    id: "demo-reg-3",
-    registrationId: "DN-9K4M",
-    type: "GROUP",
-    status: "CONFIRMED",
-    paymentStatus: "PAID",
-    paymentAmount: 799,
-    checkedIn: false,
-    checkedInAt: null,
-    checkedInBy: null,
-    qrCode: "DNQR-DEMO-MITHILA-003",
-    createdAt: new Date("2026-09-28T15:00:00Z"),
-    updatedAt: new Date("2026-09-28T15:00:00Z"),
-    fullName: "Kunal Jha",
-    email: "kunal.jha@example.com",
-    phone: "9823456789",
-    city: "Madhubani",
-    gender: "Male",
-    age: 23,
-    groupName: "Mithila Dandiya Squad",
-    totalMembers: 5,
-    dandiyaParticipation: true,
-    competitionInterest: true,
-    costumeTheme: "Traditional Mithila Attire",
-    foodPreference: "Veg",
-    emergencyName: "Ramesh Jha",
-    emergencyPhone: "9823400000",
-    emergencyRelation: "Parent",
-    rulesAgreed: true,
-    communicationConsent: true,
-    photoVideoConsent: true,
-    members: [
-      { id: "mem-2", fullName: "Amit Kumar", age: 23 },
-      { id: "mem-3", fullName: "Sneha Thakur", age: 22 },
-      { id: "mem-4", fullName: "Vikram Roy", age: 24 },
-      { id: "mem-5", fullName: "Priya Singh", age: 22 }
-    ]
-  }
-];
+// Clean production records - no demo placeholders
+const INITIAL_DEMO_RECORDS: StoredRegistration[] = [];
 
 // In-memory fallback singleton
 declare global {
@@ -643,6 +536,24 @@ export const eventStore = {
 
   async cancelRegistration(id: string) {
     return this.updateRegistration(id, { status: "CANCELLED" });
+  },
+
+  async deleteRegistration(id: string) {
+    try {
+      await prisma.registration.deleteMany({
+        where: {
+          OR: [{ id }, { registrationId: id }],
+        },
+      });
+    } catch (err) {
+      console.warn("Prisma deleteMany encountered error or DB unavailable:", err);
+    }
+
+    const index = memoryStore.findIndex((r) => r.id === id || r.registrationId === id);
+    if (index !== -1) {
+      memoryStore.splice(index, 1);
+    }
+    return true;
   },
 
   async getAllForExport() {

@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { EVENT_CONFIG } from '@/lib/config';
-import { Phone, Mail, MessageSquare, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Phone, Mail, MessageSquare, Send, CheckCircle2, AlertCircle, MessageCircle } from 'lucide-react';
+import Button from '@/components/ui/Button';
 
 export default function ContactSection() {
   const { contact } = EVENT_CONFIG;
@@ -43,159 +44,209 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-24 bg-[#0A030D] text-amber-50 relative overflow-hidden">
-      <div className="container mx-auto px-4 max-w-6xl relative z-10">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#f5bd4e]/10 border border-[#f5bd4e]/30 text-[#f5bd4e] text-xs font-mono uppercase tracking-widest mb-3">
-            <MessageSquare className="w-3.5 h-3.5" /> Direct Support
-          </div>
-          <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-[#f5bd4e] to-amber-300 mb-6 tracking-wide">
-            Get in Touch
+    <section id="contact" className="py-14 sm:py-20 bg-[#0a020b] text-[#FFF8F0]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#f5bd4e] font-bold block mb-2">
+            ✦ Direct Support ✦
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-serif font-bold text-[#fcf4e5] mb-3">
+            Contact Organizers
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto"></div>
+          <p className="text-zinc-300 text-xs sm:text-sm">
+            Have questions regarding passes, choreography sessions, or event access? Our academy team is ready to help.
+          </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-10 bg-[#160815]/90 rounded-3xl p-8 md:p-12 border border-[#8b1a3f]/40 shadow-2xl backdrop-blur-sm">
-          <div className="lg:w-1/2 space-y-8 flex flex-col justify-between">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          {/* Organizer Info & Helplines */}
+          <div className="rounded-lg border border-zinc-800 bg-[#160517] p-6 sm:p-8 flex flex-col justify-between">
             <div>
-              <h3 className="text-2xl sm:text-3xl font-serif text-amber-100 mb-4">Official Organizer Desk</h3>
-              <p className="text-zinc-300 mb-8 text-sm sm:text-base leading-relaxed">
-                Have questions regarding the 108 Girls Jhijhiya Performance, Dandiya passes, choreography guidance, or sponsorships? Reach out to the <strong className="text-amber-200">Evolution Dance and Karate Academy</strong> &amp; <strong className="text-amber-200">Brocollab.in</strong> team.
+              <div className="inline-block text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded bg-white/[0.06] text-[#f5bd4e] font-bold border border-[#f5bd4e]/20 mb-3">
+                Official Helpdesk
+              </div>
+              <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#fcf4e5] mb-2">
+                Evolution Dance &amp; Karate Academy
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6">
+                In collaboration with <span className="text-[#f5bd4e]">Brocollab.in</span>. For immediate pass confirmation, choreography updates, or group bookings, connect directly.
               </p>
-              
-              <div className="space-y-6">
-                <div className="flex items-center group">
-                  <div className="w-12 h-12 rounded-xl bg-[#f5bd4e]/10 border border-[#f5bd4e]/25 flex items-center justify-center text-[#f5bd4e] mr-4 group-hover:bg-[#f5bd4e] group-hover:text-[#38112f] transition-all shadow-[0_0_10px_rgba(245,189,78,0.15)]">
-                    <Phone className="w-5 h-5" />
+
+              <div className="space-y-4 border-t border-zinc-800/80 pt-5">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#f5bd4e] flex-shrink-0">
+                    <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="block text-xs uppercase tracking-wider text-zinc-400 font-mono">Call or WhatsApp</span>
-                    <div className="flex flex-col gap-1">
-                      <a href={`tel:${contact.phone}`} className="text-base font-semibold text-amber-50 hover:text-[#f5bd4e] transition-colors">{contact.phone}</a>
-                      <a href={`tel:${contact.phoneSecondary}`} className="text-base font-semibold text-amber-50 hover:text-[#f5bd4e] transition-colors">{contact.phoneSecondary}</a>
+                    <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400">Helpline &amp; WhatsApp</h4>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 mt-0.5 text-xs sm:text-sm">
+                      <a href={`tel:${contact.phone}`} className="font-semibold text-zinc-100 hover:text-[#f5bd4e] transition-colors">
+                        {contact.phone}
+                      </a>
+                      <span className="text-zinc-600">•</span>
+                      <a href={`tel:${contact.phoneSecondary}`} className="font-semibold text-zinc-100 hover:text-[#f5bd4e] transition-colors">
+                        {contact.phoneSecondary}
+                      </a>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center group">
-                  <div className="w-12 h-12 rounded-xl bg-[#f5bd4e]/10 border border-[#f5bd4e]/25 flex items-center justify-center text-[#f5bd4e] mr-4 group-hover:bg-[#f5bd4e] group-hover:text-[#38112f] transition-all shadow-[0_0_10px_rgba(245,189,78,0.15)]">
-                    <Mail className="w-5 h-5" />
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#f5bd4e] flex-shrink-0">
+                    <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="block text-xs uppercase tracking-wider text-zinc-400 font-mono">Instagram Communities</span>
-                    <div className="flex flex-col gap-1">
-                      <a href={contact.instagramUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-[#f5bd4e] hover:underline">{contact.instagram}</a>
-                      <a href={contact.collabInstagramUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-[#f5bd4e] hover:underline">{contact.collabInstagram}</a>
+                    <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400">Instagram Channels</h4>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 mt-0.5 text-xs sm:text-sm">
+                      <a href={contact.instagramUrl} target="_blank" rel="noopener noreferrer" className="text-[#f5bd4e] hover:underline font-mono">
+                        {contact.instagram}
+                      </a>
+                      <span className="text-zinc-600">•</span>
+                      <a href={contact.collabInstagramUrl} target="_blank" rel="noopener noreferrer" className="text-[#f5bd4e] hover:underline font-mono">
+                        {contact.collabInstagram}
+                      </a>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="pt-6 border-t border-zinc-800">
-              <a 
-                href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}`}
+            <div className="mt-8 pt-5 border-t border-zinc-800/80 space-y-4">
+              <Button
+                href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Namaste! I have a question regarding Jhanjharpur Jhijhiya & Dandiya Fest 2026.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all gap-2.5 shadow-[0_4px_15px_rgba(16,185,129,0.3)] transform hover:scale-[1.02]"
+                variant="primary"
+                size="md"
+                className="w-full justify-center"
               >
-                <span>Chat on WhatsApp</span>
-                <span className="text-xs bg-emerald-700/80 px-2 py-0.5 rounded-full">Instant Reply</span>
-              </a>
+                <MessageCircle className="w-4 h-4 mr-1.5" />
+                <span>Chat on Official WhatsApp</span>
+              </Button>
 
-              <div className="mt-5 p-3.5 rounded-2xl bg-black/40 border border-[#f5bd4e]/30 flex items-center gap-3.5">
-                <img src={EVENT_CONFIG.payment.qrImage} alt="Payment QR" className="w-14 h-14 rounded-xl object-contain bg-white p-1 flex-shrink-0" />
-                <div className="text-xs">
-                  <span className="text-[#f5bd4e] font-mono uppercase tracking-wider block font-bold text-[10px]">Official UPI Payment Desk</span>
-                  <span className="text-white font-semibold block">{EVENT_CONFIG.payment.payeeName}</span>
-                  <span className="font-mono text-zinc-300 block text-[11px]">{EVENT_CONFIG.payment.upiId}</span>
+              {/* UPI Payment Scan Box */}
+              <div className="rounded-lg bg-black/40 border border-zinc-800 p-3.5 flex items-center gap-3.5">
+                <img
+                  src={EVENT_CONFIG.payment.qrImage}
+                  alt="Official Payment QR"
+                  className="w-12 h-12 rounded object-contain bg-white p-1 flex-shrink-0"
+                />
+                <div className="text-xs min-w-0">
+                  <div className="text-[10px] font-mono uppercase tracking-wider text-[#f5bd4e] font-bold">
+                    Official UPI Desk
+                  </div>
+                  <div className="font-semibold text-white truncate">{EVENT_CONFIG.payment.payeeName}</div>
+                  <div className="font-mono text-[11px] text-zinc-400 truncate">{EVENT_CONFIG.payment.upiId}</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="lg:w-1/2">
-            <form className="space-y-5" onSubmit={handleSubmit}>
+          {/* Contact Inquiry Form */}
+          <div className="rounded-lg border border-zinc-800 bg-[#160517] p-6 sm:p-8">
+            <h3 className="text-lg font-serif font-bold text-[#fcf4e5] mb-1">
+              Send an Inquiry
+            </h3>
+            <p className="text-xs text-zinc-400 mb-6">
+              Leave your details below and our team will get back to you within 24 hours.
+            </p>
+
+            <form className="space-y-4" onSubmit={handleSubmit}>
               {status === 'success' && (
-                <div className="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-sm flex items-center gap-2.5 shadow-lg">
-                  <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-emerald-400" />
+                <div className="p-3.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-400" />
                   <span>Thank you! Your message has been received. Our team will contact you shortly.</span>
                 </div>
               )}
               {status === 'error' && (
-                <div className="p-4 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-sm flex items-center gap-2.5 shadow-lg">
-                  <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-400" />
+                <div className="p-3.5 rounded bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-400" />
                   <span>{errorMessage}</span>
                 </div>
               )}
+
               <div>
-                <label htmlFor="contact_name" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Full Name *</label>
-                <input 
-                  type="text" 
-                  id="contact_name" 
+                <label htmlFor="contact_name" className="block text-xs font-mono uppercase tracking-wider text-zinc-300 font-bold mb-1.5">
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  id="contact_name"
                   name="name"
                   autoComplete="name"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all"
+                  className="w-full px-3.5 py-2.5 rounded bg-[#1f071d] border border-zinc-700 text-white text-sm placeholder:text-zinc-500 focus:outline-none focus:border-[#f5bd4e] focus:ring-1 focus:ring-[#f5bd4e]"
                   placeholder="e.g. Priya Mishra"
                 />
               </div>
+
               <div>
-                <label htmlFor="contact_email" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Email Address *</label>
-                <input 
-                  type="email" 
-                  id="contact_email" 
+                <label htmlFor="contact_email" className="block text-xs font-mono uppercase tracking-wider text-zinc-300 font-bold mb-1.5">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  id="contact_email"
                   name="email"
                   autoComplete="email"
                   required
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all"
+                  className="w-full px-3.5 py-2.5 rounded bg-[#1f071d] border border-zinc-700 text-white text-sm placeholder:text-zinc-500 focus:outline-none focus:border-[#f5bd4e] focus:ring-1 focus:ring-[#f5bd4e]"
                   placeholder="e.g. priya@example.com"
                 />
               </div>
+
               <div>
-                <label htmlFor="contact_phone" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Phone Number (Optional)</label>
-                <input 
-                  type="tel" 
-                  id="contact_phone" 
+                <label htmlFor="contact_phone" className="block text-xs font-mono uppercase tracking-wider text-zinc-300 font-bold mb-1.5">
+                  Phone Number (Optional)
+                </label>
+                <input
+                  type="tel"
+                  id="contact_phone"
                   name="phone"
                   autoComplete="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all"
+                  className="w-full px-3.5 py-2.5 rounded bg-[#1f071d] border border-zinc-700 text-white text-sm placeholder:text-zinc-500 focus:outline-none focus:border-[#f5bd4e] focus:ring-1 focus:ring-[#f5bd4e]"
                   placeholder="10-digit mobile number"
                 />
               </div>
+
               <div>
-                <label htmlFor="contact_message" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Your Message *</label>
-                <textarea 
-                  id="contact_message" 
+                <label htmlFor="contact_message" className="block text-xs font-mono uppercase tracking-wider text-zinc-300 font-bold mb-1.5">
+                  Your Message *
+                </label>
+                <textarea
+                  id="contact_message"
                   name="message"
-                  rows={4} 
+                  rows={3}
                   required
                   value={formData.message}
                   onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all resize-none"
-                  placeholder="How can we help you?"
-                ></textarea>
+                  className="w-full px-3.5 py-2.5 rounded bg-[#1f071d] border border-zinc-700 text-white text-sm placeholder:text-zinc-500 focus:outline-none focus:border-[#f5bd4e] focus:ring-1 focus:ring-[#f5bd4e] resize-none"
+                  placeholder="How can our organizers assist you?"
+                />
               </div>
-              <button 
+
+              <Button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#f5bd4e] to-[#d4a017] text-[#38112f] font-bold hover:brightness-110 shadow-[0_4px_20px_rgba(245,189,78,0.3)] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                variant="secondary"
+                size="md"
+                className="w-full justify-center"
               >
                 {status === 'loading' ? (
                   <span>Sending Message...</span>
                 ) : (
                   <>
                     <span>Send Message</span>
-                    <Send className="w-4 h-4" />
+                    <Send className="w-3.5 h-3.5 ml-1.5" />
                   </>
                 )}
-              </button>
+              </Button>
             </form>
           </div>
         </div>
@@ -203,3 +254,4 @@ export default function ContactSection() {
     </section>
   );
 }
+

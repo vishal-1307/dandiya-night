@@ -7,8 +7,7 @@ import {
   Calendar, 
   Ticket, 
   ArrowUpRight, 
-  Sparkles,
-  Lock
+  Sparkles
 } from 'lucide-react';
 
 export default function Footer() {
@@ -281,14 +280,6 @@ export default function Footer() {
             </Link>
             <Link href="/#contact" className="hover:text-[#f5bd4e] transition-colors">
               Help Desk
-            </Link>
-            <Link 
-              href="/admin" 
-              className="inline-flex items-center gap-1 text-zinc-400 hover:text-[#f5bd4e] transition-colors border border-zinc-700/60 rounded-lg px-2.5 py-1 bg-black/40"
-              title="Event Organizer Admin Portal"
-            >
-              <Lock className="w-3 h-3 text-[#f5bd4e]" />
-              <span>Admin</span>
             </Link>
           </div>
         </div>

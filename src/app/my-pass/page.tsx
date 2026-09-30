@@ -71,21 +71,8 @@ export default function MyPassPage() {
         } catch (e) {
           console.warn('Could not update cached pass', e);
         }
-      } else if (searchQuery.trim().toUpperCase().startsWith('DN-')) {
-        // Fallback demo pass
-        const demoPass: DigitalPassData = {
-          registrationId: searchQuery.trim().toUpperCase(),
-          name: 'Pooja Kumari',
-          type: '108 Girls Jhijhiya',
-          date: EVENT_CONFIG.dateDisplay || EVENT_CONFIG.date,
-          venue: `${EVENT_CONFIG.venue.name}, ${EVENT_CONFIG.venue.city}`,
-          address: 'Jhanjharpur, Madhubani',
-          schoolCollegeName: 'L.N.J. College Jhanjharpur',
-          fatherName: 'Ramesh Thakur',
-        };
-        setPassData(demoPass);
       } else {
-        setError(data.error || 'No registration found with these details. Please check your Registration ID, mobile number, or email.');
+        setError(data.error || 'No registration found with these details. Please check your Registration ID or mobile number.');
       }
     } catch {
       setError('An error occurred while searching. Please try again later.');
@@ -109,7 +96,7 @@ export default function MyPassPage() {
             Find Your Digital Pass
           </h1>
           <p className="text-zinc-300 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-            Enter your Registration ID (e.g. <span className="font-mono text-[#f5bd4e] font-bold">DN-DEMO</span>), registered 10-digit mobile number, or email address.
+            Enter your Pass ID (e.g. <span className="font-mono text-[#f5bd4e] font-bold">DN-8492</span>) or your registered 10-digit mobile number.
           </p>
         </div>
 
@@ -117,7 +104,7 @@ export default function MyPassPage() {
           <form onSubmit={handleSearch} className="flex flex-col gap-4">
             <div>
               <label htmlFor="pass_search" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
-                Registration ID / Mobile / Email
+                Registration Pass ID or Mobile Number
               </label>
               <div className="relative">
                 <input
@@ -127,7 +114,7 @@ export default function MyPassPage() {
                   autoComplete="on"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="e.g. DN-DEMO or 9876543210"
+                  placeholder="e.g. DN-8492 or 9798140068"
                   className="w-full pl-4 pr-11 py-3.5 bg-[#1d071b] border-2 border-[#f5bd4e]/40 rounded-xl focus:ring-2 focus:ring-[#f5bd4e]/50 focus:border-[#f5bd4e] text-white font-semibold placeholder:text-zinc-400 text-base transition-all caret-[#f5bd4e]"
                 />
                 <Search className="w-5 h-5 text-zinc-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -159,18 +146,6 @@ export default function MyPassPage() {
               )}
             </button>
           </form>
-
-          <div className="mt-4 pt-4 border-t border-zinc-800 text-xs text-zinc-400 text-center flex items-center justify-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-[#f5bd4e]" />
-            <span>Quick test:</span>
-            <button 
-              type="button"
-              onClick={() => setSearchQuery('DN-DEMO')}
-              className="text-[#f5bd4e] underline hover:text-amber-200 font-mono font-semibold"
-            >
-              Load &apos;DN-DEMO&apos;
-            </button>
-          </div>
         </div>
 
         {passData && (
