@@ -5,54 +5,52 @@ export default function HighlightsSection() {
   const renderIcon = (iconName: string) => {
     switch (iconName) {
       case 'trophy':
-        return <Trophy className="w-5 h-5 text-[#f5bd4e]" />;
+        return <Trophy className="w-6 h-6 text-[#f5bd4e]" />;
       case 'sparkles':
-        return <Crown className="w-5 h-5 text-[#f5bd4e]" />;
+        return <Crown className="w-6 h-6 text-[#f5bd4e]" />;
       case 'speaker':
-        return <Disc3 className="w-5 h-5 text-[#f5bd4e]" />;
+        return <Disc3 className="w-6 h-6 text-[#f5bd4e]" />;
       case 'camera':
-        return <Camera className="w-5 h-5 text-[#f5bd4e]" />;
+        return <Camera className="w-6 h-6 text-[#f5bd4e]" />;
       case 'food':
-        return <UtensilsCrossed className="w-5 h-5 text-[#f5bd4e]" />;
+        return <UtensilsCrossed className="w-6 h-6 text-[#f5bd4e]" />;
       case 'users':
-        return <Users className="w-5 h-5 text-[#f5bd4e]" />;
+        return <Users className="w-6 h-6 text-[#f5bd4e]" />;
       default:
-        return <Sparkles className="w-5 h-5 text-[#f5bd4e]" />;
+        return <Sparkles className="w-6 h-6 text-[#f5bd4e]" />;
     }
   };
 
   return (
-    <section id="highlights" className="py-14 sm:py-20 bg-[#0e030e] text-[#FFF8F0] border-b border-zinc-800/80">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#f5bd4e] font-bold block mb-2">
-            ✦ Special Attractions ✦
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-serif font-bold text-[#fcf4e5] mb-3">
-            Event Highlights &amp; Awards
+    <section id="highlights" className="py-20 md:py-24 bg-zinc-950 text-amber-50 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#8b1a3f]/10 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#f5bd4e]/10 border border-[#f5bd4e]/30 text-[#f5bd4e] text-xs font-mono uppercase tracking-widest mb-3">
+            <span>✦</span> Special Attractions <span>✦</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-[#f5bd4e] to-amber-300 mb-6 tracking-wide">
+            Event Highlights
           </h2>
-          <p className="text-zinc-300 text-xs sm:text-sm">
-            Trophies for Best Dandiya Pair, traditional ethnic attire recognitions, and high-energy music.
-          </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto"></div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {EVENT_CONFIG.highlights.map((highlight, index) => (
-            <div
-              key={index}
-              className="rounded-lg p-5 sm:p-6 bg-[#160517] border border-zinc-800 hover:border-zinc-700 transition-colors flex flex-col justify-between"
+            <div 
+              key={index} 
+              className="group p-8 rounded-2xl bg-gradient-to-b from-[#1b0a1a]/70 to-[#100410]/90 border border-zinc-800/80 hover:border-[#f5bd4e]/60 hover:shadow-[0_8px_30px_rgba(245,189,78,0.12)] transition-all duration-300 transform hover:-translate-y-1"
             >
-              <div>
-                <div className="w-10 h-10 rounded bg-[#20071e] border border-[#f5bd4e]/20 flex items-center justify-center mb-4 text-[#f5bd4e]">
-                  {renderIcon(highlight.icon)}
-                </div>
-                <h3 className="font-serif text-base sm:text-lg font-bold text-[#fcf4e5] mb-1.5">
-                  {highlight.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
-                  {highlight.description}
-                </p>
+              <div className="w-12 h-12 rounded-xl bg-[#f5bd4e]/15 border border-[#f5bd4e]/30 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-[#f5bd4e]/25 transition-all duration-300 shadow-[0_0_12px_rgba(245,189,78,0.25)]">
+                {renderIcon(highlight.icon)}
               </div>
+              <h3 className="text-2xl font-serif text-amber-100 mb-3 group-hover:text-[#f5bd4e] transition-colors">
+                {highlight.title}
+              </h3>
+              <p className="text-zinc-400 leading-relaxed text-sm">
+                {highlight.description}
+              </p>
             </div>
           ))}
         </div>
@@ -60,4 +58,3 @@ export default function HighlightsSection() {
     </section>
   );
 }
-

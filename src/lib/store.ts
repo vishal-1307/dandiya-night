@@ -46,7 +46,7 @@ export interface StoredRegistration {
   members: StoredMember[];
 }
 
-// Clean production records - no demo placeholders
+// Initial seeds: Empty for clean production / client-ready usage
 const INITIAL_DEMO_RECORDS: StoredRegistration[] = [];
 
 // In-memory fallback singleton
@@ -539,21 +539,25 @@ export const eventStore = {
   },
 
   async deleteRegistration(id: string) {
+    let deletedPrisma = false;
     try {
-      await prisma.registration.deleteMany({
-        where: {
-          OR: [{ id }, { registrationId: id }],
-        },
+      await (prisma as any).member.deleteMany({
+        where: { registrationId: id },
       });
+      await prisma.registration.delete({
+        where: { id },
+      });
+      deletedPrisma = true;
     } catch (err) {
-      console.warn("Prisma deleteMany encountered error or DB unavailable:", err);
+      console.warn("Prisma delete failed; checking memory store:", err);
     }
 
     const index = memoryStore.findIndex((r) => r.id === id || r.registrationId === id);
     if (index !== -1) {
       memoryStore.splice(index, 1);
+      return true;
     }
-    return true;
+    return deletedPrisma;
   },
 
   async getAllForExport() {

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import DigitalPass from '@/components/registration/DigitalPass';
 import { DigitalPassData } from '@/lib/types';
 import { EVENT_CONFIG } from '@/lib/config';
-import { Ticket, Search, Printer, AlertCircle, CheckCircle2, Sparkles, Smartphone } from 'lucide-react';
+import { Ticket, Search, Printer, AlertCircle, CheckCircle2, Smartphone } from 'lucide-react';
 
 export default function MyPassPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -72,7 +72,7 @@ export default function MyPassPage() {
           console.warn('Could not update cached pass', e);
         }
       } else {
-        setError(data.error || 'No registration found with these details. Please check your Registration ID or mobile number.');
+        setError(data.error || 'No verified registration found with these details. Please check your Pass ID or mobile number.');
       }
     } catch {
       setError('An error occurred while searching. Please try again later.');
@@ -96,7 +96,7 @@ export default function MyPassPage() {
             Find Your Digital Pass
           </h1>
           <p className="text-zinc-300 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-            Enter your Pass ID (e.g. <span className="font-mono text-[#f5bd4e] font-bold">DN-8492</span>) or your registered 10-digit mobile number.
+            Enter your Registration ID (e.g. <span className="font-mono text-[#f5bd4e] font-bold">DN-8492</span>), registered 10-digit mobile number, or email address.
           </p>
         </div>
 
@@ -104,7 +104,7 @@ export default function MyPassPage() {
           <form onSubmit={handleSearch} className="flex flex-col gap-4">
             <div>
               <label htmlFor="pass_search" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
-                Registration Pass ID or Mobile Number
+                Registration ID / Mobile / Email
               </label>
               <div className="relative">
                 <input

@@ -1,59 +1,86 @@
 import Hero from "@/components/Hero";
-import PassOptionsSection from "@/components/sections/PassOptionsSection";
 import AboutSection from "@/components/sections/AboutSection";
-import ScheduleSection from "@/components/sections/ScheduleSection";
 import ExperiencesSection from "@/components/sections/ExperiencesSection";
+import ScheduleSection from "@/components/sections/ScheduleSection";
 import HighlightsSection from "@/components/sections/HighlightsSection";
 import VenueSection from "@/components/sections/VenueSection";
 import RulesSection from "@/components/sections/RulesSection";
 import GallerySection from "@/components/sections/GallerySection";
+import SocialSection from "@/components/sections/SocialSection";
 import SponsorsSection from "@/components/sections/SponsorsSection";
 import FAQSection from "@/components/sections/FAQSection";
-import SocialSection from "@/components/sections/SocialSection";
 import ContactSection from "@/components/sections/ContactSection";
+import Link from "next/link";
+import { EVENT_CONFIG } from "@/lib/config";
 
 export default function Home() {
   return (
     <>
-      {/* 1. Cinematic Hero with Scrim, Headline & At-A-Glance Info */}
+      {/* 1. Cinematic Hero with Countdown */}
       <Hero />
 
-      {/* 2. Primary Decision: Choose Your Experience / Pass Options */}
-      <PassOptionsSection />
-
-      {/* 3. Cultural Heritage: The 108 Girls Jhijhiya Story */}
+      {/* 2. Event Introduction */}
       <AboutSection />
 
-      {/* 4. Chronological Programme Schedule */}
-      <ScheduleSection />
-
-      {/* 5. Festival Experiences */}
+      {/* 3. Key Event Experiences (Dandiya Raas, Music, Food & Festivities) */}
       <ExperiencesSection />
 
-      {/* 6. Special Attractions & Recognition */}
+      {/* 4. Interactive Event Schedule */}
+      <ScheduleSection />
+
+      {/* 5. Event Highlights & Attractions */}
       <HighlightsSection />
 
-      {/* 7. Venue, Timings & Google Maps Directions */}
+      {/* Mid-page Registration Callout Banner */}
+      <section className="py-16 bg-gradient-to-r from-[#8b1a3f] via-[#6d1a36] to-[#1A0E2E] border-y border-[#d4a017]/30 text-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#d4a017_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+        <div className="container mx-auto px-4 relative z-10 max-w-4xl">
+          <span className="text-xs uppercase tracking-[0.25em] text-[#d4a017] font-semibold">
+            Limited Capacity • {EVENT_CONFIG.capacity} Passes Only
+          </span>
+          <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#FFF8F0] mt-2 mb-4 leading-tight">
+            Be Part of Jhanjharpur&apos;s Historic Jhijhiya &amp; Dandiya Celebration
+          </h2>
+          <p className="text-rose-100/80 text-base md:text-lg max-w-2xl mx-auto mb-8">
+            Register for the 108 Girls Jhijhiya folk performance (₹149) or reserve your Dandiya Night entry passes (₹249 Single / ₹399 Couple). Instant official Pass ID issued!
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/register"
+              className="w-full sm:w-auto bg-[#d4a017] hover:bg-[#b8860b] text-[#3f0919] font-bold px-8 py-4 rounded-full text-lg shadow-[0_0_25px_rgba(212,160,23,0.4)] transition-all transform hover:scale-105"
+            >
+              Book Passes &amp; Register (₹149 onwards)
+            </Link>
+            <Link
+              href="/my-pass"
+              className="w-full sm:w-auto border border-[#d4a017]/50 hover:bg-[#d4a017]/10 text-[#FFF8F0] font-semibold px-8 py-4 rounded-full text-base transition-colors"
+            >
+              Already Registered? Find Pass
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Venue & Directions */}
       <VenueSection />
 
-      {/* 8. Event Rules & Guidelines */}
+      {/* 7. Event Rules & Guidelines */}
       <RulesSection />
 
-      {/* 9. Curated Moments & Memories (Gallery) */}
+      {/* 8. Event Gallery / Teaser */}
       <GallerySection />
 
-      {/* 10. Community Partners & Supporters */}
+      {/* 9. Sponsors & Partners (disappears automatically if empty) */}
       <SponsorsSection />
 
-      {/* 11. Frequently Asked Questions */}
+      {/* 10. Frequently Asked Questions */}
       <FAQSection />
 
-      {/* 12. Social & Instagram Community */}
+      {/* 11. Social & Instagram Community */}
       <SocialSection />
 
-      {/* 13. Direct Helpdesk, Helplines & Contact Desk */}
+      {/* 12. Contact Organizers */}
       <ContactSection />
     </>
   );
 }
-

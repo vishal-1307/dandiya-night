@@ -1,95 +1,89 @@
 import { EVENT_CONFIG } from '@/lib/config';
-import { Handshake, MessageCircle } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import Link from 'next/link';
 
 export default function SponsorsSection() {
   if (EVENT_CONFIG.sponsors.length === 0) {
     return null;
   }
 
-  // Get initials for partner badge
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .slice(0, 2)
-      .map((w) => w[0])
-      .join('')
-      .toUpperCase();
-  };
-
   return (
-    <section id="sponsors" className="py-14 sm:py-20 bg-[#0e0410] text-[#FFF8F0] border-b border-zinc-800/80">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#f5bd4e] font-bold block mb-2">
-            ✦ Community &amp; Collaborations ✦
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-serif font-bold text-[#fcf4e5] mb-3">
-            Event Partners &amp; Supporters
+    <section id="sponsors" className="py-20 md:py-28 bg-[#0B0612] text-amber-50 relative overflow-hidden">
+      {/* Ambient background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#d4a017]/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#d4a017]/10 border border-[#d4a017]/30 text-[#d4a017] text-xs font-semibold uppercase tracking-widest mb-4">
+            <span>🤝</span> Community Collaborators
+          </div>
+          <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-[#d4a017] to-amber-300 mb-4 tracking-wide">
+            Our Valued Partners
           </h2>
-          <p className="text-zinc-300 text-xs sm:text-sm">
-            Organized in dedicated partnership with Mithila cultural groups and regional creative forums.
+          <p className="text-zinc-400 text-sm md:text-base max-w-xl mx-auto mb-6">
+            Proudly supported by leading organizations and cultural patrons committed to keeping the spirit of Navratri alive.
           </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#d4a017] to-transparent mx-auto"></div>
         </div>
 
-        {/* Sponsor Cards Grid: 8px radius, distinguished text & initials treatment */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-10">
+        {/* Sponsor Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
           {EVENT_CONFIG.sponsors.map((sponsor, index) => (
-            <div
-              key={index}
-              className="rounded-lg p-5 sm:p-6 bg-[#160517] border border-zinc-800 flex items-start gap-4 transition-colors hover:border-zinc-700"
+            <div 
+              key={index} 
+              className="flex flex-col items-center text-center p-8 rounded-2xl bg-gradient-to-b from-zinc-900/80 via-zinc-900/50 to-zinc-950 border border-zinc-800 hover:border-[#d4a017]/60 hover:shadow-[0_0_30px_rgba(212,160,23,0.18)] transition-all duration-300 group"
             >
-              {/* Partner Monogram */}
-              <div className="w-12 h-12 rounded bg-[#20071e] border border-[#f5bd4e]/20 flex items-center justify-center font-mono font-bold text-sm text-[#f5bd4e] flex-shrink-0">
-                {getInitials(sponsor.name)}
+              {/* Partner Logo / Insignia */}
+              <div className="w-20 h-20 rounded-2xl bg-black/40 border border-[#d4a017]/30 flex items-center justify-center p-3 mb-5 group-hover:scale-105 transition-transform duration-300 shadow-inner">
+                <img 
+                  src={sponsor.logo} 
+                  alt={sponsor.name} 
+                  className="w-full h-full object-contain drop-shadow-[0_0_6px_rgba(212,160,23,0.4)]" 
+                />
               </div>
 
-              {/* Partner Details */}
-              <div className="min-w-0 flex-1">
-                <span className="inline-block text-[10px] font-mono uppercase tracking-wider text-[#f5bd4e] font-bold mb-1">
-                  {sponsor.tier}
-                </span>
-                <h3 className="font-serif text-base font-bold text-[#fcf4e5] leading-snug">
-                  {sponsor.name}
-                </h3>
-                {'category' in sponsor && (
-                  <p className="text-xs text-zinc-400 mt-1">
-                    {sponsor.category}
-                  </p>
-                )}
-              </div>
+              {/* Tier Badge */}
+              <span className="inline-block px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase text-amber-300 bg-[#d4a017]/15 border border-[#d4a017]/30 mb-3">
+                {sponsor.tier}
+              </span>
+
+              {/* Partner Name */}
+              <h3 className="text-xl font-serif font-bold text-white mb-1 group-hover:text-[#d4a017] transition-colors">
+                {sponsor.name}
+              </h3>
+
+              {/* Tagline / Category */}
+              {'category' in sponsor && (
+                <p className="text-xs text-zinc-400 font-medium">
+                  {sponsor.category}
+                </p>
+              )}
             </div>
           ))}
         </div>
 
-        {/* Sponsorship Inquiry Strip */}
-        <div className="rounded-lg bg-[#180519] border border-zinc-800/80 p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* Sponsorship Inquiry Banner */}
+        <div className="p-8 rounded-2xl bg-gradient-to-r from-[#3f0919] via-[#240316] to-[#12021c] border border-[#d4a017]/40 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div>
-            <div className="flex items-center gap-2 mb-1 justify-center sm:justify-start">
-              <Handshake className="w-4 h-4 text-[#f5bd4e]" />
-              <h4 className="font-serif font-bold text-sm sm:text-base text-[#fcf4e5]">
-                Support Regional Folk Culture &amp; Girls Empowerment
-              </h4>
-            </div>
-            <p className="text-xs text-zinc-400 text-center sm:text-left">
-              Become a community patron or sponsor for the 108 Girls Jhijhiya Performance.
+            <h4 className="text-xl font-serif font-bold text-amber-200 mb-1">
+              Become an Event Sponsor
+            </h4>
+            <p className="text-xs sm:text-sm text-zinc-300 max-w-lg">
+              Showcase your brand to 500+ attendees and thousands on social media during Jhanjharpur&apos;s biggest cultural celebration.
             </p>
           </div>
-          <Button
-            href={`https://wa.me/${EVENT_CONFIG.payment.whatsappNumber}?text=${encodeURIComponent('Namaste! I would like to inquire regarding sponsorship/partnership for Jhanjharpur Jhijhiya & Dandiya Fest 2026.')}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="secondary"
-            size="md"
-            className="flex-shrink-0 w-full sm:w-auto"
-          >
-            <MessageCircle className="w-4 h-4 mr-1.5" />
-            <span>Inquire for Sponsorship</span>
-          </Button>
+          <div className="flex gap-4">
+            <a 
+              href={EVENT_CONFIG.social.whatsapp} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-6 py-2.5 bg-gradient-to-r from-[#d4a017] to-[#eac563] text-[#4a0a1f] font-bold text-sm rounded-full shadow-lg hover:brightness-110 transition-all flex items-center gap-2 whitespace-nowrap"
+            >
+              <span>💬</span> Partner With Us
+            </a>
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
 

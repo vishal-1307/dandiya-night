@@ -10,14 +10,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Username and password required" }, { status: 400 });
     }
 
-    // 1. Check default admin credentials: user: manish, pass: manish13
+    // 1. Check default admin credentials from environment or fallback
     const configuredAdminUser = process.env.ADMIN_USERNAME || "manish";
     const configuredAdminPass = process.env.ADMIN_PASSWORD || "manish13";
 
-    if (
-      (username === configuredAdminUser && password === configuredAdminPass) ||
-      (username === "manish" && password === "manish13")
-    ) {
+    if (username === configuredAdminUser && password === configuredAdminPass) {
       const token = generateToken("admin-master-id", "ADMIN");
       const res = NextResponse.json({ success: true, token });
       res.cookies.set("adminSession", token, {

@@ -86,8 +86,8 @@ export default function RegistrationsPage() {
     }
   };
 
-  const handleDeleteRegistration = async (id: string, name: string) => {
-    if (!window.confirm(`Are you sure you want to permanently delete the registration for "${name}"? This action cannot be undone.`)) {
+  const handleDeleteRegistration = async (id: string, name: string, passId: string) => {
+    if (!window.confirm(`Are you sure you want to permanently delete registration for "${name}" (Pass: ${passId})? This cannot be undone.`)) {
       return;
     }
 
@@ -99,18 +99,19 @@ export default function RegistrationsPage() {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
       });
+
       if (res.ok) {
-        setRegistrations((prev) => prev.filter((r) => r.id !== id && r.registrationId !== id));
-        if (selectedReg && (selectedReg.id === id || selectedReg.registrationId === id)) {
+        setRegistrations((prev) => prev.filter((r) => r.id !== id && r.registrationId !== passId));
+        if (selectedReg && (selectedReg.id === id || selectedReg.registrationId === passId)) {
           setSelectedReg(null);
         }
       } else {
-        const err = await res.json();
-        alert(err.error || "Failed to delete registration");
+        const data = await res.json();
+        alert(data.error || "Failed to delete registration");
       }
     } catch (err) {
-      console.error("Delete registration error:", err);
-      alert("Error deleting registration");
+      console.error("Delete error:", err);
+      alert("Network error while deleting registration");
     } finally {
       setActionLoading(false);
     }
@@ -290,8 +291,8 @@ export default function RegistrationsPage() {
                             <Eye className="w-4 h-4" />
                           </button>
                           <button
-                            onClick={() => handleDeleteRegistration(reg.id || reg.registrationId, reg.fullName)}
-                            className="p-2 rounded-lg bg-rose-950/60 hover:bg-rose-900/80 text-rose-400 border border-rose-500/30 transition-colors"
+                            onClick={() => handleDeleteRegistration(reg.id, reg.fullName, reg.registrationId)}
+                            className="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/25 text-rose-400 transition-colors"
                             title="Delete Registration"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -456,8 +457,8 @@ export default function RegistrationsPage() {
               <button
                 type="button"
                 disabled={actionLoading}
-                onClick={() => handleDeleteRegistration(selectedReg.id || selectedReg.registrationId, selectedReg.fullName)}
-                className="py-3 px-4 bg-rose-950/80 hover:bg-rose-900 border border-rose-500/40 text-rose-300 font-bold rounded-xl text-sm transition-all flex items-center justify-center gap-1.5"
+                onClick={() => handleDeleteRegistration(selectedReg.id, selectedReg.fullName, selectedReg.registrationId)}
+                className="py-3 px-4 rounded-xl bg-rose-950/80 hover:bg-rose-900 border border-rose-500/40 text-rose-300 font-bold text-sm transition-all flex items-center justify-center gap-1.5"
                 title="Permanently Delete Registration"
               >
                 <Trash2 className="w-4 h-4 text-rose-400" />

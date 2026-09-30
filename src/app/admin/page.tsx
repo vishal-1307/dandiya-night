@@ -39,7 +39,6 @@ export default function AdminLogin() {
     }
   };
 
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0F0A1A] px-4 relative overflow-hidden">
       {/* Background ambient glow */}
@@ -126,8 +125,6 @@ export default function AdminLogin() {
             )}
           </button>
         </form>
-
-
       </div>
     </div>
   );

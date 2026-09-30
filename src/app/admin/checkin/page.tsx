@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { CheckCircle2, AlertCircle, Clock, User, Sparkles, ShieldCheck, Ticket } from "lucide-react";
+import { CheckCircle2, AlertCircle, Clock, User, ShieldCheck, Ticket } from "lucide-react";
 
 export default function CheckInPage() {
   const [code, setCode] = useState("");
@@ -80,7 +80,7 @@ export default function CheckInPage() {
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder="e.g. DN-8492"
+                placeholder="e.g. DN-8842"
                 className="w-full text-center font-mono text-2xl uppercase tracking-wider bg-[#1d071b] border-2 border-[#f5bd4e]/50 text-[#f5bd4e] font-bold rounded-2xl px-6 py-4 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 transition-colors placeholder:text-zinc-500 placeholder:text-base placeholder:tracking-normal"
               />
               <Ticket className="w-6 h-6 text-zinc-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />

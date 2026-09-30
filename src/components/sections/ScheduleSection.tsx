@@ -5,90 +5,69 @@ export default function ScheduleSection() {
   const renderIcon = (iconName: string) => {
     switch (iconName) {
       case 'door':
-        return <DoorOpen className="w-4 h-4 text-[#f5bd4e]" />;
+        return <DoorOpen className="w-5 h-5 text-[#f5bd4e]" />;
       case 'flame':
-        return <Flame className="w-4 h-4 text-orange-400" />;
+        return <Flame className="w-5 h-5 text-orange-400" />;
       case 'music':
-        return <Music className="w-4 h-4 text-[#f5bd4e]" />;
+        return <Music className="w-5 h-5 text-[#f5bd4e]" />;
       case 'sparkles':
-        return <Sparkles className="w-4 h-4 text-[#f5bd4e]" />;
+        return <Sparkles className="w-5 h-5 text-[#f5bd4e]" />;
       case 'star':
-        return <Star className="w-4 h-4 text-amber-300" />;
+        return <Star className="w-5 h-5 text-amber-300" />;
       case 'speaker':
-        return <Disc3 className="w-4 h-4 text-purple-400" />;
+        return <Disc3 className="w-5 h-5 text-purple-400" />;
       case 'trophy':
-        return <Trophy className="w-4 h-4 text-yellow-400" />;
+        return <Trophy className="w-5 h-5 text-yellow-400" />;
       case 'heart':
-        return <Heart className="w-4 h-4 text-rose-400" />;
+        return <Heart className="w-5 h-5 text-rose-400" />;
       default:
-        return <Clock className="w-4 h-4 text-[#f5bd4e]" />;
+        return <Clock className="w-5 h-5 text-[#f5bd4e]" />;
     }
   };
 
   return (
-    <section id="schedule" className="py-14 sm:py-20 bg-[#120412] text-[#FFF8F0] border-b border-zinc-800/80">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#f5bd4e] font-bold block mb-2">
-            ✦ Event Timeline ✦
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-serif font-bold text-[#fcf4e5] mb-3">
-            Programme Schedule
+    <section id="schedule" className="py-20 md:py-24 bg-gradient-to-b from-[#0F0A1A] to-[#140614] text-amber-50 relative overflow-hidden">
+      <div className="container mx-auto px-4 max-w-4xl relative z-10">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#f5bd4e]/10 border border-[#f5bd4e]/30 text-[#f5bd4e] text-xs font-mono uppercase tracking-widest mb-3">
+            <span>✦</span> Timeline &amp; Performances <span>✦</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-[#f5bd4e] to-amber-300 mb-6 tracking-wide">
+            Event Schedule
           </h2>
-          <p className="text-zinc-300 text-xs sm:text-sm">
-            Sunday, 18 October 2026 • Gates open at 5:00 PM onwards in Jhanjharpur
-          </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto"></div>
         </div>
 
-        {/* Clean chronological timeline: Left time, right details */}
-        <div className="relative pl-6 sm:pl-10 space-y-6 sm:space-y-8 before:absolute before:left-[11px] sm:before:left-[15px] before:top-3 before:bottom-3 before:w-0.5 before:bg-zinc-800">
-          {EVENT_CONFIG.schedule.map((item, index) => {
-            const isHighlight = item.title.includes('Jhijhiya');
+        <div className="relative border-l-2 border-amber-400/25 md:border-none">
+          {EVENT_CONFIG.schedule.map((item, index) => (
+            <div key={index} className="mb-10 md:mb-16 relative flex flex-col md:flex-row md:items-center justify-between w-full pl-8 md:pl-0">
+              {/* Central Glowing Dot */}
+              <div className="absolute left-[-9px] md:left-1/2 md:-ml-2 top-2 md:top-1/2 md:-mt-2 w-4 h-4 rounded-full bg-[#f5bd4e] ring-4 ring-[#140614] shadow-[0_0_10px_rgba(245,189,78,0.8)] z-10"></div>
+              
+              {/* Desktop Connecting Line */}
+              <div className="hidden md:block absolute left-1/2 top-0 bottom-[-64px] w-0.5 bg-gradient-to-b from-amber-400/30 via-amber-400/15 to-transparent -ml-px z-0"></div>
 
-            return (
-              <div key={index} className="relative group">
-                {/* Node bullet dot */}
-                <div
-                  className={`absolute -left-6 sm:-left-10 top-3.5 w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 flex items-center justify-center -translate-x-1/2 transition-colors ${
-                    isHighlight
-                      ? 'bg-[#f5bd4e] border-[#f5bd4e] text-[#1f0618]'
-                      : 'bg-[#1e071c] border-zinc-700 text-[#f5bd4e] group-hover:border-[#f5bd4e]'
-                  }`}
-                >
-                  <div className={`w-2 h-2 rounded-full ${isHighlight ? 'bg-[#1f0618]' : 'bg-[#f5bd4e]'}`} />
-                </div>
+              {/* Time display */}
+              <div className={`w-full md:w-[45%] text-left ${index % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:order-last md:pl-12'} mb-2 md:mb-0`}>
+                <span className="text-2xl sm:text-3xl font-serif font-bold text-[#f5bd4e] tracking-tight">{item.time}</span>
+              </div>
 
-                {/* Content Card with 8px radius */}
-                <div
-                  className={`rounded-lg p-5 sm:p-6 border transition-colors ${
-                    isHighlight
-                      ? 'bg-[#22071f] border-[#f5bd4e]/50 ring-1 ring-[#f5bd4e]/20'
-                      : 'bg-[#180517] border-zinc-800/80 hover:border-zinc-700'
-                  }`}
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-4 mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded bg-white/[0.05] border border-white/10 flex items-center justify-center flex-shrink-0">
-                        {renderIcon(item.icon)}
-                      </div>
-                      <h3 className={`font-serif text-base sm:text-lg font-bold ${isHighlight ? 'text-[#fcf4e5]' : 'text-[#fcf4e5]'}`}>
-                        {item.title}
-                      </h3>
+              {/* Content Card */}
+              <div className={`w-full md:w-[45%] ${index % 2 === 0 ? 'md:pl-12' : 'md:text-right md:pr-12'}`}>
+                <div className={`bg-[#200a1d]/80 backdrop-blur-md p-6 rounded-2xl border border-zinc-800/80 hover:border-[#f5bd4e]/40 transition-all duration-300 shadow-xl ${index % 2 === 0 ? 'md:rounded-tl-none' : 'md:rounded-tr-none'}`}>
+                  <div className={`flex items-center gap-3 mb-2.5 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+                    <div className="w-10 h-10 rounded-full bg-[#f5bd4e]/15 border border-[#f5bd4e]/30 flex items-center justify-center flex-shrink-0 shadow-[0_0_8px_rgba(245,189,78,0.2)]">
+                      {renderIcon(item.icon)}
                     </div>
-                    <span className="font-mono text-xs sm:text-sm font-bold text-[#f5bd4e] bg-[#f5bd4e]/10 px-2.5 py-0.5 rounded border border-[#f5bd4e]/20 self-start sm:self-auto">
-                      {item.time}
-                    </span>
+                    <h3 className="text-xl font-bold text-amber-50 font-serif">{item.title}</h3>
                   </div>
-                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed pl-9 sm:pl-9">
-                    {item.description}
-                  </p>
+                  <p className="text-zinc-300 text-sm leading-relaxed">{item.description}</p>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
-
