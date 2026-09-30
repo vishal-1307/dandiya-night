@@ -144,6 +144,15 @@ export default function DigitalPass({ data }: DigitalPassProps) {
               {data.venue || `${EVENT_CONFIG.venue.name}, ${EVENT_CONFIG.venue.city}`}
             </span>
           </div>
+
+          {data.address && (
+            <div className="flex items-center justify-between text-zinc-300 pt-2 border-t border-zinc-800">
+              <span className="text-zinc-400">Address</span>
+              <span className="font-semibold text-zinc-200 text-right truncate max-w-[200px]">
+                {data.address}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Verification Instruction Note */}

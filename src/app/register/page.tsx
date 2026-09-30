@@ -6,10 +6,10 @@ import RegistrationSuccess from '@/components/registration/RegistrationSuccess';
 import { EVENT_CONFIG } from '@/lib/config';
 
 export default function RegisterPage() {
-  const [successData, setSuccessData] = useState<{ id: string; name: string; type: string } | null>(null);
+  const [successData, setSuccessData] = useState<{ id: string; name: string; type: string; fullData?: any } | null>(null);
 
-  const handleSuccess = (id: string, name: string, type: string) => {
-    setSuccessData({ id, name, type });
+  const handleSuccess = (id: string, name: string, type: string, fullData?: any) => {
+    setSuccessData({ id, name, type, fullData });
   };
 
   return (
@@ -36,6 +36,7 @@ export default function RegisterPage() {
             registrationId={successData.id} 
             name={successData.name} 
             type={successData.type} 
+            fullData={successData.fullData}
           />
         ) : (
           <RegistrationForm onSuccess={handleSuccess} />

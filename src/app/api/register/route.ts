@@ -5,12 +5,25 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
 
-    // Basic validation
-    if (!data.fullName || !data.email || !data.phone || !data.type) {
+    // Basic validation: Full Name, Phone, and Registration Type are mandatory
+    if (!data.fullName || !data.phone || !data.type) {
       return NextResponse.json(
-        { error: "Missing required fields (Full Name, Email, Phone, and Registration Type)" },
+        { error: "Missing required fields (Full Name, Phone number, and Registration Type)" },
         { status: 400 }
       );
+    }
+
+    // Default email if not provided (e.g. for Dandiya registrations where email was removed)
+    if (!data.email || !data.email.trim()) {
+      data.email = `${data.phone}@fest.in`;
+    }
+
+    // Store address in city or address field
+    if (data.address && !data.fullAddress) {
+      data.fullAddress = data.address;
+    }
+    if (!data.city || !data.city.trim()) {
+      data.city = data.address || data.fullAddress || "Jhanjharpur";
     }
 
     try {
@@ -23,7 +36,7 @@ export async function POST(request: Request) {
     } catch (storeError: any) {
       if (storeError.message === "ALREADY_EXISTS") {
         return NextResponse.json(
-          { error: "A registration with this email and phone already exists. Use 'Find My Pass' to retrieve your pass." },
+          { error: "A registration with this phone number already exists. Use 'Find My Pass' to retrieve your pass." },
           { status: 409 }
         );
       }

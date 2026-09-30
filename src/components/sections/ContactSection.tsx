@@ -102,6 +102,15 @@ export default function ContactSection() {
                 <span>Chat on WhatsApp</span>
                 <span className="text-xs bg-emerald-700/80 px-2 py-0.5 rounded-full">Instant Reply</span>
               </a>
+
+              <div className="mt-5 p-3.5 rounded-2xl bg-black/40 border border-[#f5bd4e]/30 flex items-center gap-3.5">
+                <img src={EVENT_CONFIG.payment.qrImage} alt="Payment QR" className="w-14 h-14 rounded-xl object-contain bg-white p-1 flex-shrink-0" />
+                <div className="text-xs">
+                  <span className="text-[#f5bd4e] font-mono uppercase tracking-wider block font-bold text-[10px]">Official UPI Payment Desk</span>
+                  <span className="text-white font-semibold block">{EVENT_CONFIG.payment.payeeName}</span>
+                  <span className="font-mono text-zinc-300 block text-[11px]">{EVENT_CONFIG.payment.upiId}</span>
+                </div>
+              </div>
             </div>
           </div>
 

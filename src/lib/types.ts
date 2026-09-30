@@ -17,8 +17,9 @@ export interface RegistrationFormData {
 
   // Step 2: Personal Information
   fullName: string;
-  email: string;
   phone: string;
+  email?: string; // Required for Jhijhiya, removed for Dandiya
+  address?: string; // Added for Dandiya
   city: string;
   age?: number | '';
   gender?: 'Male' | 'Female' | 'Other' | 'Prefer not to say' | '';
@@ -37,27 +38,9 @@ export interface RegistrationFormData {
   partnerName?: string;
   partnerPhone?: string;
 
-  // Group Info
-  groupName?: string;
-  groupSize?: number | '';
-  members?: MemberData[];
-
-  // Step 3: Participation Preferences
-  dandiyaParticipation: boolean;
-  competitionInterest: boolean;
-  costumeTheme?: string;
-  foodPreference: 'Veg' | 'Non-Veg' | 'No Preference' | '';
-
-  // Step 4: Emergency Contact
-  emergencyName?: string;
-  emergencyPhone?: string;
-  emergencyRelation?: 'Parent' | 'Spouse' | 'Sibling' | 'Friend' | 'Other' | '';
-
-  // Step 5: Consents
+  // Consents & Confirmation
   consentAccurate: boolean;
   consentRules: boolean;
-  consentCommunication: boolean;
-  consentPhotography: boolean;
 }
 
 export interface RegistrationResponse {
@@ -73,4 +56,10 @@ export interface DigitalPassData {
   date: string;
   venue: string;
   feeAmount?: number;
+  phone?: string;
+  address?: string;
+  schoolCollegeName?: string;
+  fatherName?: string;
+  partnerName?: string;
+  partnerPhone?: string;
 }

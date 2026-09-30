@@ -4,19 +4,41 @@ import React, { useState } from 'react';
 import { RegistrationFormData, RegistrationType } from '@/lib/types';
 import { validateEmail, validatePhone, formatPhone } from '@/lib/registration';
 import { EVENT_CONFIG } from '@/lib/config';
-import { User, HeartHandshake, CheckCircle2, AlertCircle, ArrowRight, ArrowLeft, Sparkles, School, PhoneCall } from 'lucide-react';
+import { 
+  User, 
+  HeartHandshake, 
+  CheckCircle2, 
+  AlertCircle, 
+  ArrowRight, 
+  ArrowLeft, 
+  Sparkles, 
+  School, 
+  PhoneCall, 
+  Copy, 
+  Check, 
+  ExternalLink,
+  MapPin,
+  ShieldCheck,
+  MessageSquare
+} from 'lucide-react';
 
-export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string, name: string, type: string) => void }) {
+interface RegistrationFormProps {
+  onSuccess: (id: string, name: string, type: string, fullData?: any) => void;
+}
+
+export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   const [step, setStep] = useState(1);
-  const totalSteps = 5;
+  const totalSteps = 3;
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedUpi, setCopiedUpi] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [formData, setFormData] = useState<RegistrationFormData>({
     type: 'Jhijhiya 108',
     fullName: '',
-    email: '',
     phone: '',
+    email: '',
+    address: '',
     city: 'Jhanjharpur',
     age: '',
     gender: 'Female',
@@ -30,27 +52,29 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
     district: 'Madhubani',
     partnerName: '',
     partnerPhone: '',
-    groupName: '',
-    groupSize: '',
-    members: [],
-    dandiyaParticipation: true,
-    competitionInterest: true,
-    costumeTheme: '',
-    foodPreference: 'Veg',
-    emergencyName: '',
-    emergencyPhone: '',
-    emergencyRelation: 'Parent',
     consentAccurate: false,
-    consentRules: false,
-    consentCommunication: true,
-    consentPhotography: true,
+    consentRules: true,
   });
+
+  const getAmount = (type: RegistrationType): number => {
+    if (type === 'Jhijhiya 108') return EVENT_CONFIG.pricing.jhijhiya || 149;
+    if (type === 'Dandiya Couple' || type === 'Couple') return EVENT_CONFIG.pricing.dandiyaCouple || 399;
+    return EVENT_CONFIG.pricing.dandiyaSingle || 249;
+  };
+
+  const currentAmount = getAmount(formData.type);
+
+  const copyUpiId = () => {
+    navigator.clipboard.writeText(EVENT_CONFIG.payment.upiId);
+    setCopiedUpi(true);
+    setTimeout(() => setCopiedUpi(false), 2500);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
 
-    if (name === 'phone' || name === 'partnerPhone' || name === 'parentPhone' || name === 'emergencyPhone') {
+    if (name === 'phone' || name === 'partnerPhone' || name === 'parentPhone') {
       const formatted = formatPhone(value);
       setFormData(prev => ({ ...prev, [name]: formatted }));
       return;
@@ -66,32 +90,40 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
     const newErrors: Record<string, string> = {};
 
     if (step === 1) {
-      if (!formData.type) newErrors.type = 'Please select a registration type';
+      if (!formData.type) newErrors.type = 'Please select a registration category';
     } else if (step === 2) {
       if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
-      if (!formData.email.trim() || !validateEmail(formData.email)) newErrors.email = 'Valid email is required';
-      if (!formData.phone.trim() || !validatePhone(formData.phone)) newErrors.phone = 'Valid 10-digit phone number is required';
+      if (!formData.phone.trim() || !validatePhone(formData.phone)) newErrors.phone = 'Valid 10-digit mobile number is required';
 
       if (formData.type === 'Jhijhiya 108') {
         if (!formData.fatherName?.trim()) newErrors.fatherName = "Father's name is required";
-        if (!formData.schoolCollegeName?.trim()) newErrors.schoolCollegeName = 'School or College name is required';
-        if (!formData.classCourse?.trim()) newErrors.classCourse = 'Class or Course is required';
+        if (!formData.schoolCollegeName?.trim()) newErrors.schoolCollegeName = 'School / College name is required';
+        if (!formData.classCourse?.trim()) newErrors.classCourse = 'Class / Course is required';
         if (!formData.parentPhone?.trim() || !validatePhone(formData.parentPhone)) {
-          newErrors.parentPhone = "Valid 10-digit parent's phone number is required";
+          newErrors.parentPhone = "Valid 10-digit parent's mobile is required";
         }
-        if (!formData.fullAddress?.trim()) newErrors.fullAddress = 'Address is required';
+        if (!formData.email?.trim() || !validateEmail(formData.email)) {
+          newErrors.email = 'Valid email is required for Jhijhiya communication';
+        }
+        if (!formData.fullAddress?.trim()) newErrors.fullAddress = 'Permanent address is required';
       } else if (formData.type === 'Dandiya Couple' || formData.type === 'Couple') {
+        if (!formData.address?.trim() && !formData.fullAddress?.trim()) {
+          newErrors.address = 'Address is required';
+        }
         if (!formData.partnerName?.trim()) newErrors.partnerName = 'Partner full name is required';
         if (!formData.partnerPhone?.trim() || !validatePhone(formData.partnerPhone)) {
-          newErrors.partnerPhone = 'Valid 10-digit partner phone number is required';
+          newErrors.partnerPhone = 'Valid 10-digit partner phone is required';
         }
-        if (!formData.city.trim()) newErrors.city = 'City is required';
       } else {
-        if (!formData.city.trim()) newErrors.city = 'City is required';
+        // Dandiya Single
+        if (!formData.address?.trim() && !formData.fullAddress?.trim()) {
+          newErrors.address = 'Address is required';
+        }
       }
-    } else if (step === 5) {
-      if (!formData.consentAccurate) newErrors.consentAccurate = 'You must confirm the information is accurate';
-      if (!formData.consentRules) newErrors.consentRules = 'You must agree to the event rules & guidelines';
+    } else if (step === 3) {
+      if (!formData.consentAccurate) {
+        newErrors.consentAccurate = 'Please confirm that you have scanned the QR / made the payment and will share the screenshot on WhatsApp';
+      }
     }
 
     setErrors(newErrors);
@@ -110,6 +142,43 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
     window.scrollTo(0, 0);
   };
 
+  const buildWhatsAppUrl = (regId: string) => {
+    const isJhijhiya = formData.type === 'Jhijhiya 108';
+    const isCouple = formData.type === 'Dandiya Couple' || formData.type === 'Couple';
+    const amount = getAmount(formData.type);
+
+    let text = `🌸 *JHANJHARPUR JHIJHIYA & DANDIYA FEST 2026* 🌸\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━\n`;
+    text += `🎫 *Pass ID:* ${regId}\n`;
+    text += `👤 *Attendee Name:* ${formData.fullName}\n`;
+    text += `🏷️ *Category:* ${isJhijhiya ? '108 Girls Jhijhiya Performance' : formData.type}\n`;
+    text += `📞 *Mobile:* ${formData.phone}\n`;
+
+    if (isJhijhiya) {
+      if (formData.fatherName) text += `👨 *Father's Name:* ${formData.fatherName}\n`;
+      if (formData.schoolCollegeName) text += `🏫 *School/College:* ${formData.schoolCollegeName}\n`;
+      if (formData.classCourse) text += `📚 *Class/Course:* ${formData.classCourse}\n`;
+      if (formData.parentPhone) text += `👨‍👩‍👧 *Parent Mobile:* ${formData.parentPhone}\n`;
+      if (formData.email && !formData.email.includes('@fest.in')) text += `📧 *Email:* ${formData.email}\n`;
+      if (formData.fullAddress || formData.address) text += `📍 *Address:* ${formData.fullAddress || formData.address}\n`;
+    } else if (isCouple) {
+      if (formData.partnerName) text += `💑 *Partner Name:* ${formData.partnerName}\n`;
+      if (formData.partnerPhone) text += `📞 *Partner Mobile:* ${formData.partnerPhone}\n`;
+      if (formData.address || formData.fullAddress) text += `📍 *Address:* ${formData.address || formData.fullAddress}\n`;
+    } else {
+      if (formData.address || formData.fullAddress) text += `📍 *Address:* ${formData.address || formData.fullAddress}\n`;
+    }
+
+    text += `💰 *Registration Fee:* ₹${amount}/-\n`;
+    text += `📅 *Date:* 18 October 2026 • 5:00 PM\n`;
+    text += `📍 *Venue:* Jhanjharpur, Madhubani\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━\n`;
+    text += `📸 *Payment Verification:* Maine ₹${amount} ka payment successfully kar diya hai. Kripya mera payment screenshot neeche check karein aur mera Pass verify/confirm karein. Dhanyawad! 🙏`;
+
+    const cleanNumber = EVENT_CONFIG.payment.whatsappNumber.replace(/[^0-9]/g, '');
+    return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(text)}`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateStep()) return;
@@ -119,9 +188,11 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
     try {
       const payload = {
         fullName: formData.fullName,
-        email: formData.email,
         phone: formData.phone,
+        email: formData.email?.trim() || `${formData.phone.replace(/[^0-9]/g, '')}@fest.in`,
         city: formData.city || 'Jhanjharpur',
+        address: formData.address || formData.fullAddress || '',
+        fullAddress: formData.fullAddress || formData.address || '',
         type: formData.type,
         age: formData.age ? String(formData.age) : undefined,
         gender: formData.gender,
@@ -130,23 +201,14 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
         schoolCollegeName: formData.schoolCollegeName,
         classCourse: formData.classCourse,
         parentPhone: formData.parentPhone,
-        fullAddress: formData.fullAddress,
         district: formData.district || 'Madhubani',
-        groupName: formData.type === 'Jhijhiya 108' ? (formData.schoolCollegeName || '108 Girls Jhijhiya') : formData.groupName,
+        groupName: formData.type === 'Jhijhiya 108' ? (formData.schoolCollegeName || '108 Girls Jhijhiya') : undefined,
         totalMembers: (formData.type === 'Dandiya Couple' || formData.type === 'Couple') ? 2 : 1,
         members: (formData.type === 'Dandiya Couple' || formData.type === 'Couple') && formData.partnerName ? [
           { fullName: formData.partnerName, phone: formData.partnerPhone }
         ] : [],
-        dandiyaParticipation: formData.dandiyaParticipation,
-        competitionInterest: formData.competitionInterest,
-        costumeTheme: formData.costumeTheme,
-        foodPreference: formData.foodPreference,
-        emergencyName: formData.emergencyName || formData.fatherName || '',
-        emergencyPhone: formData.emergencyPhone || formData.parentPhone || '',
-        emergencyRelation: formData.emergencyRelation || (formData.type === 'Jhijhiya 108' ? 'Parent' : 'Other'),
-        rulesAgreed: formData.consentRules,
-        communicationConsent: formData.consentCommunication,
-        photoVideoConsent: formData.consentPhotography,
+        dandiyaParticipation: true,
+        rulesAgreed: true,
       };
 
       const res = await fetch('/api/register', {
@@ -161,8 +223,22 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
         return;
       }
 
-      const regId = result.registration?.registrationId || 'DN-CONFIRMED';
-      onSuccess(regId, formData.fullName, formData.type);
+      const regId = result.registration?.registrationId || 'DN-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+      const waUrl = buildWhatsAppUrl(regId);
+
+      // Open WhatsApp directly for the user
+      try {
+        window.open(waUrl, '_blank');
+      } catch (e) {
+        console.warn('Popup blocked, will use button on success screen');
+      }
+
+      onSuccess(regId, formData.fullName, formData.type, {
+        ...formData,
+        registrationId: regId,
+        amount: currentAmount,
+        waUrl
+      });
     } catch {
       setErrors({ submit: 'Failed to connect to registration server. Please try again.' });
     } finally {
@@ -170,23 +246,17 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
     }
   };
 
-  const getPriceDisplay = (type: RegistrationType) => {
-    if (type === 'Jhijhiya 108') return '₹149';
-    if (type === 'Dandiya Couple' || type === 'Couple') return '₹399';
-    return '₹249';
-  };
-
   return (
     <div className="max-w-3xl mx-auto bg-[#180816]/95 border border-[#d4a017]/35 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.85)] text-amber-50 backdrop-blur-xl overflow-hidden">
-      {/* Progress Indicator */}
-      <div className="bg-black/40 p-4 sm:p-6 border-b border-[#d4a017]/20">
-        <div className="relative flex items-center justify-between max-w-xl mx-auto">
-          {[1, 2, 3, 4, 5].map((num) => {
+      {/* 3-Step Progress Indicator */}
+      <div className="bg-black/45 p-4 sm:p-6 border-b border-[#d4a017]/20">
+        <div className="relative flex items-center justify-between max-w-md mx-auto">
+          {[1, 2, 3].map((num) => {
             const isCompleted = step > num;
             const isCurrent = step === num;
             return (
               <div key={num} className="flex flex-col items-center relative z-10">
-                <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
                   isCompleted 
                     ? 'bg-emerald-500 text-white shadow-[0_0_12px_rgba(16,185,129,0.5)]' 
                     : isCurrent 
@@ -195,15 +265,15 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                 }`}>
                   {isCompleted ? <CheckCircle2 className="w-5 h-5 text-white" /> : num}
                 </div>
-                <span className={`hidden sm:block text-[11px] mt-2 font-mono uppercase tracking-wider ${
+                <span className={`text-[11px] mt-2 font-mono uppercase tracking-wider ${
                   isCurrent ? 'text-[#f5bd4e] font-bold' : isCompleted ? 'text-emerald-400' : 'text-zinc-500'
                 }`}>
-                  {num === 1 ? 'Category' : num === 2 ? 'Details' : num === 3 ? 'Prefs' : num === 4 ? 'Emergency' : 'Confirm'}
+                  {num === 1 ? 'Category' : num === 2 ? 'Details' : 'Payment'}
                 </span>
               </div>
             );
           })}
-          <div className="absolute top-4 sm:top-4 left-6 right-6 h-0.5 bg-zinc-800 -z-0 hidden sm:block">
+          <div className="absolute top-5 left-10 right-10 h-0.5 bg-zinc-800 -z-0">
             <div 
               className="h-full bg-gradient-to-r from-emerald-400 via-[#f5bd4e] to-[#d4a017] transition-all duration-300 shadow-[0_0_8px_rgba(245,189,78,0.5)]" 
               style={{ width: `${((step - 1) / (totalSteps - 1)) * 100}%` }}
@@ -213,10 +283,11 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
       </div>
 
       <div className="p-5 sm:p-10">
+        {/* STEP 1: CATEGORY SELECTION */}
         {step === 1 && (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 1 of 5</span>
+              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 1 of 3</span>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">Select Registration Category</h2>
               <p className="text-zinc-400 text-sm mt-1">Choose between the 108 Girls Jhijhiya performance or Dandiya Night entry pass.</p>
             </div>
@@ -233,7 +304,7 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                 { 
                   id: 'Jhijhiya 108' as RegistrationType, 
                   title: '108 Girls Jhijhiya', 
-                  sub: 'Exclusive historic folk presentation for school & college girls with Matka/Props & Academy choreography', 
+                  sub: 'Exclusive folk presentation for school & college girls with Matka/Props & Academy choreography', 
                   price: '₹149', 
                   per: 'per participant',
                   badge: 'Historic Folk',
@@ -318,26 +389,27 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
           </div>
         )}
 
+        {/* STEP 2: PARTICIPANT DETAILS */}
         {step === 2 && (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 2 of 5</span>
+              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 2 of 3</span>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">
-                {formData.type === 'Jhijhiya 108' ? 'Jhijhiya Participant Details' : 'Registration Information'}
+                {formData.type === 'Jhijhiya 108' ? 'Jhijhiya Participant Details' : 'Attendee Details'}
               </h2>
               <p className="text-zinc-400 text-sm mt-1">
                 {formData.type === 'Jhijhiya 108' 
                   ? 'Official academy registration details for 108 Girls Jhijhiya.' 
-                  : 'Enter primary passholder details for digital verification.'}
+                  : 'Enter primary passholder details for pass verification.'}
               </p>
             </div>
 
-            {/* Jhijhiya Special Notice Box */}
+            {/* Jhijhiya Special Guidelines Box */}
             {formData.type === 'Jhijhiya 108' && (
               <div className="bg-[#240921] border border-[#f5bd4e]/40 p-4 rounded-2xl text-xs space-y-1.5 text-amber-200/90 leading-relaxed shadow-lg">
                 <div className="flex items-center gap-2 font-bold text-[#f5bd4e] font-mono uppercase text-xs">
                   <Sparkles className="w-4 h-4 text-[#f5bd4e]" />
-                  <span>108 Girls Jhijhiya Performance Notice</span>
+                  <span>108 Girls Jhijhiya Performance Guidelines</span>
                 </div>
                 <p>• <strong className="text-white">सेवाएँ शामिल:</strong> डांस कोरियोग्राफी, झिझिया/मटका प्रॉप, ज़रूरी प्रॉप्स, Practice &amp; Guidance.</p>
                 <p>• <strong className="text-white">कॉस्ट्यूम &amp; मेकअप:</strong> फीस में शामिल नहीं है। सभी प्रतिभागी अपना कॉस्ट्यूम एवं मेकअप स्वयं करेंगे।</p>
@@ -348,7 +420,7 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
                 <label htmlFor="reg_fullName" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
-                  {formData.type === 'Jhijhiya 108' ? 'Participant Name (छात्रा का नाम) *' : 'Full Name *'}
+                  {formData.type === 'Jhijhiya 108' ? 'Participant Name (छात्रा का नाम) *' : 'Full Name (पूरा नाम) *'}
                 </label>
                 <input 
                   type="text" 
@@ -363,27 +435,9 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                 {errors.fullName && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.fullName}</p>}
               </div>
 
-              {formData.type === 'Jhijhiya 108' && (
-                <div>
-                  <label htmlFor="reg_fatherName" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
-                    Father&apos;s Name (पिता का नाम) *
-                  </label>
-                  <input 
-                    type="text" 
-                    id="reg_fatherName"
-                    name="fatherName" 
-                    value={formData.fatherName} 
-                    onChange={handleChange} 
-                    placeholder="e.g. Shri Ramesh Thakur"
-                    className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
-                  />
-                  {errors.fatherName && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.fatherName}</p>}
-                </div>
-              )}
-
               <div>
                 <label htmlFor="reg_phone" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
-                  {formData.type === 'Jhijhiya 108' ? 'Participant Mobile No. *' : 'Phone Number *'}
+                  {formData.type === 'Jhijhiya 108' ? 'Participant Mobile No. *' : 'Mobile Number (मोबाइल नंबर) *'}
                 </label>
                 <input 
                   type="tel" 
@@ -399,25 +453,42 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                 {errors.phone && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.phone}</p>}
               </div>
 
-              <div>
-                <label htmlFor="reg_email" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
-                  Email Address *
-                </label>
-                <input 
-                  type="email" 
-                  id="reg_email"
-                  name="email" 
-                  autoComplete="email"
-                  value={formData.email} 
-                  onChange={handleChange} 
-                  placeholder="e.g. pooja@example.com"
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
-                />
-                {errors.email && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.email}</p>}
-              </div>
-
+              {/* JHIJHIYA-SPECIFIC FIELDS */}
               {formData.type === 'Jhijhiya 108' ? (
                 <>
+                  <div>
+                    <label htmlFor="reg_fatherName" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
+                      Father&apos;s Name (पिता का नाम) *
+                    </label>
+                    <input 
+                      type="text" 
+                      id="reg_fatherName"
+                      name="fatherName" 
+                      value={formData.fatherName} 
+                      onChange={handleChange} 
+                      placeholder="e.g. Shri Ramesh Thakur"
+                      className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                    />
+                    {errors.fatherName && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.fatherName}</p>}
+                  </div>
+
+                  <div>
+                    <label htmlFor="reg_email" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
+                      Email Address (ईमेल) *
+                    </label>
+                    <input 
+                      type="email" 
+                      id="reg_email"
+                      name="email" 
+                      autoComplete="email"
+                      value={formData.email} 
+                      onChange={handleChange} 
+                      placeholder="e.g. pooja@example.com"
+                      className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                    />
+                    {errors.email && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.email}</p>}
+                  </div>
+
                   <div>
                     <label htmlFor="reg_schoolCollegeName" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2 flex items-center gap-1.5">
                       <School className="w-3.5 h-3.5 text-[#f5bd4e]" /> School / College Name *
@@ -436,7 +507,7 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
 
                   <div>
                     <label htmlFor="reg_classCourse" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
-                      Class / Course *
+                      Class / Course (कक्षा / कोर्स) *
                     </label>
                     <input 
                       type="text" 
@@ -468,7 +539,7 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                   </div>
 
                   <div>
-                    <label htmlFor="reg_age" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Age</label>
+                    <label htmlFor="reg_age" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Age (उम्र)</label>
                     <input 
                       type="number" 
                       id="reg_age"
@@ -481,8 +552,8 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                   </div>
 
                   <div className="md:col-span-2">
-                    <label htmlFor="reg_fullAddress" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
-                      Full Address (स्थायी पता) *
+                    <label htmlFor="reg_fullAddress" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2 flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#f5bd4e]" /> Permanent Address (स्थायी पता) *
                     </label>
                     <textarea 
                       id="reg_fullAddress"
@@ -497,9 +568,26 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                   </div>
                 </>
               ) : (
+                /* DANDIYA (SINGLE & COUPLE) FIELDS - NO EMAIL, ADDRESS ADDED! */
                 <>
+                  <div className="md:col-span-2">
+                    <label htmlFor="reg_address" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2 flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#f5bd4e]" /> Residential Address (पता / स्थानीय पता) *
+                    </label>
+                    <input 
+                      type="text" 
+                      id="reg_address"
+                      name="address" 
+                      value={formData.address || formData.fullAddress || ''} 
+                      onChange={handleChange} 
+                      placeholder="Mohalla / Ward / Village / Landmark, Jhanjharpur"
+                      className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
+                    />
+                    {errors.address && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.address}</p>}
+                  </div>
+
                   <div>
-                    <label htmlFor="reg_city" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">City / Location *</label>
+                    <label htmlFor="reg_city" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">City / Location</label>
                     <input 
                       type="text" 
                       id="reg_city"
@@ -509,11 +597,10 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                       placeholder="Jhanjharpur, Madhubani..."
                       className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
                     />
-                    {errors.city && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.city}</p>}
                   </div>
 
                   <div>
-                    <label htmlFor="reg_age" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Age</label>
+                    <label htmlFor="reg_age" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Age (Optional)</label>
                     <input 
                       type="number" 
                       id="reg_age"
@@ -526,7 +613,7 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                   </div>
 
                   <div>
-                    <label htmlFor="reg_gender" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Gender</label>
+                    <label htmlFor="reg_gender" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Gender (Optional)</label>
                     <select 
                       id="reg_gender"
                       name="gender" 
@@ -541,23 +628,11 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                       <option value="Prefer not to say" className="bg-[#180816]">Prefer not to say</option>
                     </select>
                   </div>
-
-                  <div>
-                    <label htmlFor="reg_instagram" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Instagram Handle (Optional)</label>
-                    <input 
-                      type="text" 
-                      id="reg_instagram"
-                      name="instagram" 
-                      value={formData.instagram} 
-                      onChange={handleChange} 
-                      placeholder="@your_handle" 
-                      className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
-                    />
-                  </div>
                 </>
               )}
             </div>
 
+            {/* COUPLE EXTRA PARTNER FIELDS */}
             {(formData.type === 'Dandiya Couple' || formData.type === 'Couple') && (
               <div className="mt-8 pt-8 border-t border-zinc-800">
                 <h3 className="text-xl font-serif font-bold text-[#f5bd4e] mb-4 flex items-center gap-2">
@@ -578,7 +653,7 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                     {errors.partnerName && <p className="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.partnerName}</p>}
                   </div>
                   <div>
-                    <label htmlFor="reg_partnerPhone" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Partner Phone Number *</label>
+                    <label htmlFor="reg_partnerPhone" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Partner Mobile Number *</label>
                     <input 
                       type="tel" 
                       id="reg_partnerPhone"
@@ -597,222 +672,131 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
           </div>
         )}
 
+        {/* STEP 3: PAYMENT SCANNER, REVIEW & WHATSAPP REDIRECTION */}
         {step === 3 && (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 3 of 5</span>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">Participation Preferences</h2>
-              <p className="text-zinc-400 text-sm mt-1">Help our team curate your festive experience.</p>
+              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 3 of 3</span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">UPI Payment &amp; Pass Activation</h2>
+              <p className="text-zinc-400 text-sm mt-1">Scan the official QR code, complete payment, and send your screenshot on WhatsApp.</p>
             </div>
-            
-            <div className="space-y-4">
-              <label className="flex items-center p-4 border border-zinc-800 rounded-2xl cursor-pointer bg-[#200c1e]/60 hover:bg-[#200c1e] hover:border-[#f5bd4e]/40 transition-colors">
-                <input 
-                  type="checkbox" 
-                  name="dandiyaParticipation" 
-                  checked={formData.dandiyaParticipation} 
-                  onChange={handleChange} 
-                  className="w-5 h-5 accent-[#f5bd4e] rounded" 
-                />
-                <span className="ml-3.5 font-medium text-amber-100">
-                  {formData.type === 'Jhijhiya 108' 
-                    ? 'I will participate in the group choreography sessions with Evolution Dance Academy'
-                    : 'I will participate on the main Dandiya & Garba dance floor'}
-                </span>
-              </label>
 
-              <label className="flex items-center p-4 border border-zinc-800 rounded-2xl cursor-pointer bg-[#200c1e]/60 hover:bg-[#200c1e] hover:border-[#f5bd4e]/40 transition-colors">
-                <input 
-                  type="checkbox" 
-                  name="competitionInterest" 
-                  checked={formData.competitionInterest} 
-                  onChange={handleChange} 
-                  className="w-5 h-5 accent-[#f5bd4e] rounded" 
-                />
-                <span className="ml-3.5 font-medium text-amber-100">
-                  I am interested in competing for the Best Dancer / Best Traditional Attire honors
-                </span>
-              </label>
-
-              <div className="pt-4">
-                <label htmlFor="reg_costumeTheme" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">
-                  Costume Theme / Planned Attire (Self-Arranged)
-                </label>
-                <input 
-                  type="text" 
-                  id="reg_costumeTheme"
-                  name="costumeTheme" 
-                  value={formData.costumeTheme} 
-                  onChange={handleChange} 
-                  placeholder={formData.type === 'Jhijhiya 108' ? "e.g. Traditional Red & Yellow Saree / Choli" : "e.g. Traditional Chaniya Choli, Kurta"}
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
-                />
-              </div>
-
-              <div className="pt-2">
-                <label htmlFor="reg_foodPreference" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Food Stall Preference</label>
-                <select 
-                  id="reg_foodPreference"
-                  name="foodPreference" 
-                  value={formData.foodPreference} 
-                  onChange={handleChange} 
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] transition-all"
-                >
-                  <option value="Veg" className="bg-[#180816]">Vegetarian Festival Food &amp; Mithila Delicacies</option>
-                  <option value="Non-Veg" className="bg-[#180816]">Non-Vegetarian</option>
-                  <option value="No Preference" className="bg-[#180816]">No Specific Preference</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {step === 4 && (
-          <div className="space-y-6">
-            <div className="text-center mb-6">
-              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 4 of 5</span>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">Emergency Contact</h2>
-              <p className="text-zinc-400 text-sm mt-1">Recommended for emergency coordination and verification.</p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label htmlFor="reg_emergencyName" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Contact Name</label>
-                <input 
-                  type="text" 
-                  id="reg_emergencyName"
-                  name="emergencyName" 
-                  autoComplete="name"
-                  value={formData.emergencyName || formData.fatherName || ''} 
-                  onChange={handleChange} 
-                  placeholder="e.g. Ramesh Kumar"
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
-                />
-              </div>
-              <div>
-                <label htmlFor="reg_emergencyPhone" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Contact Mobile Number</label>
-                <input 
-                  type="tel" 
-                  id="reg_emergencyPhone"
-                  name="emergencyPhone" 
-                  autoComplete="tel"
-                  value={formData.emergencyPhone || formData.parentPhone || ''} 
-                  onChange={handleChange} 
-                  maxLength={10} 
-                  placeholder="10-digit mobile number"
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base placeholder:text-zinc-400 focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] caret-[#f5bd4e] transition-all" 
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label htmlFor="reg_emergencyRelation" className="block text-xs font-mono uppercase tracking-wider text-amber-200 font-bold mb-2">Relationship</label>
-                <select 
-                  id="reg_emergencyRelation"
-                  name="emergencyRelation" 
-                  value={formData.emergencyRelation} 
-                  onChange={handleChange} 
-                  className="w-full md:w-1/2 px-4 py-3.5 rounded-xl bg-[#1d071b] border-2 border-[#f5bd4e]/40 text-white font-semibold text-base focus:outline-none focus:border-[#f5bd4e] focus:ring-2 focus:ring-[#f5bd4e]/50 focus:bg-[#270c24] transition-all"
-                >
-                  <option value="Parent" className="bg-[#180816]">Parent / Guardian</option>
-                  <option value="Spouse" className="bg-[#180816]">Spouse</option>
-                  <option value="Sibling" className="bg-[#180816]">Sibling</option>
-                  <option value="Friend" className="bg-[#180816]">Friend</option>
-                  <option value="Other" className="bg-[#180816]">Other</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {step === 5 && (
-          <div className="space-y-6">
-            <div className="text-center mb-6">
-              <span className="text-xs uppercase tracking-widest text-[#f5bd4e] font-mono block mb-1">Step 5 of 5</span>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#fcf4e5]">Consent &amp; Confirmation</h2>
-              <p className="text-zinc-400 text-sm mt-1">Review your summary and confirm your digital pass reservation.</p>
-            </div>
-            
-            {/* Registration Summary Card */}
-            <div className="bg-gradient-to-br from-[#2a0e23] via-[#1c0717] to-[#120410] p-6 rounded-2xl mb-6 border border-[#f5bd4e]/40 shadow-xl">
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-zinc-800">
-                <span className="font-serif font-bold text-lg text-amber-100">Booking Summary</span>
+            {/* Booking Summary Card */}
+            <div className="bg-gradient-to-br from-[#2a0e23] via-[#1c0717] to-[#120410] p-5 sm:p-6 rounded-2xl border border-[#f5bd4e]/40 shadow-xl">
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-zinc-800">
+                <span className="font-serif font-bold text-base text-amber-100">Registration Summary</span>
                 <span className="text-xs px-3 py-1 rounded-full bg-[#f5bd4e]/20 text-[#f5bd4e] font-mono font-bold border border-[#f5bd4e]/30">
                   {EVENT_CONFIG.name}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-y-3 text-sm">
+              <div className="grid grid-cols-2 gap-y-2.5 text-xs sm:text-sm">
                 <div className="text-zinc-400">Pass Category:</div>
                 <div className="font-semibold text-amber-200">
                   {formData.type === 'Jhijhiya 108' ? '108 Girls Jhijhiya Performance' : formData.type}
                 </div>
-                <div className="text-zinc-400">Lead Attendee:</div>
-                <div className="font-semibold text-zinc-100">{formData.fullName}</div>
-                <div className="text-zinc-400">Contact:</div>
-                <div className="font-mono text-zinc-200">{formData.phone} • {formData.email}</div>
-                {formData.type === 'Jhijhiya 108' && (
+                <div className="text-zinc-400">Primary Attendee:</div>
+                <div className="font-semibold text-white">{formData.fullName}</div>
+                <div className="text-zinc-400">Contact Number:</div>
+                <div className="font-mono text-zinc-200">{formData.phone}</div>
+                {formData.type === 'Jhijhiya 108' && formData.schoolCollegeName && (
                   <>
                     <div className="text-zinc-400">School / College:</div>
                     <div className="text-zinc-200 font-semibold">{formData.schoolCollegeName}</div>
                   </>
                 )}
-                <div className="text-zinc-400">Date:</div>
-                <div className="text-zinc-200">{EVENT_CONFIG.dateDisplay}</div>
-                <div className="text-zinc-400">Entry / Registration Fee:</div>
-                <div className="font-bold font-mono text-2xl text-[#f5bd4e]">
-                  {getPriceDisplay(formData.type)}
-                </div>
-                <div className="text-zinc-400">Payment Collection:</div>
-                <div className="text-xs text-emerald-300 font-semibold bg-emerald-950/60 p-2.5 rounded-lg border border-emerald-500/30">
-                  Pay at Evolution Academy / Entry Counter via UPI or Cash
+                {(formData.address || formData.fullAddress) && (
+                  <>
+                    <div className="text-zinc-400">Address:</div>
+                    <div className="text-zinc-200 truncate">{formData.address || formData.fullAddress}</div>
+                  </>
+                )}
+                <div className="text-zinc-400 font-bold text-sm text-[#f5bd4e]">Payable Amount:</div>
+                <div className="font-bold font-mono text-2xl text-emerald-400">
+                  ₹{currentAmount}/-
                 </div>
               </div>
             </div>
 
-            <div className="space-y-3.5">
-              <label className="flex items-start cursor-pointer">
+            {/* OFFICIAL UPI PAYMENT SCANNER BOX */}
+            <div className="bg-[#1f0a1c] border-2 border-[#f5bd4e]/60 rounded-3xl p-6 text-center shadow-[0_0_35px_rgba(245,189,78,0.25)] relative overflow-hidden">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f5bd4e]/15 border border-[#f5bd4e]/40 text-[#f5bd4e] text-xs font-mono uppercase tracking-widest mb-4">
+                <ShieldCheck className="w-3.5 h-3.5" /> Official Event UPI Scanner
+              </div>
+
+              <div className="max-w-xs mx-auto bg-white p-4 rounded-2xl shadow-2xl border-4 border-[#f5bd4e]/40 mb-4">
+                <img 
+                  src={EVENT_CONFIG.payment.qrImage} 
+                  alt="Official UPI Payment QR Code" 
+                  className="w-full h-auto object-contain rounded-lg"
+                />
+              </div>
+
+              {/* Payee Info & Copy UPI ID */}
+              <div className="space-y-1 mb-4">
+                <p className="text-xs uppercase tracking-wider text-zinc-400 font-mono">Account Name</p>
+                <h4 className="text-xl font-serif font-bold text-white tracking-wide">
+                  {EVENT_CONFIG.payment.payeeName}
+                </h4>
+                
+                <div className="mt-2 inline-flex items-center gap-2 bg-[#2d0f28] border border-[#f5bd4e]/40 px-3.5 py-1.5 rounded-xl">
+                  <span className="font-mono text-sm font-bold text-[#f5bd4e]">{EVENT_CONFIG.payment.upiId}</span>
+                  <button
+                    type="button"
+                    onClick={copyUpiId}
+                    className="p-1 rounded bg-[#f5bd4e]/20 hover:bg-[#f5bd4e]/40 text-[#f5bd4e] transition-colors"
+                    title="Copy UPI ID"
+                  >
+                    {copiedUpi ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+                {copiedUpi && <p className="text-[11px] text-emerald-400 font-mono mt-1">UPI ID Copied to clipboard!</p>}
+              </div>
+
+              {/* Pay with Mobile UPI Link */}
+              <div className="mb-4">
+                <a 
+                  href={`upi://pay?pa=${EVENT_CONFIG.payment.upiId}&pn=${encodeURIComponent(EVENT_CONFIG.payment.payeeName)}&am=${currentAmount}&cu=INR&tn=${encodeURIComponent(`Dandiya Fest Registration for ${formData.fullName}`)}`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 shadow-lg transition-transform active:scale-95"
+                >
+                  <span>Pay ₹{currentAmount} via UPI App (GPay / PhonePe / Paytm)</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              {/* Step-by-Step Payment Instructions */}
+              <div className="bg-black/50 border border-amber-500/30 rounded-2xl p-4 text-left text-xs space-y-2 text-zinc-200">
+                <p className="font-bold text-[#f5bd4e] flex items-center gap-1.5">
+                  <MessageSquare className="w-4 h-4 text-emerald-400" />
+                  <span>भुगतान एवं WhatsApp वेरिफिकेशन निर्देश (Important):</span>
+                </p>
+                <ol className="list-decimal list-inside space-y-1.5 text-zinc-300 leading-relaxed">
+                  <li>ऊपर दिए गए QR कोड या UPI ID (<strong className="text-white font-mono">{EVENT_CONFIG.payment.upiId}</strong>) पर <strong className="text-[#f5bd4e]">₹{currentAmount}</strong> का भुगतान करें।</li>
+                  <li>पेमेंट पूरा होने के बाद उसका <strong className="text-emerald-400">स्क्रीनशॉट (Screenshot)</strong> सुरक्षित रख लें।</li>
+                  <li>नीचे दिए गए बटन पर क्लिक करें। आपका WhatsApp सीधे हमारे नंबर (<strong className="text-white font-mono">+91 97981 40068</strong>) पर खुलेगा और आपकी सभी डिटेल्स पहले से लिखी होंगी।</li>
+                  <li>बस अपना <strong className="text-emerald-400">Payment Screenshot</strong> अटैच करके Send कर दें। आपका पास तुरंत वेरीफाई हो जाएगा!</li>
+                </ol>
+              </div>
+            </div>
+
+            {/* Checkbox confirmation */}
+            <div className="space-y-3 pt-2">
+              <label className="flex items-start cursor-pointer bg-[#200c1e]/60 p-3.5 rounded-xl border border-zinc-800 hover:border-[#f5bd4e]/40">
                 <input 
                   type="checkbox" 
                   name="consentAccurate" 
                   checked={formData.consentAccurate} 
                   onChange={handleChange} 
-                  className="mt-1 w-5 h-5 accent-[#f5bd4e] rounded" 
+                  className="mt-0.5 w-5 h-5 accent-[#f5bd4e] rounded" 
                 />
-                <span className="ml-3 text-sm text-zinc-300">I confirm that all personal and contact information provided above is accurate. *</span>
+                <span className="ml-3 text-xs sm:text-sm text-zinc-200 leading-snug">
+                  मैंने ₹{currentAmount} का भुगतान कर दिया है (या करने वाला हूँ) और मैं WhatsApp (+91 97981 40068) पर स्क्रीनशॉट भेजूँगा। *
+                </span>
               </label>
-              {errors.consentAccurate && <p className="text-rose-400 text-xs ml-8 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.consentAccurate}</p>}
-
-              <label className="flex items-start cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  name="consentRules" 
-                  checked={formData.consentRules} 
-                  onChange={handleChange} 
-                  className="mt-1 w-5 h-5 accent-[#f5bd4e] rounded" 
-                />
-                <span className="ml-3 text-sm text-zinc-300">I agree to abide by the event rules, cultural guidelines, and safety protocol. *</span>
-              </label>
-              {errors.consentRules && <p className="text-rose-400 text-xs ml-8 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.consentRules}</p>}
-
-              <label className="flex items-start cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  name="consentCommunication" 
-                  checked={formData.consentCommunication} 
-                  onChange={handleChange} 
-                  className="mt-1 w-5 h-5 accent-[#f5bd4e] rounded" 
-                />
-                <span className="ml-3 text-sm text-zinc-400">I consent to receive pass updates, practice schedules, and alerts via WhatsApp/SMS.</span>
-              </label>
-
-              <label className="flex items-start cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  name="consentPhotography" 
-                  checked={formData.consentPhotography} 
-                  onChange={handleChange} 
-                  className="mt-1 w-5 h-5 accent-[#f5bd4e] rounded" 
-                />
-                <span className="ml-3 text-sm text-zinc-400">I acknowledge that photography/videography will take place at the venue.</span>
-              </label>
+              {errors.consentAccurate && (
+                <p className="text-rose-400 text-xs ml-2 flex items-center gap-1">
+                  <AlertCircle className="w-3.5 h-3.5" />{errors.consentAccurate}
+                </p>
+              )}
             </div>
 
             {errors.submit && (
@@ -825,12 +809,12 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
         )}
 
         {/* Navigation Buttons */}
-        <div className="mt-10 pt-6 border-t border-zinc-800 flex justify-between items-center">
+        <div className="mt-8 pt-6 border-t border-zinc-800 flex justify-between items-center">
           <button 
             type="button" 
             onClick={prevStep}
             disabled={step === 1 || isLoading}
-            className={`px-6 py-3 rounded-xl font-medium transition-colors flex items-center gap-2 ${
+            className={`px-5 py-3 rounded-xl font-medium transition-colors flex items-center gap-2 ${
               step === 1 ? 'opacity-0 pointer-events-none' : 'text-zinc-300 border border-zinc-700 hover:border-zinc-500 hover:text-white bg-[#220c20]'
             }`}
           >
@@ -844,27 +828,27 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
               onClick={nextStep}
               className="px-8 py-3.5 bg-gradient-to-r from-[#f5bd4e] to-[#d4a017] hover:brightness-110 text-[#38112f] font-bold rounded-xl shadow-[0_4px_20px_rgba(245,189,78,0.3)] transition-all flex items-center gap-2 transform hover:scale-[1.02]"
             >
-              <span>Continue</span>
+              <span>Continue to Payment</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
             <button 
               onClick={handleSubmit}
               disabled={isLoading}
-              className="px-9 py-3.5 bg-gradient-to-r from-[#f5bd4e] to-[#d4a017] hover:brightness-110 text-[#38112f] font-bold rounded-xl shadow-[0_4px_25px_rgba(245,189,78,0.4)] transition-all flex items-center gap-2.5 transform hover:scale-[1.02] disabled:opacity-50"
+              className="px-8 py-3.5 bg-gradient-to-r from-[#25D366] via-emerald-500 to-teal-500 hover:brightness-110 text-zinc-950 font-extrabold rounded-xl shadow-[0_4px_25px_rgba(37,211,102,0.4)] transition-all flex items-center gap-2 transform hover:scale-[1.02] disabled:opacity-50"
             >
               {isLoading ? (
                 <span className="flex items-center gap-2">
-                  <svg className="animate-spin h-5 w-5 text-[#38112f]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-5 w-5 text-zinc-950" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Reserving Pass...
+                  Processing &amp; Opening WhatsApp...
                 </span>
               ) : (
                 <>
-                  <span>Confirm &amp; Get Digital Pass</span>
-                  <CheckCircle2 className="w-5 h-5" />
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Confirm &amp; Send on WhatsApp</span>
                 </>
               )}
             </button>

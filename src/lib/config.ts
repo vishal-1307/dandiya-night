@@ -98,6 +98,16 @@ export const EVENT_CONFIG = {
     hashtag: "#JhanjharpurDandiya2026",
   },
 
+  // Official UPI Payment & Verification
+  payment: {
+    upiId: "9798140068@ptsbi",
+    payeeName: "Manish Kumar",
+    phone: "9798140068",
+    whatsappNumber: "919798140068",
+    whatsappDisplay: "+91 97981 40068",
+    qrImage: "/images/payment-qr.jpg",
+  },
+
   // Organizers
   organizer: {
     name: "Evolution Dance and Karate Academy",
@@ -235,6 +245,11 @@ export const EVENT_CONFIG = {
       question: "What are the ticket prices for Dandiya Night?",
       answer:
         "Single Entry pass is ₹249 per person, and Couple Entry pass is ₹399 per couple. Passes grant full entry to the festival, open Garba & Dandiya dance floors, Dandiya sticks, and DJ night.",
+    },
+    {
+      question: "How do I pay the registration fee and verify my pass?",
+      answer:
+        "You can scan the official UPI QR code on the website or transfer via GPay, PhonePe, or Paytm to UPI ID 9798140068@ptsbi (Manish Kumar). After paying, send your payment screenshot on WhatsApp to +91 97981 40068 along with your Pass ID to instantly activate your entry pass.",
     },
     {
       question: "Are costume and makeup included in the ₹149 Jhijhiya registration?",

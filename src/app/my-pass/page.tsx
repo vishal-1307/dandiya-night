@@ -35,6 +35,7 @@ export default function MyPassPage() {
           type: reg.type,
           date: EVENT_CONFIG.dateDisplay || EVENT_CONFIG.date,
           venue: `${EVENT_CONFIG.venue.name}, ${EVENT_CONFIG.venue.city}`,
+          address: reg.city || reg.address || reg.fullAddress,
         });
       } else if (searchQuery.trim().toUpperCase().startsWith('DN-')) {
         // Fallback demo pass
@@ -44,6 +45,7 @@ export default function MyPassPage() {
           type: '108 Girls Jhijhiya',
           date: EVENT_CONFIG.dateDisplay || EVENT_CONFIG.date,
           venue: `${EVENT_CONFIG.venue.name}, ${EVENT_CONFIG.venue.city}`,
+          address: 'Jhanjharpur, Madhubani',
         });
       } else {
         setError(data.error || 'No registration found with these details. Please check your Registration ID, mobile number, or email.');
