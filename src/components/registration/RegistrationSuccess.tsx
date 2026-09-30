@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import DigitalPass from './DigitalPass';
 import { DigitalPassData } from '@/lib/types';
@@ -72,7 +72,7 @@ export default function RegistrationSuccess({ registrationId, name, type, fullDa
 
   const waUrl = buildWhatsAppUrl();
 
-  const passData: DigitalPassData = {
+  const passData: DigitalPassData = useMemo(() => ({
     registrationId,
     name,
     type,
@@ -85,7 +85,17 @@ export default function RegistrationSuccess({ registrationId, name, type, fullDa
     fatherName: fullData?.fatherName,
     partnerName: fullData?.partnerName,
     partnerPhone: fullData?.partnerPhone,
-  };
+  }), [registrationId, name, type, amount, fullData]);
+
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined' && passData?.registrationId) {
+        localStorage.setItem('dandiya_cached_pass', JSON.stringify(passData));
+      }
+    } catch (e) {
+      console.warn('Could not cache pass locally', e);
+    }
+  }, [passData]);
 
   return (
     <div className="flex flex-col items-center max-w-2xl mx-auto py-4 px-3 sm:px-4 animate-in fade-in duration-500 space-y-6">

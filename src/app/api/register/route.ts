@@ -22,8 +22,22 @@ export async function POST(request: Request) {
     if (data.address && !data.fullAddress) {
       data.fullAddress = data.address;
     }
-    if (!data.city || !data.city.trim()) {
-      data.city = data.address || data.fullAddress || "Jhanjharpur";
+    if (!data.city || !data.city.trim() || data.city === "Jhanjharpur") {
+      data.city = data.fullAddress || data.address || data.city || "Jhanjharpur";
+    }
+
+    // Map Jhijhiya specific fields into existing Prisma columns
+    if (!data.emergencyName && data.fatherName) {
+      data.emergencyName = data.fatherName;
+    }
+    if (!data.emergencyPhone && data.parentPhone) {
+      data.emergencyPhone = data.parentPhone;
+    }
+    if (!data.costumeTheme && data.classCourse) {
+      data.costumeTheme = data.classCourse;
+    }
+    if (!data.groupName && data.schoolCollegeName) {
+      data.groupName = data.schoolCollegeName;
     }
 
     try {

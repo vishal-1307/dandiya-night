@@ -13,24 +13,44 @@ export async function GET(request: Request) {
 
     // Create CSV content
     const headers = [
-      "ID", "Registration ID", "Type", "Status", "Payment Status", "Checked In",
-      "Full Name", "Email", "Phone", "City", "Total Members", "Created At"
+      "Registration ID",
+      "Category",
+      "Attendee Name",
+      "Phone",
+      "Address",
+      "Email",
+      "Father Name (Jhijhiya)",
+      "Parent Phone (Jhijhiya)",
+      "School or College (Jhijhiya)",
+      "Class or Course (Jhijhiya)",
+      "Partner Name (Couple)",
+      "Partner Phone (Couple)",
+      "Fee (INR)",
+      "Payment Status",
+      "Gate Check-In",
+      "Registered Date"
     ].join(",");
 
     const rows = registrations.map((reg: any) => {
+      const partner = reg.members && reg.members.length > 0 ? reg.members[0] : null;
       const createdDate = reg.createdAt instanceof Date ? reg.createdAt.toISOString() : new Date(reg.createdAt).toISOString();
+      const emailDisplay = (reg.email || "").endsWith("@fest.in") ? "" : reg.email;
       return [
-        reg.id,
         reg.registrationId,
-        reg.type,
-        reg.status,
-        reg.paymentStatus,
-        reg.checkedIn ? "Yes" : "No",
+        `"${(reg.type || "").replace(/"/g, '""')}"`,
         `"${(reg.fullName || "").replace(/"/g, '""')}"`,
-        `"${reg.email || ""}"`,
         `"${reg.phone || ""}"`,
-        `"${(reg.city || "").replace(/"/g, '""')}"`,
-        reg.totalMembers || 1,
+        `"${(reg.city || reg.address || "").replace(/"/g, '""')}"`,
+        `"${emailDisplay}"`,
+        `"${(reg.emergencyName || reg.fatherName || "").replace(/"/g, '""')}"`,
+        `"${reg.emergencyPhone || reg.parentPhone || ""}"`,
+        `"${(reg.groupName || reg.schoolCollegeName || "").replace(/"/g, '""')}"`,
+        `"${(reg.costumeTheme || reg.classCourse || "").replace(/"/g, '""')}"`,
+        `"${(partner?.fullName || reg.partnerName || "").replace(/"/g, '""')}"`,
+        `"${partner?.phone || reg.partnerPhone || ""}"`,
+        reg.paymentAmount || 0,
+        reg.paymentStatus || "PENDING",
+        reg.checkedIn ? "Yes" : "No",
         createdDate
       ].join(",");
     });

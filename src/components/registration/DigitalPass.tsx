@@ -153,6 +153,24 @@ export default function DigitalPass({ data }: DigitalPassProps) {
               </span>
             </div>
           )}
+
+          {data.schoolCollegeName && (
+            <div className="flex items-center justify-between text-zinc-300 pt-2 border-t border-zinc-800">
+              <span className="text-zinc-400">School / College</span>
+              <span className="font-semibold text-[#f5bd4e] text-right truncate max-w-[200px]">
+                {data.schoolCollegeName}
+              </span>
+            </div>
+          )}
+
+          {data.partnerName && (
+            <div className="flex items-center justify-between text-zinc-300 pt-2 border-t border-zinc-800">
+              <span className="text-zinc-400">Couple Partner</span>
+              <span className="font-semibold text-[#f5bd4e] text-right truncate max-w-[200px]">
+                {data.partnerName}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Verification Instruction Note */}

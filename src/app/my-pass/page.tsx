@@ -1,16 +1,36 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DigitalPass from '@/components/registration/DigitalPass';
 import { DigitalPassData } from '@/lib/types';
 import { EVENT_CONFIG } from '@/lib/config';
-import { Ticket, Search, Printer, AlertCircle, CheckCircle2, Sparkles } from 'lucide-react';
+import { Ticket, Search, Printer, AlertCircle, CheckCircle2, Sparkles, Smartphone } from 'lucide-react';
 
 export default function MyPassPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [passData, setPassData] = useState<DigitalPassData | null>(null);
+  const [isFromCache, setIsFromCache] = useState(false);
+
+  // Restore cached pass from device storage on page load
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const cached = localStorage.getItem('dandiya_cached_pass');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed && parsed.registrationId) {
+            setPassData(parsed);
+            setSearchQuery(parsed.registrationId);
+            setIsFromCache(true);
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Could not read cached pass', e);
+    }
+  }, []);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +41,7 @@ export default function MyPassPage() {
 
     setIsLoading(true);
     setError('');
-    setPassData(null);
+    setIsFromCache(false);
 
     try {
       const res = await fetch(`/api/registration/lookup?q=${encodeURIComponent(searchQuery.trim())}`);
@@ -29,24 +49,41 @@ export default function MyPassPage() {
       
       if (res.ok && data.registration) {
         const reg = data.registration;
-        setPassData({
+        const formattedPass: DigitalPassData = {
           registrationId: reg.registrationId,
           name: reg.fullName,
           type: reg.type,
           date: EVENT_CONFIG.dateDisplay || EVENT_CONFIG.date,
           venue: `${EVENT_CONFIG.venue.name}, ${EVENT_CONFIG.venue.city}`,
           address: reg.city || reg.address || reg.fullAddress,
-        });
+          fatherName: reg.emergencyName || reg.fatherName,
+          schoolCollegeName: reg.groupName || reg.schoolCollegeName,
+          partnerName: reg.members?.[0]?.fullName || reg.partnerName,
+          partnerPhone: reg.members?.[0]?.phone || reg.partnerPhone,
+          feeAmount: reg.paymentAmount,
+          phone: reg.phone,
+        };
+        setPassData(formattedPass);
+
+        // Update local cache
+        try {
+          localStorage.setItem('dandiya_cached_pass', JSON.stringify(formattedPass));
+        } catch (e) {
+          console.warn('Could not update cached pass', e);
+        }
       } else if (searchQuery.trim().toUpperCase().startsWith('DN-')) {
         // Fallback demo pass
-        setPassData({
+        const demoPass: DigitalPassData = {
           registrationId: searchQuery.trim().toUpperCase(),
           name: 'Pooja Kumari',
           type: '108 Girls Jhijhiya',
           date: EVENT_CONFIG.dateDisplay || EVENT_CONFIG.date,
           venue: `${EVENT_CONFIG.venue.name}, ${EVENT_CONFIG.venue.city}`,
           address: 'Jhanjharpur, Madhubani',
-        });
+          schoolCollegeName: 'L.N.J. College Jhanjharpur',
+          fatherName: 'Ramesh Thakur',
+        };
+        setPassData(demoPass);
       } else {
         setError(data.error || 'No registration found with these details. Please check your Registration ID, mobile number, or email.');
       }
@@ -140,8 +177,8 @@ export default function MyPassPage() {
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col items-center">
             <div className="text-center mb-6">
               <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-semibold mb-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                Valid Registration Verified
+                {isFromCache ? <Smartphone className="w-4 h-4 text-[#f5bd4e]" /> : <CheckCircle2 className="w-4 h-4 text-emerald-400" />}
+                {isFromCache ? 'Saved Pass Restored from Device' : 'Valid Registration Verified'}
               </span>
               <h2 className="text-2xl font-serif font-bold text-amber-200">Official Entry Pass</h2>
             </div>
